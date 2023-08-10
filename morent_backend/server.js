@@ -1,7 +1,9 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
 
 // Connect to Express
 const app = express();
@@ -10,13 +12,13 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 // SCHEMA
 
 // Routes
-app.get("/message", (req, res) => {
-  res.json({ message: "Hello from the server!" });
+app.get('/message', (req, res) => {
+  res.json({ message: 'Hello from the server!' });
 });
 
-app.listen(3001);
+app.listen(8004, () => console.log('Server is running on port 8004'));
