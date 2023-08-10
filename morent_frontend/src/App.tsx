@@ -1,10 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { Checkout, Home, NotFound } from './pages';
+import { NavBar, Footer } from './components';
 
 function App() {
   return (
     <div className='max-w-[1440px] mx-auto w-full '>
+      <NavBar />
       <div className='p-[2.5%] w-full bg-[#F6F7F9]'>
         <Routes>
           <Route index path='/' element={<Home />} />
@@ -12,6 +14,7 @@ function App() {
           <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
+      <Footer />
     </div>
   );
 }
