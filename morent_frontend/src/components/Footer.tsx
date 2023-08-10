@@ -6,8 +6,8 @@ import getCurrentYear from '../utils/getCurrentYear';
 
 const Footer = () => {
   return (
-    <footer className='bg-white h-[30rem] grid grid-cols-1 sm:grid-cols-5 gap-[3rem] pt-[5rem] pb-[3.75rem] px-[3.75rem]'>
-      <div className='col-span-1 sm:col-span-3  flex flex-col items-start gap-[1rem] w-[18.25rem] h-[7.75rem]'>
+    <footer className='bg-[#F6F7F9] sm:bg-white sm:h-[30rem] grid grid-cols-1 sm:grid-cols-5 gap-[3rem] pt-[5rem] pb-[1.5rem] sm:pb-[3.75rem] px-[1.5rem] sm:px-[3.75rem]'>
+      <div className='col-span-1 sm:col-span-3 flex flex-col items-start gap-[1rem] w-[18.25rem] h-[7.75rem]'>
         <Logo />
         <p className='text-[#13131399] text-[0.75rem] sm:text-[1rem] font-[500] leading-[200%] tracking-[-0.01rem]'>
           Our vision is to provide convenience and help increase your sales
