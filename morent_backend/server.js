@@ -9,6 +9,9 @@ import cors from 'cors';
 const app = express();
 
 // Connect to MongoDB
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(console.log('MongoDB is connected to the host'));
 
 // Middleware
 app.use(cors());
