@@ -68,7 +68,7 @@ export default function Checkout() {
     <div className='w-ful l h-full flex-col'>
       <div className='space-y-8 w-full max-w-[540px] mx-auto bg-white dark:bg-[#293346] p-7 sm:p-[60px] rounded-lg '>
         <h1 className='text-left text-[#3563E9] text-lg font-extrabold pt-5'>
-          Car details
+          Card details
         </h1>
         <Form {...form}>
           <form
