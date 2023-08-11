@@ -20,7 +20,7 @@ export function DropdownMenuDemo() {
           <SunIcon className='fill-[#3D5278] w-6 h-6' />
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-50'>
+      <DropdownMenuContent className='w-50 mt-9'>
         <DropdownMenuGroup>
           <DropdownMenuItem onSelect={() => setIsDarkMode((prev) => !prev)}>
             <SunIcon className='mr-2 h-4 w-4' />
