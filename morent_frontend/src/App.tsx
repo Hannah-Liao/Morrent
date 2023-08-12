@@ -7,7 +7,7 @@ function App() {
   return (
     <div className='max-w-[1440px] mx-auto w-full '>
       <NavBar />
-      <div className='p-[2.5%] w-full bg-[#F6F7F9]'>
+      <div className='p-[2.5%] w-full'>
         <Routes>
           <Route index path='/' element={<Home />} />
           <Route path='/checkout' element={<Checkout />} />
