@@ -29,6 +29,7 @@ import {
 import { Calendar } from '../components/ui/calendar';
 import { cn } from '../lib/utils';
 import { xmark } from '../assets/icons';
+import { pickupLocation } from '../constant/index';
 
 const formSchema = z.object({
   location: z.string({
@@ -89,13 +90,13 @@ export function RentNowForm() {
                     <SelectTrigger className='w-full h-[46px] sm:h-[56px] bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200'>
                       <SelectValue placeholder='Location Address' />
                     </SelectTrigger>
-                    <SelectContent className='bg-white-200 dark:bg-gray-800'>
+                    <SelectContent className='bg-white-200 dark:bg-gray-800 capitalize'>
                       <SelectGroup>
-                        <SelectItem value='London'>London</SelectItem>
-                        <SelectItem value='Bristol'>Bristol</SelectItem>
-                        <SelectItem value='York'>York</SelectItem>
-                        <SelectItem value='Birminham'>Birminham</SelectItem>
-                        <SelectItem value='Bath'>Bath</SelectItem>
+                        {pickupLocation.map((location, i) => (
+                          <SelectItem value={location} key={i}>
+                            {location}
+                          </SelectItem>
+                        ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
