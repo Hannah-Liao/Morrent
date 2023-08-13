@@ -94,7 +94,7 @@ const CarCard: React.FC<CarCardProps> = ({
       </div>
 
       {/* Price and Button */}
-      <div className='flex justify-between align-center gap-x-2 p-[24px]'>
+      <div className='flex justify-between align-center p-[24px]'>
         <div className='flex-1'>
           <h3
             className={discountPrice > 0 ? 'cardPrice' : 'cardPrice mt-[7px]'}
