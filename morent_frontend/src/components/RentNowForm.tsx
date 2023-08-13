@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
@@ -44,9 +43,6 @@ const formSchema = z.object({
 });
 
 export function RentNowForm() {
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -80,23 +76,26 @@ export function RentNowForm() {
           <FormField
             control={form.control}
             name='location'
-            render={() => (
+            render={({ field }) => (
               <FormItem>
                 <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white leading-[120%]'>
                   Pickup Location
                 </FormLabel>
                 <FormControl>
-                  <Select>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <SelectTrigger className='w-full h-[46px] sm:h-[56px] bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200'>
                       <SelectValue placeholder='Location Address' />
                     </SelectTrigger>
                     <SelectContent className='bg-white-200 dark:bg-gray-800'>
                       <SelectGroup>
-                        <SelectItem value='apple'>London</SelectItem>
-                        <SelectItem value='banana'>Bristol</SelectItem>
-                        <SelectItem value='blueberry'>York</SelectItem>
-                        <SelectItem value='grapes'>Birminham</SelectItem>
-                        <SelectItem value='pineapple'>Bath</SelectItem>
+                        <SelectItem value='London'>London</SelectItem>
+                        <SelectItem value='Bristol'>Bristol</SelectItem>
+                        <SelectItem value='York'>York</SelectItem>
+                        <SelectItem value='Birminham'>Birminham</SelectItem>
+                        <SelectItem value='Bath'>Bath</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -110,7 +109,7 @@ export function RentNowForm() {
             <FormField
               control={form.control}
               name='startDate'
-              render={() => (
+              render={({ field }) => (
                 <FormItem className='flex flex-col'>
                   <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
                     <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
@@ -122,11 +121,11 @@ export function RentNowForm() {
                         variant={'outline'}
                         className={cn(
                           'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
-                          !startDate && 'text-muted-foreground',
+                          !field.value && 'text-muted-foreground',
                         )}
                       >
-                        {startDate ? (
-                          format(startDate, 'LLL dd, y')
+                        {field.value ? (
+                          format(field.value, 'LLL dd, y')
                         ) : (
                           <span>Select your date</span>
                         )}
@@ -135,8 +134,8 @@ export function RentNowForm() {
                     <PopoverContent className='w-auto p-0'>
                       <Calendar
                         mode='single'
-                        selected={startDate}
-                        onSelect={setStartDate}
+                        selected={field.value}
+                        onSelect={field.onChange}
                         initialFocus
                       />
                     </PopoverContent>
@@ -149,7 +148,7 @@ export function RentNowForm() {
             <FormField
               control={form.control}
               name='endDate'
-              render={() => (
+              render={({ field }) => (
                 <FormItem className='flex flex-col'>
                   <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
                     <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
@@ -161,11 +160,11 @@ export function RentNowForm() {
                         variant={'outline'}
                         className={cn(
                           'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
-                          !endDate && 'text-muted-foreground',
+                          !field.value && 'text-muted-foreground',
                         )}
                       >
-                        {endDate ? (
-                          format(endDate, 'LLL dd, y')
+                        {field.value ? (
+                          format(field.value, 'LLL dd, y')
                         ) : (
                           <span>Select your date</span>
                         )}
@@ -174,8 +173,8 @@ export function RentNowForm() {
                     <PopoverContent className='w-auto p-0'>
                       <Calendar
                         mode='single'
-                        selected={endDate}
-                        onSelect={setEndDate}
+                        selected={field.value}
+                        onSelect={field.onChange}
                         initialFocus
                       />
                     </PopoverContent>
