@@ -1,4 +1,12 @@
-import { amex, discover, mastercard, visa } from '../assets/icons';
+import {
+  amex,
+  discover,
+  mastercard,
+  visa,
+  dots,
+  clock,
+  calendar,
+} from '../assets/icons';
 
 export const icons = [
   {
@@ -16,5 +24,103 @@ export const icons = [
   {
     label: 'discover icon',
     icon: discover,
+  },
+];
+const months = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+  '30',
+  '31',
+];
+
+const times = [
+  '00:00',
+  '01:00',
+  '02:00',
+  '03:00',
+  '04:00',
+  '05:00',
+  '06:00',
+  '07:00',
+  '08:00',
+  '09:00',
+  '10:00',
+  '11:00',
+  '12:00',
+  '13:00',
+  '14:00',
+  '15:00',
+  '16:00',
+  '17:00',
+  '18:00',
+  '19:00',
+  '20:00',
+  '21:00',
+  '22:00',
+  '23:00',
+];
+
+export const formData = [
+  {
+    icon: dots,
+    label: 'Location',
+    dataSelects: ['Gianyar', 'Ubud', 'Badung', 'Singaraja'],
+    key: 'location',
+    placeholder: 'Select your city',
+  },
+  {
+    icon: calendar,
+    label: 'Pick-Up Date',
+    dataSelects: months,
+    key: 'dropOffDate',
+    placeholder: 'Select your date',
+  },
+  {
+    icon: clock,
+    label: 'Pick-Up Time',
+    dataSelects: times,
+    key: 'dropOffTime',
+    placeholder: 'Select your time',
+  },
+  {
+    icon: calendar,
+    label: 'Drop-Off Date',
+    dataSelects: months,
+    key: 'pickUpDate',
+    placeholder: 'Select your date',
+  },
+  {
+    icon: clock,
+    label: 'Drop-Off Time',
+    dataSelects: times,
+    key: 'pickUpTime',
+    placeholder: 'Select your time',
   },
 ];

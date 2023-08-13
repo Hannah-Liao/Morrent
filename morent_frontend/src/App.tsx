@@ -1,13 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { Checkout, Home, NotFound } from './pages';
+import { Checkout, Home, NotFound, Search } from './pages';
 
 function App() {
   return (
-    <div className='max-w-[1440px] mx-auto w-full '>
-      <div className='p-[2.5%] w-full bg-[#F6F7F9]'>
+    <div className='max-w-[1440px] mx-auto w-full h-full'>
+      <div className='w-full h-full bg-[#F6F7F9]'>
         <Routes>
           <Route index path='/' element={<Home />} />
+          <Route path='/search' element={<Search />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
