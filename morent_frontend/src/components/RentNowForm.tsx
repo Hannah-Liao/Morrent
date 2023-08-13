@@ -52,7 +52,7 @@ export function RentNowForm() {
   const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
 
   return (
-    <div className='w-[500px] shrink-0 rounded-[10px] p-[50px] bg-white dark:bg-gray-850'>
+    <div className='max-w-[500px] shrink-0 rounded-[10px] p-[50px] bg-white dark:bg-gray-850'>
       <div className='flex flex-col-reverse sm:flex-row sm:justify-between '>
         <div className='flex flex-col gap-2.5'>
           <h2 className='base-bold text-gray-900 dark:text-white'>
@@ -85,7 +85,7 @@ export function RentNowForm() {
                 </FormLabel>
                 <FormControl>
                   <Select>
-                    <SelectTrigger className='w-[400px] h-[46px] sm:h-[56px] bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200'>
+                    <SelectTrigger className='w-full h-[46px] sm:h-[56px] bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200'>
                       <SelectValue placeholder='Location Address' />
                     </SelectTrigger>
                     <SelectContent className='bg-white-200 dark:bg-gray-800'>
