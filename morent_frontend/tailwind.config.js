@@ -15,8 +15,29 @@ module.exports = {
         '2xl': '1400px',
       },
     },
+    fontFamily: {
+      'plus-jakarta': ['Plus Jakarta Sans', 'sans-serif'],
+    },
     extend: {
       colors: {
+        white: {
+          100: '#f7f9fc',
+          200: '#f6f7f9',
+        },
+        gray: {
+          400: '#90a3bf',
+          700: '#3d5278',
+          800: '#424b5c',
+          850: '#293346',
+          900: '#1a202c',
+        },
+        blue: {
+          50: '#c3d4e9',
+          100: '#94a7cb',
+          300: '#5caffc',
+          500: '#3563e9',
+        },
+        red: '#ed3f3f',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

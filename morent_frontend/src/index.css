@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -70,6 +72,68 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply font-plus-jakarta bg-white-200 dark:bg-gray-900;
+  }
+}
+
+@layer utilities {
+  .heading-1-bold {
+    @apply font-bold text-[32px];
+  }
+
+  .heading-1-semibold {
+    @apply font-semibold text-[32px];
+  }
+
+  .heading-3-bold {
+    @apply font-extrabold text-[18px];
+  }
+
+  .heading-3-medium {
+    @apply font-medium text-[18px];
+  }
+
+  .base-regular {
+    @apply font-normal text-[20px];
+  }
+
+  .base-medium {
+    @apply font-normal text-[20px];
+  }
+
+  .base-bold {
+    @apply font-bold text-[20px];
+  }
+
+  .p-bold {
+    @apply font-bold text-[16px];
+  }
+
+  .p-semibold {
+    @apply font-semibold text-[16px];
+  }
+
+  .p-medium {
+    @apply font-medium text-[16px];
+  }
+
+  .body-bold {
+    @apply font-bold text-[14px];
+  }
+
+  .body-medium {
+    @apply font-medium text-[14px];
+  }
+
+  .body-regular {
+    @apply font-normal text-[14px];
+  }
+
+  .small-regular {
+    @apply font-normal text-[12px];
+  }
+
+  .flex-center {
+    @apply flex justify-center items-center;
   }
 }
