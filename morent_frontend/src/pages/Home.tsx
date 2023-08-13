@@ -1,5 +1,5 @@
-import { ProfileForm } from '../components/RentNowForm';
+import { RentNowForm } from '../components/RentNowForm';
 
 export default function Home() {
-  return <ProfileForm />;
+  return <RentNowForm />;
 }

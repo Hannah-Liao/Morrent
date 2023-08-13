@@ -43,7 +43,7 @@ const formSchema = z.object({
   }),
 });
 
-export function ProfileForm() {
+export function RentNowForm() {
   const [date, setDate] = useState<Date>();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
