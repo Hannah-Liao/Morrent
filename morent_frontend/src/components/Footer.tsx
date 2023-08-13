@@ -6,7 +6,7 @@ import getCurrentYear from '../utils/getCurrentYear';
 
 const Footer = () => {
   return (
-    <footer className='bg-white-200 sm:bg-white sm:h-[30rem] grid grid-cols-1 sm:grid-cols-5 gap-12 pt-20 pb-6 sm:pb-[3.75rem] px-6 sm:px-[3.75rem]'>
+    <footer className='bg-white-200 sm:bg-white grid grid-cols-1 sm:grid-cols-5 gap-12 pt-20 pb-6 sm:pb-[3.75rem] px-6 sm:px-[3.75rem]'>
       <div className='col-span-1 sm:col-span-3 flex flex-col items-start gap-4 w-[18.25rem] h-[7.75rem]'>
         <Logo />
         <p className='text-gray-400 small-medium sm:p-medium leading-[200%] tracking-[-0.01rem]'>
@@ -32,11 +32,11 @@ const Footer = () => {
         ))}
       </div>
 
-      <div className='hidden sm:block col-span-1 sm:col-span-5 bg-blue-50 w-[82.5rem] h-[0.0625rem]'></div>
+      <div className='hidden sm:block col-span-1 sm:col-span-5 bg-blue-50 w-full h-[0.0625rem]'></div>
 
       <div className='flex flex-wrap-reverse gap-8 sm:justify-between col-span-1 sm:col-span-5 text-gray-800 p-medium sm:p-semibold leading-[200%] tracking-[-0.01rem]'>
         <p>©{getCurrentYear()} MORENT. All rights reserved</p>
-        <div className='flex gap-[3.75rem]'>
+        <div className='flex justify-between w-full sm:w-fit gap-[3.75rem]'>
           <Link to=''>Privacy & Policy</Link>
           <Link to=''>Terms & Condition</Link>
         </div>
