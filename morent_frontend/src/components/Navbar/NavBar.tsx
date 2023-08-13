@@ -21,9 +21,9 @@ const NavBar = () => {
         )}
         <div onClick={() => setOpen((prev) => !prev)}>
           {open ? (
-            <Cross1Icon className='fill-[#3D5278] w-6 h-6' />
+            <Cross1Icon className='fill-gray-700 w-6 h-6' />
           ) : (
-            <HamburgerMenuIcon className='fill-[#3D5278] w-6 h-6' />
+            <HamburgerMenuIcon className='fill-gray-700 w-6 h-6' />
           )}
         </div>
       </div>

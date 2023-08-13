@@ -6,7 +6,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../components/ui/dropdown-menu';
+} from '../ui/dropdown-menu';
 
 export function DropdownMenuDemo() {
   const [isDarkMode, setIsDarkMode] = useState(false);
