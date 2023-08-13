@@ -44,7 +44,9 @@ const formSchema = z.object({
 });
 
 export function RentNowForm() {
-  const [date, setDate] = useState<Date>();
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -120,11 +122,11 @@ export function RentNowForm() {
                         variant={'outline'}
                         className={cn(
                           'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
-                          !date && 'text-muted-foreground',
+                          !startDate && 'text-muted-foreground',
                         )}
                       >
-                        {date ? (
-                          format(date, 'LLL dd, y')
+                        {startDate ? (
+                          format(startDate, 'LLL dd, y')
                         ) : (
                           <span>Select your date</span>
                         )}
@@ -133,8 +135,8 @@ export function RentNowForm() {
                     <PopoverContent className='w-auto p-0'>
                       <Calendar
                         mode='single'
-                        selected={date}
-                        onSelect={setDate}
+                        selected={startDate}
+                        onSelect={setStartDate}
                         initialFocus
                       />
                     </PopoverContent>
@@ -159,12 +161,11 @@ export function RentNowForm() {
                         variant={'outline'}
                         className={cn(
                           'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
-                          !date && 'text-muted-foreground',
+                          !endDate && 'text-muted-foreground',
                         )}
                       >
-                        {/* <CalendarIcon className='mr-2 h-4 w-4' /> */}
-                        {date ? (
-                          format(date, 'LLL dd, y')
+                        {endDate ? (
+                          format(endDate, 'LLL dd, y')
                         ) : (
                           <span>Select your date</span>
                         )}
@@ -173,8 +174,8 @@ export function RentNowForm() {
                     <PopoverContent className='w-auto p-0'>
                       <Calendar
                         mode='single'
-                        selected={date}
-                        onSelect={setDate}
+                        selected={endDate}
+                        onSelect={setEndDate}
                         initialFocus
                       />
                     </PopoverContent>
