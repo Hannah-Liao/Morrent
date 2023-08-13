@@ -1,3 +1,5 @@
+import { ProfileForm } from '../components/RentNowForm';
+
 export default function Home() {
-  return <div>Home</div>;
+  return <ProfileForm />;
 }
