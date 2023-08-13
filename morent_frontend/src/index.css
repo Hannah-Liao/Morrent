@@ -142,7 +142,7 @@
 @layer components {
   /* Card */
   .cardButton {
-    @apply inline-flex items-center justify-center px-6 py-3 font-semibold text-[12px] md:p-semibold leading-5 text-white transition-all duration-200 bg-blue-500 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-500 hover:opacity-90;
+    @apply inline-flex items-center justify-center px-6 py-3 font-semibold text-[12px] lg:font-semibold lg:text-[14px] leading-5 text-white transition-all duration-200 bg-blue-500 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-500 hover:opacity-90;
   }
 
   .cardContainer {

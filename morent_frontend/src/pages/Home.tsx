@@ -3,6 +3,7 @@ import { useState } from 'react';
 import CarCard from '../components/CarCard/CarCard';
 import { cars } from '../constant/index';
 import { blueRectangle1, blueRectangle2 } from '../assets/images/index';
+import PopularCardMobile from '../components/PopularCardMobile/PopularCardMobile';
 
 const Home: React.FC = () => {
   const [showMoreCars, setShowMoreCars] = useState(false);
@@ -10,7 +11,7 @@ const Home: React.FC = () => {
   return (
     <section className='py-3 px-[8px] md:px-[24px]'>
       {/* Big Cards */}
-      <div className='grid grid-cols-1 mx-auto mt-8 text-center sm:mt-16 sm:text-left sm:grid-cols-2 gap-y-[32px] gap-x-[32px]'>
+      <div className='grid grid-cols-1 mx-auto text-center sm:text-left sm:grid-cols-2 gap-y-[32px] gap-x-[32px]'>
         <div className='relative group'>
           <div className='overflow-hidden rounded-lg aspect-w-16 aspect-h-9 relative'>
             <img
@@ -62,15 +63,17 @@ const Home: React.FC = () => {
             Popular Cars
           </h5>
           <a
-            href=''
+            href='#' // where does this go?
             className='small-regular md:p-semibold text-blue-500 px-[20px]'
           >
             View All
           </a>
         </section>
-        <div className='grid grid-cols-1 gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0'>
+        <div className='grid grid-cols-1 grid-flow-col sm:grid-flow-row gap-[10px] sm:gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0 overflow-x-auto scrollbar-hide'>
           {cars.slice(0, 4).map((car) => (
-            <CarCard key={car.title} {...car} />
+            <div key={car.title}>
+              <PopularCardMobile {...car} />
+            </div>
           ))}
         </div>
       </>
@@ -82,7 +85,7 @@ const Home: React.FC = () => {
             Recommended Cars
           </h5>
           <a
-            href=''
+            href='#' // where does this go?
             className='small-regular md:p-semibold text-blue-500 px-[20px]'
           >
             View All
@@ -91,10 +94,10 @@ const Home: React.FC = () => {
         <div className='grid grid-cols-1 gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0'>
           {showMoreCars
             ? cars
-                .slice(0, 8)
+                .slice(0, 16)
                 .map((car) => <CarCard key={car.title} {...car} />)
             : cars
-                .slice(0, 16)
+                .slice(0, 8)
                 .map((car) => <CarCard key={car.title} {...car} />)}
         </div>
       </>
@@ -106,7 +109,7 @@ const Home: React.FC = () => {
           className='cardButton px-[50px] h-[55px]'
           onClick={() => setShowMoreCars((prevCars) => !prevCars)}
         >
-          {showMoreCars ? 'Show more cars' : 'Hide cars'}
+          {showMoreCars ? 'Hide cars' : 'Show more cars'}
         </button>
       </div>
     </section>
