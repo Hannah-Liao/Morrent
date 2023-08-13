@@ -13,7 +13,7 @@ export function DropdownMenuDemo() {
 
   useEffect(() => {
     if (
-      localStorage.theme === 'dark' ||
+      mode === 'dark' ||
       (!('theme' in localStorage) &&
         window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
