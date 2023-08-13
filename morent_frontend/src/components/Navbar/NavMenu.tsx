@@ -1,8 +1,6 @@
 import type { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { DropdownMenuDemo } from './ModeDropdown';
-
 type props = {
   isHidden?: string;
 };
@@ -20,9 +18,7 @@ const NavMenu: FC<props> = ({ isHidden }) => {
         <li>
           <NavLink to='/add-car'>Add Car</NavLink>
         </li>
-        <li>
-          <DropdownMenuDemo />
-        </li>
+
         <li className='flex-center gap-2 w-[6.875rem] h-11 bg-blue-500  text-white p-semibold rounded'>
           <NavLink to='/login'>Login</NavLink>
         </li>

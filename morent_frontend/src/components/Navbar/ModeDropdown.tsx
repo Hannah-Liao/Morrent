@@ -15,9 +15,9 @@ export function DropdownMenuDemo() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {isDarkMode ? (
-          <MoonIcon className='fill-[#3D5278] w-6 h-6' />
+          <MoonIcon className='fill-gray-700 w-5 h-5' />
         ) : (
-          <SunIcon className='fill-[#3D5278] w-6 h-6' />
+          <SunIcon className='fill-gray-700 w-5 h-5' />
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-50 mt-9'>
