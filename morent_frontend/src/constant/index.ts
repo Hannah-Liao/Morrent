@@ -73,7 +73,7 @@ export const cars = [
     transmissionType: 'Manual',
     numberOfPeople: 5,
     price: 100.0,
-    discountPrice: 80.0,
+    discountPrice: 0,
     buttonText: 'More Info',
   },
   {
