@@ -48,3 +48,11 @@ export const footerLinks = [
     ],
   },
 ];
+
+export const pickupLocation = [
+  'london',
+  'bristol',
+  'york',
+  'birminham',
+  'bath',
+];
