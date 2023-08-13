@@ -8,7 +8,7 @@ type props = {
 const NavMenu: FC<props> = ({ isHidden }) => {
   return (
     <nav className={isHidden}>
-      <ul className='flex flex-col sm:flex-row sm:justify-center mt-[30%] sm:mt-0 items-center gap-10 sm:gap-[1.875rem] text-justify p-medium text-gray-700 leading-[150%] tracking-[-0.02rem]'>
+      <ul className='flex flex-col sm:flex-row sm:justify-center mt-[30%] sm:mt-0 items-center gap-10 sm:gap-[1.875rem] text-justify p-medium text-gray-700 dark:text-white leading-[150%] tracking-[-0.02rem]'>
         <li>
           <NavLink to='/'>Home</NavLink>
         </li>

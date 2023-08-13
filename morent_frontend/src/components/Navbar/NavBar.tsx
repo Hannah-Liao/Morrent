@@ -11,7 +11,7 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className='border border-[#C3D4E966] bg-white flex justify-between h-[5.75rem] sm:h-[6.25rem] py-8 sm:py-7 px-6 sm:px-[3.75rem] items-start'>
+    <header className='border border-[#C3D4E966] bg-white dark:bg-gray-900 flex justify-between h-[5.75rem] sm:h-[6.25rem] py-8 sm:py-7 px-6 sm:px-[3.75rem] items-start'>
       <Logo />
       <div className='flex-center flex-row-reverse sm:flex-row gap-6'>
         <NavMenu isHidden={'hidden sm:block'} />
@@ -22,9 +22,9 @@ const NavBar = () => {
           )}
           <div onClick={() => setOpen((prev) => !prev)}>
             {open ? (
-              <Cross1Icon className='fill-gray-700 w-6 h-6' />
+              <Cross1Icon className='text-gray-700 w-6 h-6' />
             ) : (
-              <HamburgerMenuIcon className='fill-gray-700 w-6 h-6' />
+              <HamburgerMenuIcon className='text-gray-700 w-6 h-6' />
             )}
           </div>
         </div>
@@ -35,7 +35,7 @@ const NavBar = () => {
 
       {/* mobile */}
       {open && (
-        <div className='sm:hidden h-full bg-white w-[70%] fixed top-0 left-0 z-50'>
+        <div className='sm:hidden h-full bg-white dark:bg-gray-900 w-[70%] fixed top-0 left-0 z-50'>
           <NavMenu />
         </div>
       )}
