@@ -94,7 +94,7 @@ const PopularCardMobile: React.FC<CarCardProps> = ({
       </div>
 
       {/* Price and Button */}
-      <div className='flex justify-between align-center gap-x-2 p-[16px] sm:p-[24px]'>
+      <div className='flex justify-between align-center p-[16px] sm:p-[24px]'>
         <div className='flex-1'>
           <h3 className='cardPrice'>
             ${price}.00 /{' '}
