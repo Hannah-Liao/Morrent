@@ -96,7 +96,8 @@ const CarCard: React.FC<CarCardProps> = ({
       <div className='flex justify-between align-center p-[24px]'>
         <div className='flex-1'>
           <h3
-            className={discountPrice > 0 ? 'cardPrice' : 'cardPrice mt-[7px]'}
+            className={discountPrice > 0 ? 'cardPrice' : 'cardPrice mt-[10px]'}
+            title={`${price}.00 / day`}
           >
             ${price}.00 /{' '}
             <span className='small-regular md:body-bold text-gray-400'>
@@ -104,7 +105,12 @@ const CarCard: React.FC<CarCardProps> = ({
             </span>
           </h3>
           {discountPrice > 0 && (
-            <h4 className='cardDiscountedPrice'>${discountPrice}.00</h4>
+            <h4
+              className='cardDiscountedPrice'
+              title={`${discountPrice}.00 / day`}
+            >
+              ${discountPrice}.00
+            </h4>
           )}
         </div>
         <div className='flex-1 text-right'>

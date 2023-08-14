@@ -97,13 +97,23 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
       {/* Price and Button */}
       <div className='flex justify-between align-center p-[16px] sm:p-[24px]'>
         <div className='flex-1'>
-          <h3 className='cardPrice'>
+          <h3
+            className={discountPrice > 0 ? 'cardPrice' : 'cardPrice mt-[10px]'}
+            title={`${price}.00 / day`}
+          >
             ${price}.00 /{' '}
             <span className='small-regular md:body-bold text-gray-400'>
               day
             </span>
           </h3>
-          <h4 className='cardDiscountedPrice'>${discountPrice}.00</h4>
+          {discountPrice > 0 && (
+            <h4
+              className='cardDiscountedPrice'
+              title={`${discountPrice}.00 / day`}
+            >
+              ${discountPrice}.00
+            </h4>
+          )}
         </div>
         <div className='flex-1 text-right'>
           <button type='button' className='cardButton lg:text-[14px]'>
