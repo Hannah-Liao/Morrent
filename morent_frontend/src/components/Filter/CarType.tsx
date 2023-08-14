@@ -3,28 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Checkbox } from '../ui/checkbox';
 import { RootState } from '../../store/store';
 import { selectCarType } from '../../slice/carFilterSlice';
-const carTypes = [
-  {
-    label: 'Sport',
-    key: 'sport',
-  },
-  {
-    label: 'MPV',
-    key: 'mpv',
-  },
-  {
-    label: 'Sedan',
-    key: 'sedan',
-  },
-  {
-    label: 'Coupe',
-    key: 'coupe',
-  },
-  {
-    label: 'Hatchback',
-    key: 'hatchback',
-  },
-];
+import { carTypes } from '../../constant';
 
 export default function CarType() {
   const { value } = useSelector(
@@ -33,8 +12,8 @@ export default function CarType() {
   const dispatch = useDispatch();
 
   return (
-    <ul className='flex flex-col gap-2 md:gap-4'>
-      <h2 className='pt-5'>
+    <ul className='flex flex-col gap-2 md:gap-4 '>
+      <h2 className='pt-3'>
         <span className='filter-title'>Type</span>
       </h2>
       {carTypes.map((type) => (

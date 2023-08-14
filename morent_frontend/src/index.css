@@ -206,8 +206,28 @@
   background-color: #424b5c !important;
 }
 #slider span span {
-  background-color: blue !important;
+  background-color: #3563e9 !important;
 }
 #slider span span > span {
-  background-color: blue !important;
+  background-color: #3563e9 !important;
+}
+.react-time-picker__inputGroup {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #90a3bf;
+  width: 100%;
+  background-color: #f6f7f9;
+  height: 40px;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+.react-time-picker__inputGroup__input {
+  min-width: 40px;
+  background-color: transparent;
+}
+
+html.dark .react-time-picker__inputGroup {
+  background-color: #424b5c;
 }

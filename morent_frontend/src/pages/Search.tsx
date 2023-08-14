@@ -1,35 +1,45 @@
 import { useState } from 'react';
 import { Filter, PickDropForm } from '../components';
+import CarCard from '../components/CarCard/CarCard';
+import SearchInput from '../components/SearchInput/SearchInput';
+import car from '../assets/images/anotherCar.png';
 
 export default function Search() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className='w-full h-screen overflow-hidden bg-white dark:bg-gray-750'>
-      <section className='w-full flex flex-col md:flex-row md:items-start  '>
-        <Filter isOpen={isOpen} setIsOpen={setIsOpen} />
-        <section className='h-screen w-full snap-y overflow-y-auto p-5  '>
-          <PickDropForm isShow={false} />
-          <div className='w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-9 '>
-            {[1, 2, 3, 4, 5, 6, 7].map((card) => (
-              // example card
-              <a
-                key={card}
-                href='#'
-                className='block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'
-              >
-                <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
-                  Noteworthy technology acquisitions 2021
-                </h5>
-                <p className='font-normal text-gray-700 dark:text-gray-400'>
-                  Here are the biggest enterprise technology acquisitions of
-                  2021 so far, in reverse chronological order.
-                </p>
-              </a>
-            ))}
-          </div>
-        </section>
+    <div className='flex min-h-screen flex-col md:flex-row gap-5 w-full'>
+      <section
+        className={`fixed z-10 md:sticky transition-all ease duration-500 top-0 md:h-screen md:max-w-[260px] bg-white h-screen dark:bg-gray-900 w-full overflow-y-auto p-5 ${
+          isOpen ? 'left-0' : '-left-full'
+        }`}
+      >
+        <Filter setIsOpen={setIsOpen} />
       </section>
+      <div className='w-full'>
+        <div className='md:hidden'>
+          <SearchInput setIsOpen={setIsOpen} />
+        </div>
+        <PickDropForm isShow={false} />
+        <div>
+          <section className='w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-9 overflow-y-auto'>
+            {[1, 2, 3, 4, 5, 6, 7].map((card) => (
+              <CarCard
+                buttonText='More Info'
+                carImage={car}
+                carType='Sport '
+                discountPrice={50}
+                fuelTankSize={100}
+                numberOfPeople={2}
+                price={100}
+                title='Koenigsegg'
+                transmissionType='manual'
+                key={card}
+              />
+            ))}
+          </section>
+        </div>
+      </div>
     </div>
   );
 }

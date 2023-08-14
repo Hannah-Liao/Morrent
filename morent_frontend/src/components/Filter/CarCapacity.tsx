@@ -2,25 +2,7 @@ import { Checkbox } from '../ui/checkbox';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setCapacity } from '../../slice/carCapacity';
-
-const CarCapacityLists = [
-  {
-    label: '2 Person',
-    key: '2',
-  },
-  {
-    label: '4 Person',
-    key: '4',
-  },
-  {
-    label: '6 person',
-    key: '6',
-  },
-  {
-    label: '8 Person',
-    key: '8',
-  },
-];
+import { CarCapacityLists } from '../../constant';
 
 export default function CarCapacity() {
   const { value } = useSelector((state: RootState) => state.setCapacity);

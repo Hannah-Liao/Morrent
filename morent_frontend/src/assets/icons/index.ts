@@ -31,4 +31,9 @@ export {
   filter,
   close,
   filterDark,
+  gasStation,
+  heartFilled,
+  heartNoFill,
+  people,
+  transmission,
 };

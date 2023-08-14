@@ -39,13 +39,13 @@ export default function SearchInput({ setIsOpen }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className=' bg-white dark:bg-gray-900 w-full flex items-end gap-2 p-4 md:p-0 md:w-[200px] '
+        className='w-full bg-white dark:bg-gray-900 flex items-end gap-2 mb-5 md:mb-0 '
       >
         <FormField
           control={form.control}
           name='searchValue'
           render={({ field }) => (
-            <FormItem className='relative flex-1 pt-11'>
+            <FormItem className='relative flex-1 '>
               <FormLabel className=' font-semibold text-xs text-blue-100'>
                 Search
               </FormLabel>
