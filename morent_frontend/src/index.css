@@ -152,3 +152,50 @@
     @apply text-blue-500 dark:text-blue-300;
   }
 }
+
+@layer components {
+  /* Card */
+  .cardButton {
+    @apply inline-flex items-center justify-center px-6 py-3 font-semibold text-[12px] md:p-semibold leading-5 text-white transition-all duration-200 bg-blue-500 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-500 hover:opacity-90;
+  }
+
+  .cardContainer {
+    @apply flex flex-col justify-between gap-0 overflow-hidden transition-all duration-200 transform bg-white dark:bg-gray-850 shadow rounded-[10px] hover:shadow-lg hover:-translate-y-1 max-h-[388px];
+  }
+
+  .cardTitle {
+    @apply md:base-bold p-semibold text-gray-900 dark:text-white leading-6 line-clamp-1;
+  }
+
+  .cardSubtitle {
+    @apply md:body-bold font-medium text-[12px] text-gray-400 line-clamp-1;
+  }
+
+  .isFavoritedIcon {
+    @apply w-[20px] pt-1 md:pt-0 md:w-[24px] md:h-[24px] ml-auto cursor-pointer;
+  }
+
+  .cardImage {
+    @apply bg-no-repeat bg-top bg-contain border-2 border-white dark:border-gray-850;
+  }
+
+  .cardIconContainer {
+    @apply md:w-[33%] lg:w-full flex flex-col lg:flex-row justify-between small-regular sm:body-medium text-gray-400 leading-6 md:pl-[10px] pr-[24px] lg:px-[24px] gap-y-[10px];
+  }
+
+  .cardIconItem {
+    @apply flex justify-start lg:justify-between items-center;
+  }
+
+  .cardIcon {
+    @apply mr-[4px] h-[14px] w-[14px] lg:h-[24px] lg:w-[24px];
+  }
+
+  .cardPrice {
+    @apply p-bold md:base-bold text-gray-900 dark:text-white line-clamp-1 leading-6;
+  }
+
+  .cardDiscountedPrice {
+    @apply small-regular md:body-bold text-gray-400 line-clamp-1 line-through;
+  }
+}
