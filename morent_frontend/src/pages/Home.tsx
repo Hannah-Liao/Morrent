@@ -9,7 +9,7 @@ const Home: React.FC = () => {
   const [showMoreCars, setShowMoreCars] = useState(false);
 
   return (
-    <section className='py-3 px-[8px] md:px-[24px]'>
+    <section className='py-3 px-[8px] md:px-[24px] pt-[20px] sm:pt-[0.5%]'>
       {/* Big Cards */}
       <HomeHeader />
 
