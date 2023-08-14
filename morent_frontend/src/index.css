@@ -66,14 +66,12 @@
     --input: 217.2 32.6% 17.5%;
     --ring: hsl(212.7, 26.8%, 83.9);
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
   body {
-    @apply font-plus-jakarta bg-white-200 dark:bg-gray-900;
+    @apply font-plus-jakarta;
   }
 }
 
@@ -84,6 +82,10 @@
 
   .heading-1-semibold {
     @apply font-semibold text-[32px];
+  }
+
+  .heading-2-bold {
+    @apply font-bold text-[24px];
   }
 
   .heading-3-bold {
@@ -104,6 +106,10 @@
 
   .base-bold {
     @apply font-bold text-[20px];
+  }
+
+  .base-semibold {
+    @apply font-semibold text-[20px];
   }
 
   .p-bold {
@@ -134,8 +140,16 @@
     @apply font-normal text-[12px];
   }
 
+  .small-medium {
+    @apply font-medium text-[12px];
+  }
+
   .flex-center {
     @apply flex justify-center items-center;
+  }
+
+  .active {
+    @apply text-blue-500 dark:text-blue-300;
   }
 }
 

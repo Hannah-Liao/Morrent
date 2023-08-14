@@ -26,7 +26,7 @@ export const cars = [
     carType: 'Sport',
     carImage: carImage,
     fuelTankSize: 70,
-    transmissionType: 'Manual',
+    transmissionType: 'manual',
     numberOfPeople: 5,
     price: 100,
     discountPrice: 80,
@@ -196,5 +196,35 @@ export const cars = [
     price: 100,
     discountPrice: 80,
     buttonText: 'More Info',
+  },
+];
+
+export const footerLinks = [
+  {
+    title: 'About',
+    links: [
+      { linkTitle: 'How it works', linkTo: '' },
+      { linkTitle: 'Featured', linkTo: '' },
+      { linkTitle: 'Partnership', linkTo: '' },
+      { linkTitle: 'Bussiness Relation', linkTo: '' },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { linkTitle: 'Events', linkTo: '' },
+      { linkTitle: 'Blog', linkTo: '' },
+      { linkTitle: 'Podcast', linkTo: '' },
+      { linkTitle: 'Invite a friend', linkTo: '' },
+    ],
+  },
+  {
+    title: 'Socials',
+    links: [
+      { linkTitle: 'Discord', linkTo: '' },
+      { linkTitle: 'Instagram', linkTo: '' },
+      { linkTitle: 'Twitter', linkTo: '' },
+      { linkTitle: 'Facebook', linkTo: '' },
+    ],
   },
 ];
