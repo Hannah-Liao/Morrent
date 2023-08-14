@@ -8,7 +8,6 @@ import {
   heartFilled,
   transmission,
 } from '../../assets/icons/index';
-import { capitalizeCarType } from '../../lib/utils';
 
 interface CarCardProps {
   title: string;
@@ -86,7 +85,7 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
               alt='Transmission Icon'
               className='cardIcon'
             />
-            <span>{capitalizeCarType(transmissionType)}</span>
+            <span className='first-letter:capitalize'>{transmissionType}</span>
           </li>
           <li className='cardIconItem'>
             <img src={people} alt='People Icon' className='cardIcon' />
