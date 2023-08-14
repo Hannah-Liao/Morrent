@@ -26,7 +26,7 @@ export const cars = [
     carType: 'Sport',
     carImage: carImage,
     fuelTankSize: 70,
-    transmissionType: 'Manual',
+    transmissionType: 'manual',
     numberOfPeople: 5,
     price: 100,
     discountPrice: 80,
