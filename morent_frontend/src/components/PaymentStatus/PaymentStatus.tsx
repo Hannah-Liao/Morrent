@@ -25,8 +25,7 @@ export default function PaymentStatus({
       ? 'Payment Canceled '
       : 'Payment Failed';
 
-  const paymentStatusPath =
-    status === 'success' ? '/rented-car' : status === 'canceled' ? '/' : '';
+  const paymentStatusPath = status === 'success' ? '/rented-car' : '/';
 
   const paymentStatusButton =
     status === 'success'
@@ -38,7 +37,7 @@ export default function PaymentStatus({
   return (
     <div className='w-full h-full max-w-[500px] p-[50px] rounded-md max-h-[537px] bg-white dark:bg-gray-850'>
       <div className=' text-center w-full'>
-        <p className='text-gray-400 pb-10 text-base md:text-lg'>
+        <p className='text-gray-400 pb-10 text-base md:text-lg capitalize'>
           {paymentStatusText}
         </p>
         <img
@@ -47,13 +46,15 @@ export default function PaymentStatus({
           alt='payment status logo'
         />
         <div>
-          <h1 className='heading-2-bold  md:heading-1-bold pt-10 text-gray-870 dark:text-white'>
+          <h1 className='heading-2-bold md:heading-1-bold pt-10 text-gray-870 dark:text-white'>
             {paymentStatusTitle}
           </h1>
           <Button className='w-full bg-blue-500 hover:bg-blue-700 mt-10 text-white-100 p-bold'>
             <Link to={paymentStatusPath}>{paymentStatusButton}</Link>
           </Button>
-          <p className='text-gray-400 pt-[50px] p-medium'>Generate Receipt</p>
+          <p className='text-gray-400 pt-[50px] p-medium'>
+            {status !== 'success' ? 'Go Back' : 'Generate receipt'}
+          </p>
         </div>
       </div>
     </div>
