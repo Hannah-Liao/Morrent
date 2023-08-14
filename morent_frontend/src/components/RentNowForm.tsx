@@ -51,7 +51,7 @@ export function RentNowForm() {
   const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
 
   return (
-    <div className='max-w-[500px] shrink-0 rounded-[10px] p-[50px] bg-white dark:bg-gray-850'>
+    <div className='max-w-[500px] shrink-0 rounded-[10px] p-[50px] bg-white dark:bg-gray-850 mx-auto'>
       <div className='flex flex-col-reverse sm:flex-row sm:justify-between '>
         <div className='flex flex-col gap-2.5'>
           <h2 className='base-bold text-gray-900 dark:text-white'>
