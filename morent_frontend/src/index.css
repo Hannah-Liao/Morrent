@@ -146,7 +146,7 @@
   }
 
   .cardContainer {
-    @apply flex flex-col justify-between gap-0 overflow-hidden transition-all duration-200 transform bg-white dark:bg-gray-850 shadow rounded-[10px] hover:shadow-lg hover:-translate-y-1 max-h-[388px];
+    @apply flex flex-col justify-between gap-0 overflow-hidden transition-all duration-200 transform bg-white dark:bg-gray-850 shadow rounded-[10px] hover:shadow-lg hover:-translate-y-1 max-h-[388px] min-w-[280px];
   }
 
   .cardTitle {

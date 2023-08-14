@@ -3,7 +3,8 @@ import { useState } from 'react';
 import CarCard from '../components/CarCard/CarCard';
 import { cars } from '../constant/index';
 import { blueRectangle1, blueRectangle2 } from '../assets/images/index';
-import PopularCardMobile from '../components/PopularCardMobile/PopularCardMobile';
+import PopularCarsMobile from '../components/PopularCarsMobile/PopularCarsMobile';
+import VisibilitySensor from 'react-visibility-sensor';
 
 const Home: React.FC = () => {
   const [showMoreCars, setShowMoreCars] = useState(false);
@@ -69,10 +70,18 @@ const Home: React.FC = () => {
             View All
           </a>
         </section>
-        <div className='grid grid-cols-1 grid-flow-col sm:grid-flow-row gap-[10px] sm:gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0 overflow-x-auto scrollbar-hide'>
+        <div className='grid grid-flow-col sm:grid-flow-row gap-[10px] sm:gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0 overflow-x-auto scrollbar-hide'>
           {cars.slice(0, 4).map((car) => (
             <div key={car.title}>
-              <PopularCardMobile {...car} />
+              {window.innerWidth < 500 ? (
+                <VisibilitySensor>
+                  {({ isVisible }: { isVisible: boolean }) => (
+                    <PopularCarsMobile {...car} isHidden={!isVisible} />
+                  )}
+                </VisibilitySensor>
+              ) : (
+                <PopularCarsMobile {...car} />
+              )}
             </div>
           ))}
         </div>

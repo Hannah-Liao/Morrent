@@ -20,9 +20,10 @@ interface CarCardProps {
   price: number;
   discountPrice: number;
   buttonText: string;
+  isHidden?: boolean;
 }
 
-const PopularCardMobile: React.FC<CarCardProps> = ({
+const PopularCarsMobile: React.FC<CarCardProps> = ({
   title,
   carType,
   carImage,
@@ -32,11 +33,12 @@ const PopularCardMobile: React.FC<CarCardProps> = ({
   price,
   discountPrice,
   buttonText,
+  isHidden,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
 
   return (
-    <div className='cardContainer'>
+    <div className={`cardContainer ${isHidden ? 'blur-xs' : ''}`}>
       <header className='flex justify-between p-[16px] sm:px-[24px]'>
         <div className='flex-3 w-[90%] overflow-hidden'>
           <h3 className='cardTitle'>{title}</h3>
@@ -114,4 +116,4 @@ const PopularCardMobile: React.FC<CarCardProps> = ({
   );
 };
 
-export default PopularCardMobile;
+export default PopularCarsMobile;
