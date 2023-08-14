@@ -21,12 +21,14 @@ module.exports = {
     extend: {
       colors: {
         white: {
+          DEFAULT: '#fff',
           100: '#f7f9fc',
           200: '#f6f7f9',
         },
         gray: {
           400: '#90a3bf',
           700: '#3d5278',
+          750: '#1E2430',
           800: '#424b5c',
           850: '#293346',
           900: '#1a202c',

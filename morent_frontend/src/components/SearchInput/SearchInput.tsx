@@ -2,7 +2,7 @@ import z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { search } from '../../assets/icons';
+import { filter, search, filterDark } from '../../assets/icons';
 
 import {
   FormField,
@@ -13,12 +13,16 @@ import {
   Form,
 } from '../ui/form';
 import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Dispatch, SetStateAction } from 'react';
 
 const formSchema = z.object({
   searchValue: z.string(),
 });
-
-export default function SearchInput() {
+type Props = {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+export default function SearchInput({ setIsOpen }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,18 +31,22 @@ export default function SearchInput() {
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
 
+  const theme = localStorage.getItem('theme');
+
+  const iconSrc = theme === 'dark' ? filterDark : filter;
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className=' bg-white w-full md:w-[200px]'
+        className=' bg-white dark:bg-gray-900 w-full flex items-end gap-2 p-4 md:p-0 md:w-[200px] '
       >
         <FormField
           control={form.control}
           name='searchValue'
           render={({ field }) => (
-            <FormItem className='relative '>
-              <FormLabel className=' font-semibold text-xs text-[#94A7CB]'>
+            <FormItem className='relative flex-1 pt-11'>
+              <FormLabel className=' font-semibold text-xs text-blue-100'>
                 Search
               </FormLabel>
               <div className='relative'>
@@ -47,7 +55,7 @@ export default function SearchInput() {
                     title='Search by brand or title'
                     placeholder='Search by brand or title'
                     {...field}
-                    className=' focus:!ring-0 pl-10 text-sm font-medium'
+                    className=' focus:!ring-0 pl-10 text-sm font-medium bg-white-200 placeholder:text-blue-100 dark:bg-gray-850 dark:border-none dark:text-white dark:focus:!border-none'
                   />
                 </FormControl>
                 <div className='absolute top-3 left-3 '>
@@ -58,6 +66,14 @@ export default function SearchInput() {
             </FormItem>
           )}
         />
+        <Button
+          type='button'
+          variant='outline'
+          className='block md:hidden dark:border border-blue-500 rounded-md '
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <img src={iconSrc} alt='filter icon' />
+        </Button>
       </form>
     </Form>
   );

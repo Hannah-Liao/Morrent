@@ -5,7 +5,7 @@ import { Checkout, Home, NotFound, Search } from './pages';
 function App() {
   return (
     <div className='max-w-[1440px] mx-auto w-full h-full'>
-      <div className='w-full h-full bg-[#F6F7F9]'>
+      <div className='w-full h-full '>
         <Routes>
           <Route index path='/' element={<Home />} />
           <Route path='/search' element={<Search />} />
