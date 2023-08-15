@@ -6,8 +6,7 @@ export default function useClickOutSide(
 ) {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      // @ts-ignore
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         callback();
       }
     }
