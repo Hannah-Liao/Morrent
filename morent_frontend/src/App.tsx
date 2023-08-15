@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { Checkout, Home, NotFound } from './pages';
+import { AddCar, Checkout, Home, NotFound } from './pages';
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <div className='p-[2.5%] w-full'>
         <Routes>
           <Route index path='/' element={<Home />} />
+          <Route path='/add-car' element={<AddCar />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
