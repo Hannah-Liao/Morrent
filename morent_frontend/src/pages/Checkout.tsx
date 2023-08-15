@@ -48,13 +48,31 @@ export default function Checkout() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const res = await fetch('http://localhost:8004/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: 1,
+          price: 2000000,
+          carName: 'Mercedez benz',
+          ...data,
+        }),
+      });
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
+  };
 
   function creditCardFormat(value: string) {
-    const v = value
-      .replace(/\s+/g, '')
-      .replace(/[^0-9]/gi, '')
-      .slice(0, 16);
+    const v = value.replace(/\s+/g, '').replace(/\D/gi, '').slice(0, 16);
     const parts = [];
 
     for (let i = 0; i < v.length; i += 4) {
@@ -73,7 +91,7 @@ export default function Checkout() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='flex flex-col gap-6 '
+            className='flex flex-col gap-6'
           >
             <FormField
               control={form.control}
@@ -87,7 +105,8 @@ export default function Checkout() {
                     <Input
                       title='Your active email address'
                       placeholder='Your Email'
-                      {...field}
+                      value={creditCardFormat(field.value)}
+                      onChange={field.onChange}
                       className='bg-[#F6F7F9] dark:bg-[#424B5C] focus:!ring-0'
                     />
                   </FormControl>
@@ -166,12 +185,13 @@ export default function Checkout() {
                 <FormField
                   control={form.control}
                   name='cvc'
-                  render={({ field: { value } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <FormItem className='bg-[#F6F7F9] dark:bg-[#424B5C] flex mx-0 mt-0 space-y-0 gap-0 border rounded-md w-full relative'>
                       <FormControl>
                         <Input
                           title='The CVV/CVC code (Card Verification Value/Code)'
                           placeholder='CVC'
+                          onChange={onChange}
                           defaultValue={value}
                           className='!mt-0 border-none bg-[#F6F7F9] dark:bg-[#424B5C]  focus:!ring-0 rounded-none'
                         />
