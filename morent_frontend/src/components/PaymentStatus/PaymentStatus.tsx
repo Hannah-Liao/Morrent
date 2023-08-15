@@ -8,31 +8,36 @@ export default function PaymentStatus({
 }: {
   status: 'success' | 'fail' | 'canceled';
 }) {
-  const paymentStatusText =
-    status === 'success'
-      ? 'Thank You For Your Purchase'
-      : status === 'canceled'
-      ? 'You cancelled the payment'
-      : 'There was an error making payment ';
+  let paymentStatusText,
+    paymentStatusImg,
+    paymentStatusTitle,
+    paymentStatusPath,
+    paymentStatusButton;
 
-  const paymentStatusImg =
-    status === 'success' ? success : status === 'canceled' ? cancel : fail;
-
-  const paymentStatusTitle =
-    status === 'success'
-      ? 'Payment Successful'
-      : status === 'canceled'
-      ? 'Payment Canceled '
-      : 'Payment Failed';
-
-  const paymentStatusPath = status === 'success' ? '/rented-car' : '/';
-
-  const paymentStatusButton =
-    status === 'success'
-      ? 'View Rented Car'
-      : status === 'canceled'
-      ? 'Back to Homepage '
-      : 'Try Again';
+  switch (status) {
+    case 'success':
+      paymentStatusText = 'Thank You For Your Purchase';
+      paymentStatusImg = success;
+      paymentStatusTitle = 'Payment Successful';
+      paymentStatusPath = '/rented-car';
+      paymentStatusButton = 'View Rented Car';
+      break;
+    case 'canceled':
+      paymentStatusText = 'You cancelled the payment';
+      paymentStatusImg = cancel;
+      paymentStatusTitle = 'Payment Canceled';
+      paymentStatusPath = '/';
+      paymentStatusButton = 'Back to Homepage';
+      break;
+    case 'fail':
+    default:
+      paymentStatusText = 'There was an error making payment';
+      paymentStatusImg = fail;
+      paymentStatusTitle = 'Payment Failed';
+      paymentStatusPath = '/';
+      paymentStatusButton = 'Try Again';
+      break;
+  }
 
   return (
     <div className='w-full h-full max-w-[500px] p-[50px] rounded-md max-h-[537px] bg-white dark:bg-gray-850'>
