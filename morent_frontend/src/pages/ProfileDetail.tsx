@@ -1,6 +1,5 @@
 import profileImg from '../assets/images/profile.png';
-import CarCard from '../components/CarCard/CarCard';
-import { cars } from '../constant/index';
+import { CarsDispalySection } from '../components';
 
 const ProfileDetail = () => {
   return (
@@ -37,7 +36,7 @@ const ProfileDetail = () => {
 
             <a
               href=''
-              className='btn absolute right-[20px] bottom-[10px] sm:top-[38px] px-5 rounded-[10px] small-bold sm:body-bold min-h-[36px] sm:h-[46px]'
+              className='btn absolute right-[20px] bottom-[10px] sm:top-[38px] rounded-[10px] small-bold sm:body-bold min-h-[36px] sm:h-[46px]'
             >
               Edit Profile
             </a>
@@ -45,29 +44,21 @@ const ProfileDetail = () => {
         </div>
       </section>
 
-      <section>
-        <h1>Rented Cars</h1>
-        <div className='grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0'>
-          {cars.map((car) => (
-            <CarCard key={car.title} {...car} />
-          ))}
-        </div>
+      <section className='pt-10'>
+        <h1 className='subtitle'>Rented Cars</h1>
+        <CarsDispalySection />
       </section>
 
-      <section>
-        <h1>My Cars for Rent</h1>
-        <div className='grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0'>
-          {cars.map((car) => (
-            <CarCard key={car.title} {...car} />
-          ))}
-        </div>
+      <section className='pt-10'>
+        <h1 className='subtitle'>My Cars for Rent</h1>
+        <CarsDispalySection />
       </section>
 
       <a
         href=''
-        className='flex-center gap-2 w-[6.875rem] h-11 bg-blue-500 hover:bg-blue-300  text-white p-semibold rounded'
+        className='btn rounded sm:rounded-[10px] min-h-[37px] sm:min-h-[56px] w-fit small-semibold sm:p-bold mx-auto my-12'
       >
-        edit
+        Add More Cars for Rent
       </a>
     </main>
   );

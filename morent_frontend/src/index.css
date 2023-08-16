@@ -144,6 +144,10 @@
     @apply font-bold text-[12px];
   }
 
+  .small-semibold {
+    @apply font-semibold text-[12px];
+  }
+
   .small-regular {
     @apply font-normal text-[12px];
   }
@@ -165,7 +169,7 @@
   }
 
   .btn {
-    @apply flex-center bg-blue-500 hover:opacity-90 text-white;
+    @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5;
   }
 }
 
@@ -213,5 +217,11 @@
 
   .cardDiscountedPrice {
     @apply small-regular md:body-bold text-gray-400 line-clamp-1 line-through;
+  }
+}
+
+@layer pages {
+  .subtitle {
+    @apply text-gray-400 p-semibold pb-5;
   }
 }
