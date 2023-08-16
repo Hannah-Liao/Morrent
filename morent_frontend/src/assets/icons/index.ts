@@ -8,7 +8,6 @@ import people from './people.svg';
 import heartNoFill from './heartNoFill.svg';
 import heartFilled from './heartFilled.svg';
 import transmission from './transmissionBg.png';
-import xmark from './xmark.svg';
 
 export {
   visa,
@@ -21,5 +20,4 @@ export {
   heartNoFill,
   heartFilled,
   transmission,
-  xmark,
 };
