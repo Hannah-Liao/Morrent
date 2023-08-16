@@ -6,14 +6,16 @@ const ProfileDetail = () => {
   return (
     <main>
       <section>
-        <h1>My Profile</h1>
-        <div>
-          <div className='border border-red relative bg-[url("../src/assets/images/carImage.png")] bg-no-repeat bg-cover min-h-[182px]'>
+        <h1 className='text-gray-900 dark:text-white base-bold mb-6 sm:mb-7 '>
+          My Profile
+        </h1>
+        <div className='rounded-[10px] bg-white dark:bg-gray-850'>
+          <div className='relative bg-[url("../src/assets/images/carImage.png")] bg-no-repeat bg-cover min-h-[182px]'>
             <a
               href=''
-              className='absolute right-[10px] bottom-[10px] flex-center gap-2 w-[6.875rem] h-11 bg-blue-500 hover:bg-blue-300  text-white p-semibold rounded'
+              className='absolute right-[10px] sm:right-[57px] bottom-[10px] sm:bottom-[23px] flex-center gap-2 bg-white bg-opacity-40 text-white xsmall-regular sm:body-medium rounded py-1.5 sm:py-3 px-2 sm:px-4'
             >
-              edit
+              Edit Cover
             </a>
           </div>
 
