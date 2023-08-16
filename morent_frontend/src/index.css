@@ -140,6 +140,10 @@
     @apply font-normal text-[14px];
   }
 
+  .small-bold {
+    @apply font-bold text-[12px];
+  }
+
   .small-regular {
     @apply font-normal text-[12px];
   }
@@ -159,12 +163,16 @@
   .active {
     @apply text-blue-500 dark:text-blue-300;
   }
+
+  .btn {
+    @apply flex-center bg-blue-500 hover:opacity-90 text-white;
+  }
 }
 
 @layer components {
   /* Card */
   .cardButton {
-    @apply inline-flex items-center justify-center px-6 py-3 font-semibold text-[12px] md:p-semibold leading-5 text-white transition-all duration-200 bg-blue-500 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-500 hover:opacity-90;
+    @apply inline-flex items-center justify-center px-6 py-3 font-semibold text-[12px] md:p-semibold leading-5 text-white transition-all duration-200  border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-500 hover:opacity-90;
   }
 
   .cardContainer {

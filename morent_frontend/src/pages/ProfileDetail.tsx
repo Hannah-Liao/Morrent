@@ -19,23 +19,27 @@ const ProfileDetail = () => {
             </a>
           </div>
 
-          <div className='border border-red relative py-[38px]'>
+          <div className='relative py-[38px]'>
             <img
               src={profileImg}
-              alt=''
-              className='w-[120px] absolute left-[20px] top-[-30px] border border-red'
+              alt='profileImg'
+              className='w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] absolute left-[13px] sm:left-[31px] top-[-30px] sm:top-[-50px] rounded-[70px]'
             />
 
-            <div className='border border-red ml-[152px] mt-[80px] sm:mt-0'>
-              <p>Jane Daniel</p>
-              <p>Agent</p>
+            <div className='ml-3.5 sm:ml-[152px] mt-[10px] sm:mt-0 '>
+              <p className='base-bold text-gray-900 dark:text-white'>
+                Jane Daniel
+              </p>
+              <p className='body-regular text-opacity-50 text-gray-900 dark:text-blue-100'>
+                Agent
+              </p>
             </div>
 
             <a
               href=''
-              className=' absolute right-[20px] bottom-[10px] sm:top-[38px] flex-center gap-2 w-[6.875rem] h-11 bg-blue-500 hover:bg-blue-300  text-white p-semibold rounded'
+              className='btn absolute right-[20px] bottom-[10px] sm:top-[38px] px-5 rounded-[10px] small-bold sm:body-bold min-h-[36px] sm:h-[46px]'
             >
-              edit
+              Edit Profile
             </a>
           </div>
         </div>
