@@ -8,7 +8,7 @@ function App() {
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2%]'>
+        <div className='w-full max-container p-[2.5%]'>
           <Routes>
             <Route index path='/' element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />

@@ -4,3 +4,4 @@ export { default as Logo } from './Logo';
 export { default as CarCard } from './CarCard/CarCard';
 export { default as HomeHeader } from './HomeHeader/HomeHeader';
 export { default as PopularCarsMobile } from './PopularCarsMobile/PopularCarsMobile';
+export { default as CarInfoModal } from './CarInfoModal/CarInfoModal';

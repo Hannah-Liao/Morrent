@@ -8,6 +8,10 @@ import people from './people.svg';
 import heartNoFill from './heartNoFill.svg';
 import heartFilled from './heartFilled.svg';
 import transmission from './transmissionBg.png';
+import closeIcon from './closeIcon.svg';
+import starFilled from './starFilled.svg';
+import starNoFill from './starNoFill.svg';
+import edit from './edit.svg';
 
 export {
   visa,
@@ -20,4 +24,8 @@ export {
   heartNoFill,
   heartFilled,
   transmission,
+  closeIcon,
+  starFilled,
+  starNoFill,
+  edit,
 };
