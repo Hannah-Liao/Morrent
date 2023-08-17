@@ -248,6 +248,23 @@
   .cardDiscountedPrice {
     @apply small-regular md:body-bold text-gray-400 line-clamp-1 line-through;
   }
+
+  /* rent now modal */
+  .gridCol2 {
+    @apply grid grid-cols-2 gap-2.5;
+  }
+
+  .formTitle {
+    @apply flex body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white;
+  }
+
+  .inputArea {
+    @apply border-none bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200;
+  }
+
+  .modalIcon {
+    @apply mr-2 h-4 w-4;
+  }
 }
 
 #slider span > span {

@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { CalendarIcon } from '@radix-ui/react-icons';
 import TimePicker from 'react-time-picker';
 
 import { Button } from '../ui/button';
@@ -35,6 +34,7 @@ import { Calendar } from '../ui/calendar';
 import { cn } from '../../lib/utils';
 import { pickupLocation } from '../../constant/index';
 import getCurrentTime from '../../utils/getCurrentTime';
+import { dots, clock, calendar } from '../../assets/icons';
 
 const formSchema = z.object({
   location: z.string({
@@ -86,7 +86,12 @@ export default function RentNowMadal() {
               name='location'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white leading-[120%]'>
+                  <FormLabel className='formTitle leading-[120%]'>
+                    <img
+                      src={dots}
+                      alt='icon'
+                      className='modalIcon bg-[#3563e94d] p-1 rounded-full '
+                    />
                     Pickup Location
                   </FormLabel>
                   <FormControl>
@@ -94,7 +99,7 @@ export default function RentNowMadal() {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className='border-none h-[46px] sm:h-[56px] bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200'>
+                      <SelectTrigger className='min-h-[46px] sm:min-h-[56px] inputArea'>
                         <SelectValue placeholder='Location Address' />
                       </SelectTrigger>
                       <SelectContent className='bg-white-200 dark:bg-gray-800 capitalize'>
@@ -113,14 +118,14 @@ export default function RentNowMadal() {
               )}
             />
 
-            <div className='grid grid-cols-2 gap-2.5'>
+            <div className='gridCol2'>
               <FormField
                 control={form.control}
                 name='pickUpDate'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
+                    <FormLabel className='formTitle'>
+                      <img src={calendar} alt='icon' className='modalIcon' />
                       Pick-Up Date
                     </FormLabel>
                     <Popover>
@@ -128,7 +133,7 @@ export default function RentNowMadal() {
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'border-none h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
+                            'inputArea min-h-[56px] justify-start text-left ',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
@@ -158,9 +163,9 @@ export default function RentNowMadal() {
                 name='pickUpTime'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
-                      Availability To
+                    <FormLabel className='formTitle'>
+                      <img src={clock} alt='icon' className='modalIcon' />
+                      Pick-Up Time
                     </FormLabel>
                     <TimePicker
                       disableClock
@@ -175,14 +180,14 @@ export default function RentNowMadal() {
               />
             </div>
 
-            <div className='grid grid-cols-2 gap-2.5'>
+            <div className='gridCol2'>
               <FormField
                 control={form.control}
                 name='dropOffDate'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
+                    <FormLabel className='formTitle'>
+                      <img src={calendar} alt='icon' className='modalIcon' />
                       Drop-Off Date
                     </FormLabel>
                     <Popover>
@@ -190,7 +195,7 @@ export default function RentNowMadal() {
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'border-none h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
+                            'inputArea min-h-[56px] justify-start text-left',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
@@ -220,9 +225,9 @@ export default function RentNowMadal() {
                 name='dropOffTime'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
-                      Availability To
+                    <FormLabel className='formTitle'>
+                      <img src={clock} alt='icon' className='modalIcon' />
+                      Drop-Off Time
                     </FormLabel>
                     <TimePicker
                       disableClock
