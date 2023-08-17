@@ -33,29 +33,25 @@ const CarCard: React.FC<CarCardProps> = ({
   return (
     <div className='cardContainer'>
       {/* Card Title Section */}
-      <header className='flex justify-between p-[24px] pb-0'>
-        <div className='flex-3 w-[90%] overflow-hidden'>
+      <header className='flex justify-between items-start p-[24px] pb-0'>
+        <div className='flex-1'>
           <h3 className='cardTitle'>{data.title}</h3>
           <h4 className='cardSubtitle'>{data.carType}</h4>
         </div>
-        <div className='flex-1'>
-          <img
-            src={isFavorited ? heartFilled : heartNoFill}
-            className='isFavoritedIcon'
-            alt='Red Heart Icon'
-            aria-label='Red Heart Icon'
-            onClick={() =>
-              setIsFavorited((prevIsFavorited) => !prevIsFavorited)
-            }
-          />
-          {/* Set up edit icon later */}
-          {/* <img
+        <img
+          src={isFavorited ? heartFilled : heartNoFill}
+          className='isFavoritedIcon'
+          alt='Red Heart Icon'
+          aria-label='Red Heart Icon'
+          onClick={() => setIsFavorited((prevIsFavorited) => !prevIsFavorited)}
+        />
+        {/* Set up edit icon later */}
+        {/* <img
             src={edit}
             className='isFavoritedIcon'
             alt='Edit Icon'
             aria-label='Edit Icon'
           /> */}
-        </div>
       </header>
 
       {/* Car Image and Stats Section */}
