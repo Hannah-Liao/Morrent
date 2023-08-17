@@ -19,9 +19,10 @@ interface CarCardProps {
   price: number;
   discountPrice: number;
   buttonText: string;
+  isHidden?: boolean;
 }
 
-const CarCard: React.FC<CarCardProps> = ({
+const PopularCarsMobile: React.FC<CarCardProps> = ({
   title,
   carType,
   carImage,
@@ -31,12 +32,13 @@ const CarCard: React.FC<CarCardProps> = ({
   price,
   discountPrice,
   buttonText,
+  isHidden,
 }) => {
   const [isFavorited, setIsFavorited] = useState(false);
 
   return (
-    <div className='cardContainer'>
-      <header className='flex justify-between p-[24px] pb-0'>
+    <div className={`cardContainer ${isHidden ? 'blur-xs' : ''}`}>
+      <header className='flex justify-between p-[16px] sm:px-[24px]'>
         <div className='flex-3 w-[90%] overflow-hidden'>
           <h3 className='cardTitle'>{title}</h3>
           <h4 className='cardSubtitle'>{carType}</h4>
@@ -54,9 +56,9 @@ const CarCard: React.FC<CarCardProps> = ({
       </header>
 
       {/* Car Image and Icons */}
-      <div className='flex justify-between items-center lg:flex-col'>
+      <div className='flex justify-between items-center flex-col'>
         {/* Car Image with Shadow*/}
-        <div className='w-[66%] lg:w-full mx-auto py-[20px] lg:py-[40px]'>
+        <div className='w-full lg:w-full mx-auto py-[20px] lg:py-[40px]'>
           <div
             style={{ backgroundImage: `url(${carImage})` }}
             className='cardImage'
@@ -72,7 +74,7 @@ const CarCard: React.FC<CarCardProps> = ({
         </div>
 
         {/* Icons */}
-        <ul className='cardIconContainer'>
+        <ul className='cardIconContainer flex-row w-full mb-2 body-medium px-[16px] sm:px-[24px]'>
           <li className='cardIconItem'>
             <img src={gasStation} alt='Gas Station Icon' className='cardIcon' />
             <span>{fuelTankSize}L</span>
@@ -93,7 +95,7 @@ const CarCard: React.FC<CarCardProps> = ({
       </div>
 
       {/* Price and Button */}
-      <div className='flex justify-between align-center p-[24px]'>
+      <div className='flex justify-between align-center p-[16px] sm:p-[24px]'>
         <div className='flex-1'>
           <h3
             className={discountPrice > 0 ? 'cardPrice' : 'cardPrice mt-[10px]'}
@@ -114,7 +116,7 @@ const CarCard: React.FC<CarCardProps> = ({
           )}
         </div>
         <div className='flex-1 text-right'>
-          <button type='button' className='cardButton'>
+          <button type='button' className='cardButton lg:text-[14px]'>
             {buttonText}
           </button>
         </div>
@@ -123,4 +125,4 @@ const CarCard: React.FC<CarCardProps> = ({
   );
 };
 
-export default CarCard;
+export default PopularCarsMobile;

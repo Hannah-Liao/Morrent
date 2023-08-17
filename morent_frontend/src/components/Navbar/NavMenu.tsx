@@ -19,7 +19,7 @@ const NavMenu: FC<props> = ({ isHidden }) => {
           <NavLink to='/add-car'>Add Car</NavLink>
         </li>
 
-        <li className='flex-center gap-2 w-[6.875rem] h-11 bg-blue-500 hover:bg-blue-300  text-white p-semibold rounded'>
+        <li className='btn p-5 min-w-[110px] h-11 p-semibold rounded'>
           <NavLink to='/login'>Login</NavLink>
         </li>
       </ul>
