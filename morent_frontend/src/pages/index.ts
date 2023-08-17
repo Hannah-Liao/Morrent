@@ -1,6 +1,7 @@
 import Home from './Home';
 import NotFound from './NotFound';
 import Checkout from './Checkout';
+import AddCar from './AddCar';
 
 import Search from './Search';
 import Success from './Success';
@@ -11,6 +12,7 @@ import ProfileDetail from './ProfileDetail';
 export {
   Home,
   NotFound,
+  AddCar,
   Checkout,
   Search,
   Success,
@@ -18,5 +20,3 @@ export {
   Canceled,
   ProfileDetail,
 };
-
-export { Home, NotFound, Checkout };

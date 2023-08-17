@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { AddCar, Checkout, Home, NotFound } from './pages';
 import {
   Canceled,
   Checkout,
@@ -10,9 +9,9 @@ import {
   Search,
   Success,
   ProfileDetail,
+  AddCar,
 } from './pages';
 import { NavBar, Footer } from './components';
-import ShadCnForm from './pages/ShadCnForm';
 
 function App() {
   return (
@@ -23,6 +22,7 @@ function App() {
           <Routes>
             <Route index path='/' element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />
+            <Route path='add-car' element={<AddCar />} />
             <Route path='/search' element={<Search />} />
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />
