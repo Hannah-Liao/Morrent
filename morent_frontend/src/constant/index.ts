@@ -276,46 +276,6 @@ export const formData = [
     errorMessage: 'Please select drop-off time',
   },
 ];
-export const CarCapacityLists = [
-  {
-    label: '2 Person',
-    key: '2',
-  },
-  {
-    label: '4 Person',
-    key: '4',
-  },
-  {
-    label: '6 person',
-    key: '6',
-  },
-  {
-    label: '8 Person',
-    key: '8',
-  },
-];
-export const carTypes = [
-  {
-    label: 'Sport',
-    key: 'sport',
-  },
-  {
-    label: 'MPV',
-    key: 'mpv',
-  },
-  {
-    label: 'Sedan',
-    key: 'sedan',
-  },
-  {
-    label: 'Coupe',
-    key: 'coupe',
-  },
-  {
-    label: 'Hatchback',
-    key: 'hatchback',
-  },
-];
 
 export const carFilterOptions = {
   type: [

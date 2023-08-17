@@ -22,20 +22,21 @@ export default function Search() {
         </div>
         <PickDropForm isShow={false} />
         <div>
-          <section className='w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-9 overflow-y-auto'>
+          <section className='w-full flex flex-wrap gap-3  pt-9'>
             {[1, 2, 3, 4, 5, 6, 7].map((card) => (
-              <CarCard
-                buttonText='More Info'
-                carImage={car}
-                carType='Sport '
-                discountPrice={50}
-                fuelTankSize={100}
-                numberOfPeople={2}
-                price={100}
-                title='Koenigsegg'
-                transmissionType='manual'
-                key={card}
-              />
+              <div key={card} className='sm:max-w-xs w-full'>
+                <CarCard
+                  buttonText='More Info'
+                  carImage={car}
+                  carType='Sport '
+                  discountPrice={50}
+                  fuelTankSize={100}
+                  numberOfPeople={2}
+                  price={100}
+                  title='Koenigsegg'
+                  transmissionType='manual'
+                />
+              </div>
             ))}
           </section>
         </div>

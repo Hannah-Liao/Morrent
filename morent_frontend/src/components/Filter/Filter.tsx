@@ -14,11 +14,9 @@ type Props = {
 };
 
 export default function Filter({ setIsOpen }: Props) {
-  const {
-    carFilter: {
-      value: { capacity, type },
-    },
-  } = useSelector((state: RootState) => state);
+  const { capacity, type } = useSelector(
+    ({ carFilter: { value } }: RootState) => value,
+  );
   const [selectedPrice, setSelectedPrice] = useState([100]);
 
   const handleSubmit = () => {
@@ -41,8 +39,16 @@ export default function Filter({ setIsOpen }: Props) {
         Filter
       </h2>
 
-      <CarFilterOptions title='Type' options={carFilterOptions.type} />
-      <CarFilterOptions title='Capacity' options={carFilterOptions.capacity} />
+      <CarFilterOptions
+        title='Type'
+        options={carFilterOptions.type}
+        value={type}
+      />
+      <CarFilterOptions
+        title='Capacity'
+        options={carFilterOptions.capacity}
+        value={capacity}
+      />
 
       <div className='w-full h-full'>
         <h3 className='pt-1 md:pt-3'>

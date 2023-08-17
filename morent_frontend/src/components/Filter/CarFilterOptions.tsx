@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Checkbox } from '../ui/checkbox';
-import { RootState } from '../../store/store';
 import { selectCarType, setCapacity } from '../../slice/carFilterSlice';
 
 type CarData = {
@@ -12,18 +11,14 @@ type CarData = {
 type CarFilterOptionsProps = {
   title: string;
   options: CarData[];
+  value: string;
 };
 export default function CarFilterOptions({
   title,
   options,
+  value,
 }: CarFilterOptionsProps) {
-  const state = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
-
-  const value =
-    title === 'Type'
-      ? state.carFilter.value.type
-      : state.carFilter.value.capacity;
 
   const handleTypeChange = (value: string) => dispatch(selectCarType(value));
   const handleCapacityChange = (value: string) => dispatch(setCapacity(value));

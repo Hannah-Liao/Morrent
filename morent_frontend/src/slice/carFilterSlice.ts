@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-type intialStateType = {
+export type intialStateType = {
   value: {
     type: string;
     capacity: string;
