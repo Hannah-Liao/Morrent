@@ -1,5 +1,13 @@
-import { amex, discover, mastercard, visa } from '../assets/icons';
 import carImage from '../assets/images/carImage.png';
+import {
+  amex,
+  discover,
+  mastercard,
+  visa,
+  dots,
+  clock,
+  calendar,
+} from '../assets/icons';
 
 export const icons = [
   {
@@ -229,6 +237,84 @@ export const footerLinks = [
   },
 ];
 
+export const formData = [
+  {
+    icon: dots,
+    label: 'Location',
+    dataSelects: ['Gianyar', 'Ubud', 'Badung', 'Singaraja'],
+    key: 'location',
+    placeholder: 'Select your city',
+    errorMessage: 'Please select a city',
+  },
+  {
+    icon: calendar,
+    label: 'Pick-Up Date',
+    key: 'dropOffDate',
+    placeholder: 'Select your date',
+    errorMessage: 'Please select a pick-up date',
+  },
+  {
+    icon: clock,
+    label: 'Pick-Up Time',
+    key: 'dropOffTime',
+    placeholder: 'Select your time',
+    errorMessage: 'Please select a pick-up time',
+  },
+  {
+    icon: calendar,
+    label: 'Drop-Off Date',
+    key: 'pickUpDate',
+    placeholder: 'Select your date',
+    errorMessage: 'Please select drop-off date',
+  },
+  {
+    icon: clock,
+    label: 'Drop-Off Time',
+    key: 'pickUpTime',
+    placeholder: 'Select your time',
+    errorMessage: 'Please select drop-off time',
+  },
+];
+export const CarCapacityLists = [
+  {
+    label: '2 Person',
+    key: '2',
+  },
+  {
+    label: '4 Person',
+    key: '4',
+  },
+  {
+    label: '6 person',
+    key: '6',
+  },
+  {
+    label: '8 Person',
+    key: '8',
+  },
+];
+export const carTypes = [
+  {
+    label: 'Sport',
+    key: 'sport',
+  },
+  {
+    label: 'MPV',
+    key: 'mpv',
+  },
+  {
+    label: 'Sedan',
+    key: 'sedan',
+  },
+  {
+    label: 'Coupe',
+    key: 'coupe',
+  },
+  {
+    label: 'Hatchback',
+    key: 'hatchback',
+  },
+]
 export const pickupLocation = [
   'london',
   'bristol',
