@@ -173,11 +173,10 @@
   .btn {
     @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5;
   }
-    .max-container {
-      @apply mx-auto max-w-[1440px];
-    }
+  .max-container {
+    @apply mx-auto max-w-[1440px];
   }
-
+}
 
 @layer components {
   /* Home Page */
@@ -272,6 +271,7 @@
   font-size: 12px;
   border-radius: 5px;
 }
+
 .react-time-picker__inputGroup__input {
   min-width: 40px;
   background-color: transparent;
@@ -284,4 +284,22 @@ html.dark .react-time-picker__inputGroup {
   .subtitle {
     @apply text-gray-400 p-semibold pb-5;
   }
+}
+
+/* time picker styling for rent now Modal */
+#modalpickUpTime .react-time-picker__inputGroup,
+#modaldropOffTime .react-time-picker__inputGroup {
+  justify-content: space-between;
+  color: #90a3bf;
+  background-color: #f6f7f9;
+  height: 56px;
+  padding: 14px 18px;
+  font-size: 14px;
+  border-radius: 7px;
+}
+
+html.dark #modalpickUpTime .react-time-picker__inputGroup,
+html.dark #modaldropOffTime .react-time-picker__inputGroup {
+  background-color: #424b5c;
+  color: #f6f7f9;
 }
