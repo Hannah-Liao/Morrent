@@ -314,4 +314,11 @@ export const carTypes = [
     label: 'Hatchback',
     key: 'hatchback',
   },
+]
+export const pickupLocation = [
+  'london',
+  'bristol',
+  'york',
+  'birminham',
+  'bath',
 ];
