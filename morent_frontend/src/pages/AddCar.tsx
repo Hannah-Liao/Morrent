@@ -61,15 +61,12 @@ const AddCar = () => {
               name='carTitle'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='carTitle'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='carTitle' className='addCarFormLabel'>
                     Car Title
                   </label>
                   <FormControl>
                     <Input
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Car Title'
                       {...field}
                     />
@@ -84,15 +81,12 @@ const AddCar = () => {
               name='carType'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='carType'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='carType' className='addCarFormLabel'>
                     Car Type
                   </label>
                   <FormControl>
                     <Input
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Brand Name'
                       {...field}
                     />
@@ -107,16 +101,13 @@ const AddCar = () => {
               name='rentPrice'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='rentPrice'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='rentPrice' className='addCarFormLabel'>
                     Rent Price
                   </label>
                   <FormControl>
                     <Input
                       type='number'
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Price in dollars'
                       {...field}
                     />
@@ -131,16 +122,13 @@ const AddCar = () => {
               name='capacity'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='capacity'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='capacity' className='addCarFormLabel'>
                     Capacity
                   </label>
                   <FormControl>
                     <Input
                       type='number'
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Capacity in person'
                       {...field}
                     />
@@ -155,15 +143,12 @@ const AddCar = () => {
               name='transmission'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='transmission'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='transmission' className='addCarFormLabel'>
                     Transmission
                   </label>
                   <FormControl>
                     <Input
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Car Type'
                       {...field}
                     />
@@ -178,15 +163,12 @@ const AddCar = () => {
               name='location'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='location'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='location' className='addCarFormLabel'>
                     Location
                   </label>
                   <FormControl>
                     <Input
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Select your city'
                       {...field}
                     />
@@ -201,16 +183,13 @@ const AddCar = () => {
               name='fuelCapacity'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='fuelCapacity'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='fuelCapacity' className='addCarFormLabel'>
                     Fuel Capacity
                   </label>
                   <FormControl>
                     <Input
                       type='number'
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Fuel Capicity in liters'
                       {...field}
                     />
@@ -225,15 +204,12 @@ const AddCar = () => {
               name='shortDesc'
               render={({ field }) => (
                 <FormItem>
-                  <label
-                    htmlFor='shortDesc'
-                    className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-                  >
+                  <label htmlFor='shortDesc' className='addCarFormLabel'>
                     Short Description
                   </label>
                   <FormControl>
                     <Input
-                      className='bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      className='addCarForm'
                       placeholder='Fuel Capicity in liters'
                       {...field}
                     />
@@ -245,10 +221,7 @@ const AddCar = () => {
           </div>
 
           <div className='w-full mb-[37px]'>
-            <label
-              htmlFor='uploadImg'
-              className='block p-semibold mb-[16px] text-gray-900 dark:text-white'
-            >
+            <label htmlFor='uploadImg' className='addCarFormLabel'>
               Upload Image
             </label>
 
