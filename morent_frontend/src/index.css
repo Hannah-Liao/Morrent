@@ -173,11 +173,10 @@
   .btn {
     @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5;
   }
-    .max-container {
-      @apply mx-auto max-w-[1440px];
-    }
+  .max-container {
+    @apply mx-auto max-w-[1440px];
   }
-
+}
 
 @layer components {
   /* Home Page */
@@ -248,6 +247,14 @@
 
   .cardDiscountedPrice {
     @apply small-regular md:body-bold text-gray-400 line-clamp-1 line-through;
+  }
+
+  .inputField {
+    @apply bg-white-200 border-0 rounded-[7px]  border-gray-300 text-gray-900 text-sm   focus:ring-blue-500 focus:border-blue-500 block w-full p-[26px] dark:bg-gray-700 dark:border-gray-600  placeholder-gray-400 dark:placeholder-white-200 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 !important;
+  }
+
+  .inputLabel {
+    @apply block p-semibold mb-[16px] text-gray-900 dark:text-white !important;
   }
 }
 

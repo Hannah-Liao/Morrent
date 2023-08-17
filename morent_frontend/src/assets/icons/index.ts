@@ -8,6 +8,7 @@ import people from './people.svg';
 import heartNoFill from './heartNoFill.svg';
 import heartFilled from './heartFilled.svg';
 import transmission from './transmissionBg.png';
+import uploadIcon from './uploadIcon.svg';
 import dots from './dots.svg';
 import calendar from './calendar.svg';
 import clock from './clock.svg';
@@ -22,6 +23,7 @@ export {
   amex,
   frame,
   discover,
+  uploadIcon,
   mastercard,
   dots,
   calendar,
