@@ -5,18 +5,20 @@ import { NavBar, Footer } from './components';
 
 function App() {
   return (
-    <div className='max-w-[1440px] mx-auto w-full '>
+    <main>
       <NavBar />
-      <div className='p-[2.5%] w-full bg-white-200 dark:bg-gray-900'>
-        <Routes>
-          <Route index path='/' element={<Home />} />
-          <Route path='/checkout' element={<Checkout />} />
-          <Route path='/profile/:id' element={<ProfileDetail />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+      <div className='w-full bg-white-200 dark:bg-gray-900'>
+        <div className='w-full max-container p-[2%]'>
+          <Routes>
+            <Route index path='/' element={<Home />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/profile/:id' element={<ProfileDetail />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
       <Footer />
-    </div>
+    </main>
   );
 }
 

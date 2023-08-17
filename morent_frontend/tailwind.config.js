@@ -19,6 +19,9 @@ module.exports = {
       'plus-jakarta': ['Plus Jakarta Sans', 'sans-serif'],
     },
     extend: {
+      blur: {
+        xs: '2px',
+      },
       colors: {
         white: {
           DEFAULT: '#fff',
