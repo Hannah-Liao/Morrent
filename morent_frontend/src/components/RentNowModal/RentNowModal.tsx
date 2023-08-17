@@ -52,7 +52,7 @@ const formSchema = z.object({
   }),
 });
 
-export function RentNowForm() {
+export default function RentNowMadal() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
