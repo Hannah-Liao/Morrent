@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { Checkout, Home, NotFound } from './pages';
+import { Checkout, Home, NotFound, ProfileDetail } from './pages';
 import { NavBar, Footer } from './components';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
           <Routes>
             <Route index path='/' element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />
+            <Route path='/profile/:id' element={<ProfileDetail />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
