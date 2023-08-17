@@ -55,7 +55,7 @@ const ProfileDetail = () => {
       </section>
 
       <a
-        href=''
+        href='/add-car'
         className='btn rounded sm:rounded-[10px] min-h-[37px] sm:min-h-[56px] w-fit small-semibold sm:p-bold mx-auto my-12'
       >
         Add More Cars for Rent
