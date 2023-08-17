@@ -21,10 +21,10 @@ import SubmitButton from './SubmitButton';
 
 const formSchema = z.object({
   location: z.string(),
-  pickUpDate: z.string().or(z.date()),
-  pickUpTime: z.string(),
-  dropOffDate: z.string().or(z.date()),
-  dropOffTime: z.string(),
+  availabilityFrom: z.string().or(z.date()),
+  availabilityTimeFrom: z.string(),
+  availabilityTo: z.string().or(z.date()),
+  availabilityTimeTo: z.string(),
 });
 
 type PickDropFormProps = {
@@ -36,10 +36,10 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       location: '',
-      pickUpDate: new Date(),
-      pickUpTime: '10:10',
-      dropOffDate: new Date(),
-      dropOffTime: '10:10',
+      availabilityFrom: new Date(),
+      availabilityTimeFrom: '10:10',
+      availabilityTo: new Date(),
+      availabilityTimeTo: '10:10',
     },
   });
   const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
@@ -48,7 +48,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
     <Form {...searchForm}>
       <form
         onSubmit={searchForm.handleSubmit(onSubmit)}
-        className='flex flex-col lg:flex-row gap-x-3 bg-white md:items-center dark:bg-gray-850 p-5 w-full items-end rounded-md'
+        className='flex flex-col lg:flex-row gap-x-3 bg-white md:items-center dark:bg-gray-850 p-3 md:p-5 w-full items-end rounded-md'
       >
         <div className='grid grid-cols-2 gap-5 w-full lg:grid-cols-5 '>
           {formData.map((data) => (
@@ -64,7 +64,10 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                       : 'col-span-1'
                   } `}
                 >
-                  <FormLabel className='text-sm font-semibold inline-flex  items-center gap-2 text-gray-900 dark:text-white w-[159px]'>
+                  <FormLabel
+                    title={data.label}
+                    className='text-sm font-semibold inline-flex truncate  items-center gap-2 text-gray-900 dark:text-white w-full'
+                  >
                     <img
                       className={`${
                         data.label === 'Location'
@@ -77,7 +80,8 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                     {data.label}
                   </FormLabel>
 
-                  {data.key === 'pickUpDate' || data.key === 'dropOffDate' ? (
+                  {data.key === 'availabilityFrom' ||
+                  data.key === 'availabilityTo' ? (
                     <Popover>
                       <PopoverTrigger
                         asChild
@@ -87,7 +91,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                           variant={'outline'}
                           className='text-left inline-flex truncate justify-start hover:text-black dark:hover:text-white'
                         >
-                          {data.key === 'pickUpDate'
+                          {data.key === 'availabilityFrom'
                             ? field.value
                               ? format(+field.value, 'PPP')
                               : 'Pick a date'
@@ -103,23 +107,20 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                         <Calendar
                           className='hover:!text-black dark:!hover:text-white'
                           mode='single'
-                          // @ts-ignore
-                          selected={field.value}
+                          selected={field.value as Date}
                           onSelect={field.onChange}
                           initialFocus
                         />
                       </PopoverContent>
                     </Popover>
-                  ) : data.key === 'pickUpTime' ||
-                    data.key === 'dropOffTime' ? (
-                    <>
-                      <TimePicker
-                        disableClock
-                        clearIcon
-                        onChange={field.onChange}
-                        value={field.value}
-                      />
-                    </>
+                  ) : data.key === 'availabilityTimeFrom' ||
+                    data.key === 'availabilityTimeTo' ? (
+                    <TimePicker
+                      disableClock
+                      clearIcon
+                      onChange={field.onChange}
+                      value={field.value}
+                    />
                   ) : (
                     <Select onValueChange={field.onChange}>
                       <SelectTrigger className='bg-white-200 dark:bg-gray-800 dark:border-none focus:!ring-0 w-full truncate text-xs text-gray-400 hover:text-black dark:hover:text-white'>
