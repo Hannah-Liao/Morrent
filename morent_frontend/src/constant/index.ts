@@ -1,5 +1,11 @@
 import { amex, discover, mastercard, visa } from '../assets/icons';
-import { carImage, carView2, carView3 } from '../assets/images/index';
+import {
+  carImage,
+  carView2,
+  carView3,
+  blueRectangle1,
+  blueRectangle2,
+} from '../assets/images/index';
 
 export const icons = [
   {
@@ -17,6 +23,23 @@ export const icons = [
   {
     label: 'discover icon',
     icon: discover,
+  },
+];
+
+export const headerText = [
+  {
+    title1: `The Best Platform`,
+    title2: `for Car Rental`,
+    subtitle1: `Ease of doing car rental safely and`,
+    subtitle2: `reliably, and at a low price.`,
+    background: blueRectangle1,
+  },
+  {
+    title1: `Easy way to rent a`,
+    title2: `car at a low price`,
+    subtitle1: `Providing cheap car rental services`,
+    subtitle2: `and safe and comfortable facilities.`,
+    background: blueRectangle2,
   },
 ];
 

@@ -160,7 +160,7 @@
 @layer components {
   /* Home Page */
   .homeHeaderH1 {
-    @apply p-semibold md:heading-3-bold lg:heading-1-semibold text-white -tracking-[0.16px] md:-tracking-[0.32px] leading-[22px] lg:leading-[38.4px] mb-[4px] lg:mb-[16px] md:text-left;
+    @apply p-semibold md:heading-3-bold lg:heading-1-semibold text-white -tracking-[0.16px] md:-tracking-[0.32px] leading-[22px] lg:leading-[38.4px] mb-[10px] sm:mb-[16px] md:text-left;
   }
 
   .homeSubtitle {
