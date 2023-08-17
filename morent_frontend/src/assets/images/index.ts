@@ -4,4 +4,15 @@ import success from './success.png';
 import fail from './unsuccess.png';
 import cancel from './cancel.png';
 
-export { carImage, carShadow, success, fail, cancel };
+import blueRectangle1 from './blueRectangle1.png';
+import blueRectangle2 from './blueRectangle2.png';
+
+export {
+  carImage,
+  carShadow,
+  blueRectangle1,
+  blueRectangle2,
+  success,
+  fail,
+  cancel,
+};
