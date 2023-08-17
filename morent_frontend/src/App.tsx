@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { AddCar, Checkout, Home, NotFound } from './pages';
 import { NavBar, Footer } from './components';
+import ShadCnForm from './pages/ShadCnForm';
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
           <Route index path='/' element={<Home />} />
           <Route path='/add-car' element={<AddCar />} />
           <Route path='/checkout' element={<Checkout />} />
+          <Route path='/test-page' element={<ShadCnForm />} />
+
           <Route path='*' element={<NotFound />} />
         </Routes>
       </div>

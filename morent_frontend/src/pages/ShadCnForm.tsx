@@ -12,10 +12,11 @@ import {
 } from '../components/ui/form';
 import { Input } from '../components/ui/input';
 import { toast } from '../components/ui/use-toast';
+
 import { addCarSchema } from '../components/CarSchema';
 import { uploadIcon } from '../assets/icons';
 
-const AddCar = () => {
+export default function ShadCnForm() {
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
@@ -285,6 +286,4 @@ const AddCar = () => {
       </Form>
     </div>
   );
-};
-
-export default AddCar;
+}

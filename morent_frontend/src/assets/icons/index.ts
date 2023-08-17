@@ -8,12 +8,14 @@ import people from './people.svg';
 import heartNoFill from './heartNoFill.svg';
 import heartFilled from './heartFilled.svg';
 import transmission from './transmissionBg.png';
+import uploadIcon from './uploadIcon.svg';
 
 export {
   visa,
   amex,
   frame,
   discover,
+  uploadIcon,
   mastercard,
   gasStation,
   people,
