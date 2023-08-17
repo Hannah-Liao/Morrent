@@ -17,13 +17,13 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
   function selectLargeImage(activeImageIndex: number | null) {
     switch (activeImageIndex) {
       case 1:
-        return data?.carView1;
+        return data?.carImages[0];
       case 2:
-        return data?.carView2;
+        return data?.carImages[1];
       case 3:
-        return data?.carView3;
+        return data?.carImages[2];
       default:
-        return data?.carView1;
+        return data?.carImages[0];
     }
   }
 
@@ -57,9 +57,9 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                     : 'p-2 border-2 border-transparent'
                 }`}
               >
-                {data.carView1 ? (
+                {data.carImages[0] ? (
                   <img
-                    src={data.carView1}
+                    src={data.carImages[0]}
                     alt='Car View 1 Small'
                     aria-label='Car View 1 Small'
                     style={{ backgroundImage: `url(${blueBackground})` }}
@@ -82,9 +82,9 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                     : 'p-2 border-2 border-transparent'
                 }`}
               >
-                {data.carView2 ? (
+                {data.carImages[1] ? (
                   <img
-                    src={data?.carView2}
+                    src={data?.carImages[1]}
                     alt='Car View 2'
                     aria-label='Car View 2'
                     className='w-full h-full object-cover rounded-[10px] cursor-pointer'
@@ -106,9 +106,9 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                     : 'p-2 border-2 border-transparent'
                 }`}
               >
-                {data.carView3 ? (
+                {data.carImages[2] ? (
                   <img
-                    src={data.carView3}
+                    src={data?.carImages[2]}
                     alt='Car View 3'
                     aria-label='Car View 3'
                     className='w-full h-full object-cover rounded-[10px] cursor-pointer'

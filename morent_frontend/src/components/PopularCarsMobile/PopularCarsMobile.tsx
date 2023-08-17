@@ -55,7 +55,7 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
         {/* Car Image with Shadow*/}
         <div className='w-full lg:w-full mx-auto py-[20px] lg:py-[32px]'>
           <div
-            style={{ backgroundImage: `url(${data.carView1})` }}
+            style={{ backgroundImage: `url(${data.carImages[0]})` }}
             className='cardImage'
           >
             <div className='mt-10 dark:opacity-0'>
