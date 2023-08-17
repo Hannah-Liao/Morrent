@@ -55,8 +55,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
             <FormField
               key={data.key}
               control={searchForm.control}
-              // @ts-ignore
-              name={data.key}
+              name={data.key as keyof z.infer<typeof formSchema>}
               render={({ field }) => (
                 <FormItem
                   className={`relative overflow-hidden ${

@@ -15,7 +15,7 @@ export default function SubmitButton({ isShow }: { isShow: boolean }) {
           src={searchWhite}
           alt='search icon'
           width={15}
-        />{' '}
+        />
         <span className={isShow ? 'block' : 'lg:hidden'}>Search</span>
       </Button>
     </div>
