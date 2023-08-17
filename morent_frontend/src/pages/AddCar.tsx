@@ -61,12 +61,12 @@ const AddCar = () => {
               name='carTitle'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='carTitle' className='addCarFormLabel'>
+                  <label htmlFor='carTitle' className='inputLabel'>
                     Car Title
                   </label>
                   <FormControl>
                     <Input
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Car Title'
                       {...field}
                     />
@@ -81,12 +81,12 @@ const AddCar = () => {
               name='carType'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='carType' className='addCarFormLabel'>
+                  <label htmlFor='carType' className='inputLabel'>
                     Car Type
                   </label>
                   <FormControl>
                     <Input
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Brand Name'
                       {...field}
                     />
@@ -101,13 +101,13 @@ const AddCar = () => {
               name='rentPrice'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='rentPrice' className='addCarFormLabel'>
+                  <label htmlFor='rentPrice' className='inputLabel'>
                     Rent Price
                   </label>
                   <FormControl>
                     <Input
                       type='number'
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Price in dollars'
                       {...field}
                     />
@@ -122,13 +122,13 @@ const AddCar = () => {
               name='capacity'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='capacity' className='addCarFormLabel'>
+                  <label htmlFor='capacity' className='inputLabel'>
                     Capacity
                   </label>
                   <FormControl>
                     <Input
                       type='number'
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Capacity in person'
                       {...field}
                     />
@@ -143,12 +143,12 @@ const AddCar = () => {
               name='transmission'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='transmission' className='addCarFormLabel'>
+                  <label htmlFor='transmission' className='inputLabel'>
                     Transmission
                   </label>
                   <FormControl>
                     <Input
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Car Type'
                       {...field}
                     />
@@ -163,12 +163,12 @@ const AddCar = () => {
               name='location'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='location' className='addCarFormLabel'>
+                  <label htmlFor='location' className='inputLabel'>
                     Location
                   </label>
                   <FormControl>
                     <Input
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Select your city'
                       {...field}
                     />
@@ -183,13 +183,13 @@ const AddCar = () => {
               name='fuelCapacity'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='fuelCapacity' className='addCarFormLabel'>
+                  <label htmlFor='fuelCapacity' className='inputLabel'>
                     Fuel Capacity
                   </label>
                   <FormControl>
                     <Input
                       type='number'
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Fuel Capicity in liters'
                       {...field}
                     />
@@ -204,12 +204,12 @@ const AddCar = () => {
               name='shortDesc'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='shortDesc' className='addCarFormLabel'>
+                  <label htmlFor='shortDesc' className='inputLabel'>
                     Short Description
                   </label>
                   <FormControl>
                     <Input
-                      className='addCarForm'
+                      className='inputField'
                       placeholder='Fuel Capicity in liters'
                       {...field}
                     />
@@ -221,7 +221,7 @@ const AddCar = () => {
           </div>
 
           <div className='w-full mb-[37px]'>
-            <label htmlFor='uploadImg' className='addCarFormLabel'>
+            <label htmlFor='uploadImg' className='inputLabel'>
               Upload Image
             </label>
 
