@@ -7,7 +7,7 @@ import { CarInfo } from '../../types/carInfo';
 
 interface CarInfoModalProps {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: Dispatch<SetStateAction<'' | 'car_info' | 'rent'>>;
   data: CarInfo | null;
 }
 
@@ -30,8 +30,11 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
   if (!data) return;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className='max-w-[1054px] md:max-h-[560px] p-0 dark:bg-gray-850 rounded-xl w-[90%]'>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => setOpen(open ? 'car_info' : '')}
+    >
+      <DialogContent className='dialogContent'>
         <section
           id='carInfoModal'
           className=' mx-auto flex flex-col justify-between sm:flex-row gap-2 md:gap-6 p-2'
@@ -48,88 +51,50 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                 aria-label='Large car image'
               />
             </div>
+
             {/* Small Images */}
             <ul className='flex-1 basis-1/4 flex justify-between gap-1 lg:gap-6'>
-              <li
-                className={`max-h-[128px] flex-1 basis-1/3 rounded-[10px] ${
-                  activeImageIndex === 1
-                    ? `p-2 border-2 border-blue-500 ease-out duration-150`
-                    : 'p-2 border-2 border-transparent'
-                }`}
-              >
-                {data.carImages[0] ? (
-                  <img
-                    src={data.carImages[0]}
-                    alt='Car View 1 Small'
-                    aria-label='Car View 1 Small'
-                    style={{ backgroundImage: `url(${blueBackground})` }}
-                    className='w-full h-full object-contain rounded-[10px] cursor-pointer'
-                    onClick={() => setActiveImageIndex(1)}
-                  />
-                ) : (
-                  <div
-                    style={{ backgroundImage: `url(${blueBackground})` }}
-                    className='flex justify-center items-center bg-no-repeat bg-center rounded-[10px] w-full text-center'
-                  >
-                    <h2 className='flex-1 text-white p-5 text-xs'>No Image</h2>
-                  </div>
-                )}
-              </li>
-              <li
-                className={`max-h-[128px] flex-1 basis-1/3 rounded-[10px] ${
-                  activeImageIndex === 2
-                    ? `p-2 border-2 border-blue-500 ease-out duration-150`
-                    : 'p-2 border-2 border-transparent'
-                }`}
-              >
-                {data.carImages[1] ? (
-                  <img
-                    src={data?.carImages[1]}
-                    alt='Car View 2'
-                    aria-label='Car View 2'
-                    className='w-full h-full object-cover rounded-[10px] cursor-pointer'
-                    onClick={() => setActiveImageIndex(2)}
-                  />
-                ) : (
-                  <div
-                    style={{ backgroundImage: `url(${blueBackground})` }}
-                    className='flex justify-center items-center bg-no-repeat bg-center rounded-[10px] w-full h-full text-center'
-                  >
-                    <h2 className='flex-1 text-white p-5 text-xs'>No Image</h2>
-                  </div>
-                )}
-              </li>
-              <li
-                className={`max-h-[128px] flex-1 basis-1/3 rounded-[10px] ${
-                  activeImageIndex === 3
-                    ? `p-2 border-2 border-blue-500 ease-out duration-150`
-                    : 'p-2 border-2 border-transparent'
-                }`}
-              >
-                {data.carImages[2] ? (
-                  <img
-                    src={data?.carImages[2]}
-                    alt='Car View 3'
-                    aria-label='Car View 3'
-                    className='w-full h-full object-cover rounded-[10px] cursor-pointer'
-                    onClick={() => setActiveImageIndex(3)}
-                  />
-                ) : (
-                  <div
-                    style={{ backgroundImage: `url(${blueBackground})` }}
-                    className='flex justify-center items-center bg-no-repeat bg-center rounded-[10px] w-full h-full text-center'
-                  >
-                    <h2 className='flex-1 text-white p-5 text-xs'>No Image</h2>
-                  </div>
-                )}
-              </li>
+              {data.carImages.map((image, i) => (
+                <li
+                  key={image[i]}
+                  className={`max-h-[128px] flex-1 basis-1/3 rounded-[10px] ${
+                    activeImageIndex === i + 1
+                      ? `p-2 border-2 border-blue-500 ease-out duration-150`
+                      : 'p-2 border-2 border-transparent'
+                  }`}
+                >
+                  {data.carImages[i] ? (
+                    <img
+                      src={data.carImages[i]}
+                      alt='Car View 1 Small'
+                      aria-label='Car View 1 Small'
+                      style={{ backgroundImage: `url(${blueBackground})` }}
+                      className='w-full h-full object-contain rounded-[10px] cursor-pointer'
+                      onClick={() => setActiveImageIndex(i + 1)}
+                    />
+                  ) : (
+                    <div
+                      style={{ backgroundImage: `url(${blueBackground})` }}
+                      className='noImageDiv'
+                    >
+                      <h2 className='flex-1 text-white p-5 text-xs'>
+                        No Image
+                      </h2>
+                    </div>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
+
           {/* Column 2 */}
           <div className='flex-2 basis-1/2 p-4 md:p-6'>
+            {/* Column 2 Header */}
             <header className='flex justify-between'>
               <div className='flex-3 basis-3/4 overflow-hidden '>
                 <h3 className='carInfoModalTitle'>{data.title}</h3>
+
+                {/* Stars/Reviews */}
                 <div className='flex justify-start items-center'>
                   <div className='flex justify-start items-center'>
                     {[1, 2, 3, 4, 5].map((noOfStars) => (
@@ -144,9 +109,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                       />
                     ))}
                   </div>
-                  <h4 className='small-regular md:body-medium text-gray-700 dark:text-white-200 ml-[8px]'>
-                    {data.reviews}+ Reviews
-                  </h4>
+                  <h4 className='reviews'>{data.reviews}+ Reviews</h4>
                 </div>
               </div>
             </header>
@@ -199,7 +162,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                   }
                   title={`${data?.price}.00 / day`}
                 >
-                  ${data.price}.00 /{' '}
+                  ${data.price}.00 /
                   <span className='text-[16px] font-bold text-gray-400'>
                     day
                   </span>
@@ -218,6 +181,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                 <button
                   type='button'
                   className='cardButton text-[14px] font-bold md:text-[16px] w-full md:min-w-[140px]'
+                  onClick={() => setOpen('rent')}
                 >
                   Rent Now
                 </button>

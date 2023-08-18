@@ -3,7 +3,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -128,6 +127,10 @@
     @apply font-bold text-[14px];
   }
 
+  .body-semibold {
+    @apply font-semibold text-[14px];
+  }
+
   .body-medium {
     @apply font-medium text-[14px];
   }
@@ -136,12 +139,27 @@
     @apply font-normal text-[14px];
   }
 
+  .small-bold {
+    @apply font-bold text-[12px];
+  }
+
+  .small-semibold {
+    @apply font-semibold text-[12px];
+  }
+
   .small-regular {
     @apply font-normal text-[12px];
+  }
+  .filter-title {
+    @apply font-semibold text-[12px] text-blue-100 uppercase;
   }
 
   .small-medium {
     @apply font-medium text-[12px];
+  }
+
+  .xsmall-regular {
+    @apply font-normal text-[10px];
   }
 
   .flex-center {
@@ -152,6 +170,9 @@
     @apply text-blue-500 dark:text-blue-300;
   }
 
+  .btn {
+    @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5;
+  }
   .max-container {
     @apply mx-auto max-w-[1440px];
   }
@@ -159,6 +180,10 @@
 
 @layer components {
   /* Home Page */
+
+  .homeContainer {
+    @apply py-3 px-[8px] md:px-[24px] pt-[20px] sm:pt-[0.5%];
+  }
   .homeHeaderH1 {
     @apply p-semibold md:heading-3-bold lg:heading-1-semibold text-white -tracking-[0.16px] md:-tracking-[0.32px] leading-[22px] lg:leading-[38.4px] mb-[10px] sm:mb-[16px] md:text-left;
   }
@@ -176,7 +201,7 @@
   }
 
   .homePopularCarsGrid {
-    @apply grid grid-flow-col sm:grid-flow-row gap-[10px] sm:gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0 overflow-x-auto;
+    @apply grid grid-flow-col sm:grid-flow-row gap-[10px] sm:gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0 overflow-x-auto mb-[32px];
   }
 
   .homeRecommendedGrid {
@@ -229,6 +254,19 @@
   }
 
   /* Car Info Modal */
+
+  .dialogContent {
+    @apply max-w-[1054px] md:max-h-[560px] p-0 dark:bg-gray-850 rounded-xl w-[90%] !important;
+  }
+
+  .noImageDiv {
+    @apply flex justify-center items-center bg-no-repeat bg-center rounded-[10px] w-full text-center;
+  }
+
+  .reviews {
+    @apply small-regular md:body-medium text-gray-700 dark:text-white-200 ml-[8px];
+  }
+
   #carInfoModal + button {
     @apply flex-1 basis-1/4 w-[24px] h-[24px] md:w-[34px] md:h-[34px] -top-[24px] right-[16px] sm:top-[30px] sm:right-[22px] md:top-[38px] md:right-[24px] dark:text-white-200;
   }
@@ -246,14 +284,49 @@
   }
 
   .statsTitle {
-    @apply small-medium md:p-semibold lg:base-semibold text-gray-700 -tracking-[0.12px] md:-tracking-[0.4px] mr-auto dark:text-gray-400;
+    @apply small-medium md:p-semibold lg:base-semibold text-gray-700 -tracking-[0.12px] md:-tracking-[0.4px] mr-3 sm:mr-auto dark:text-gray-400;
   }
 
   .statsSubtitle {
-    @apply text-[12px] font-semibold md:p-medium lg:base-medium text-gray-400 -tracking-[0.24px] md:-tracking-[0.4px] dark:text-white-200;
+    @apply text-[12px] font-semibold md:p-medium lg:base-medium text-gray-400 ml-[2px] -tracking-[0.24px] md:-tracking-[0.4px] dark:text-white-200 first-letter:capitalize;
   }
 
   .statsContainer {
-    @apply flex justify-between items-center gap-[28px] lg:gap-[44px] py-[12px] md:py-[28px] xl:pt-6;
+    @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-[8px] sm:gap-[30px] py-[12px] md:py-[28px] xl:pt-6;
+  }
+}
+
+#slider span > span {
+  background-color: #424b5c !important;
+}
+#slider span span {
+  background-color: #3563e9 !important;
+}
+#slider span span > span {
+  background-color: #3563e9 !important;
+}
+.react-time-picker__inputGroup {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #90a3bf;
+  width: 100%;
+  background-color: #f6f7f9;
+  height: 40px;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+.react-time-picker__inputGroup__input {
+  min-width: 40px;
+  background-color: transparent;
+}
+
+html.dark .react-time-picker__inputGroup {
+  background-color: #424b5c;
+}
+@layer pages {
+  .subtitle {
+    @apply text-gray-400 p-semibold pb-5;
   }
 }

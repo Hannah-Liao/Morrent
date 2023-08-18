@@ -1,46 +1,40 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import {
   CarCard,
   PopularCarsMobile,
   HomeHeader,
+  HomeViewAllHeader,
   CarInfoModal,
+  PickDropForm,
+  RentNowModal,
 } from '../components/index';
 import { CarInfo } from '../types/carInfo';
 import { cars } from '../constant';
 
 const Home: React.FC = () => {
   const [showMoreCars, setShowMoreCars] = useState<boolean>(false);
-  const [isCarModalOpen, setIsCarModalOpen] = useState<boolean>(false);
   const [cardModalData, setCardModalData] = useState<null | CarInfo>(null);
+  const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
+    '',
+  );
 
   return (
     <>
-      <section className='py-3 px-[8px] md:px-[24px] pt-[20px] sm:pt-[0.5%]'>
+      <section className='homeContainer'>
         {/* Big Header Cards */}
         <HomeHeader />
 
         {/* Search Bar */}
-        <div className='h-[136px] border-2 border-red my-[36px]'>
-          <p>Search Bar</p>
+        <div className='mt-[32px] mb-[36px]'>
+          <PickDropForm isShow={true} />
         </div>
 
         {/* Popular Cars Section*/}
         <>
           {/* Popular Cars Header */}
-          <div className='flex justify-between leading-[16px] md:leading-[44px]'>
-            <h5 className='body-medium md:p-semibold text-gray-400'>
-              Popular Cars
-            </h5>
-            <NavLink
-              to='/search'
-              className='small-regular md:p-semibold text-blue-500'
-            >
-              View All
-            </NavLink>
-          </div>
+          <HomeViewAllHeader titleText='Popular Cars' />
 
           {/* Popular Cars Grid */}
           <div className='homePopularCarsGrid'>
@@ -53,8 +47,8 @@ const Home: React.FC = () => {
                       <PopularCarsMobile
                         data={car}
                         isHidden={!isVisible}
-                        setIsCarModalOpen={setIsCarModalOpen}
                         setCardModalData={setCardModalData}
+                        setIsCarModalOpen={() => setOpenModalName('car_info')}
                         shouldOpenModal={true}
                       />
                     )}
@@ -62,8 +56,8 @@ const Home: React.FC = () => {
                 ) : (
                   <PopularCarsMobile
                     data={car}
-                    setIsCarModalOpen={setIsCarModalOpen}
                     setCardModalData={setCardModalData}
+                    setIsCarModalOpen={() => setOpenModalName('car_info')}
                     shouldOpenModal={true}
                   />
                 )}
@@ -75,17 +69,7 @@ const Home: React.FC = () => {
         {/* Recommended Cars Section*/}
         <>
           {/* Recommended Cars Header*/}
-          <div className='flex justify-between leading-[16px] md:leading-[44px] mt-[32px]'>
-            <h5 className='body-medium md:p-semibold text-gray-400'>
-              Recommended Cars
-            </h5>
-            <NavLink
-              to='/search'
-              className='small-regular md:p-semibold text-blue-500'
-            >
-              View All
-            </NavLink>
-          </div>
+          <HomeViewAllHeader titleText='Recommended Cars' />
 
           {/* Recommended Cars Grid*/}
           <div className='homeRecommendedGrid'>
@@ -97,8 +81,8 @@ const Home: React.FC = () => {
                     <CarCard
                       key={i}
                       data={car}
-                      setIsCarModalOpen={setIsCarModalOpen}
                       setCardModalData={setCardModalData}
+                      setIsCarModalOpen={() => setOpenModalName('car_info')}
                       shouldOpenModal={true}
                       hideButton={false}
                     />
@@ -109,8 +93,8 @@ const Home: React.FC = () => {
                     <CarCard
                       key={i}
                       data={car}
-                      setIsCarModalOpen={setIsCarModalOpen}
                       setCardModalData={setCardModalData}
+                      setIsCarModalOpen={() => setOpenModalName('car_info')}
                       shouldOpenModal={true}
                       hideButton={false}
                     />
@@ -120,7 +104,6 @@ const Home: React.FC = () => {
 
         {/* Button */}
         <div className='mx-auto text-center py-[64px]'>
-          {' '}
           <button
             className='cardButton px-[50px] min-h-[55px]'
             onClick={() => setShowMoreCars((prevCars) => !prevCars)}
@@ -132,12 +115,16 @@ const Home: React.FC = () => {
 
       {/* Car Info Modal */}
       <CarInfoModal
-        open={isCarModalOpen}
-        setOpen={setIsCarModalOpen}
+        open={openModalName === 'car_info'}
+        setOpen={setOpenModalName}
         data={cardModalData}
       />
 
-      {/* <RentNowForm /> // Will set this up when Hannah's RentNowForm Modal is merged to main*/}
+      {/* Rent Now Modal */}
+      <RentNowModal
+        open={openModalName === 'rent'}
+        setOpen={setOpenModalName}
+      />
     </>
   );
 };

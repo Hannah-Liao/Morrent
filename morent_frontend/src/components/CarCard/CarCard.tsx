@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { carShadow } from '../../assets/images/index';
 import {
@@ -7,24 +7,26 @@ import {
   heartNoFill,
   heartFilled,
   transmission,
-  // edit, set this up next
+  edit,
 } from '../../assets/icons/index';
 import { CarInfo } from '../../types/carInfo';
 
 interface CarCardProps {
   data: CarInfo | null;
-  setIsCarModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setCardModalData: React.Dispatch<React.SetStateAction<CarInfo | null>>;
+  setCardModalData: Dispatch<SetStateAction<CarInfo | null>>;
+  setIsCarModalOpen: Dispatch<SetStateAction<boolean>>;
   shouldOpenModal: boolean;
   hideButton?: boolean;
+  editIcon?: boolean;
 }
 
 const CarCard: React.FC<CarCardProps> = ({
   data,
+  setCardModalData,
   setIsCarModalOpen,
   shouldOpenModal = false,
-  setCardModalData,
   hideButton = false,
+  editIcon = false,
 }) => {
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
 
@@ -38,20 +40,24 @@ const CarCard: React.FC<CarCardProps> = ({
           <h3 className='cardTitle'>{data.title}</h3>
           <h4 className='cardSubtitle'>{data.carType}</h4>
         </div>
-        <img
-          src={isFavorited ? heartFilled : heartNoFill}
-          className='isFavoritedIcon'
-          alt='Red Heart Icon'
-          aria-label='Red Heart Icon'
-          onClick={() => setIsFavorited((prevIsFavorited) => !prevIsFavorited)}
-        />
-        {/* Set up edit icon later */}
-        {/* <img
+        {editIcon ? (
+          <img
             src={edit}
             className='isFavoritedIcon'
             alt='Edit Icon'
             aria-label='Edit Icon'
-          /> */}
+          />
+        ) : (
+          <img
+            src={isFavorited ? heartFilled : heartNoFill}
+            className='isFavoritedIcon'
+            alt='Red Heart Icon'
+            aria-label='Red Heart Icon'
+            onClick={() =>
+              setIsFavorited((prevIsFavorited) => !prevIsFavorited)
+            }
+          />
+        )}
       </header>
 
       {/* Car Image and Stats Section */}

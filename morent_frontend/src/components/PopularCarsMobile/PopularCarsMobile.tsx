@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { carShadow } from '../../assets/images/index';
 import {
@@ -13,17 +13,17 @@ import { CarInfo } from '../../types/carInfo';
 interface CarCardProps {
   data: CarInfo | null;
   isHidden?: boolean;
-  setIsCarModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setCardModalData: React.Dispatch<React.SetStateAction<CarInfo | null>>;
+  setCardModalData: Dispatch<SetStateAction<CarInfo | null>>;
+  setIsCarModalOpen: Dispatch<SetStateAction<boolean>>;
   shouldOpenModal: boolean;
 }
 
 const PopularCarsMobile: React.FC<CarCardProps> = ({
   data,
   isHidden,
+  setCardModalData,
   setIsCarModalOpen,
   shouldOpenModal = false,
-  setCardModalData,
 }) => {
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
 
@@ -115,7 +115,7 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
             }
             title={`${data.price}.00 / day`}
           >
-            ${data.price}.00 /{' '}
+            ${data.price}.00 /
             <span className='small-regular md:body-bold text-gray-400'>
               day
             </span>

@@ -1,5 +1,8 @@
 import carImage from './carImage.png';
 import carShadow from './shadow.png';
+import success from './success.png';
+import fail from './unsuccess.png';
+import cancel from './cancel.png';
 import blueRectangle1 from './blueRectangle1.png';
 import blueRectangle2 from './blueRectangle2.png';
 import blueBackground from './blueBackground.png';
@@ -16,4 +19,7 @@ export {
   car,
   carView2,
   carView3,
+  success,
+  fail,
+  cancel,
 };
