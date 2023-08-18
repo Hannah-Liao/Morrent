@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,7 +29,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '../ui/dialog';
 import { Calendar } from '../ui/calendar';
 import { cn } from '../../lib/utils';
@@ -52,7 +52,12 @@ const formSchema = z.object({
   }),
 });
 
-export default function RentNowMadal() {
+interface RentNowModalProps {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<'' | 'car_info' | 'rent'>>;
+}
+
+const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -60,11 +65,7 @@ export default function RentNowMadal() {
   const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
 
   return (
-    <Dialog>
-      {/* <DialogTrigger asChild>
-        <Button variant='outline'>Edit Profile</Button>
-      </DialogTrigger> */}
-
+    <Dialog open={open} onOpenChange={(open) => setOpen(open ? 'rent' : '')}>
       <DialogContent className='max-w-[500px] shrink-0 rounded-[10px] p-[50px] bg-white dark:bg-gray-850 '>
         <DialogHeader className='flex flex-col gap-2.5 mb-7 sm:mb-10'>
           <DialogTitle className='base-bold text-gray-900 dark:text-white'>
@@ -280,4 +281,6 @@ export default function RentNowMadal() {
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default RentNowModal;

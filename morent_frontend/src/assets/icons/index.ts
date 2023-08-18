@@ -17,6 +17,10 @@ import searchWhite from './search-white.svg';
 import filter from './filter.svg';
 import close from './close.svg';
 import filterDark from './filter-dark.svg';
+import closeIcon from './closeIcon.svg';
+import starFilled from './starFilled.svg';
+import starNoFill from './starNoFill.svg';
+import edit from './edit.svg';
 
 export {
   visa,
@@ -38,4 +42,8 @@ export {
   heartNoFill,
   people,
   transmission,
+  closeIcon,
+  starFilled,
+  starNoFill,
+  edit,
 };
