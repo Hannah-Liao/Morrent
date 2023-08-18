@@ -52,12 +52,12 @@ const formSchema = z.object({
   }),
 });
 
-interface RentNowFormProps {
+interface RentNowModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<'' | 'car_info' | 'rent'>>;
 }
 
-const RentNowForm: React.FC<RentNowFormProps> = ({ open, setOpen }) => {
+const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -66,10 +66,6 @@ const RentNowForm: React.FC<RentNowFormProps> = ({ open, setOpen }) => {
 
   return (
     <Dialog open={open} onOpenChange={(open) => setOpen(open ? 'rent' : '')}>
-      {/* <DialogTrigger asChild>
-        <Button variant='outline'>Edit Profile</Button>
-      </DialogTrigger> */}
-
       <DialogContent className='max-w-[500px] shrink-0 rounded-[10px] p-[50px] bg-white dark:bg-gray-850 '>
         <DialogHeader className='flex flex-col gap-2.5 mb-7 sm:mb-10'>
           <DialogTitle className='base-bold text-gray-900 dark:text-white'>
@@ -287,4 +283,4 @@ const RentNowForm: React.FC<RentNowFormProps> = ({ open, setOpen }) => {
   );
 };
 
-export default RentNowForm;
+export default RentNowModal;

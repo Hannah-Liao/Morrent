@@ -31,7 +31,6 @@ const Home: React.FC = () => {
           <PickDropForm isShow={true} />
         </div>
 
-        {/* Popular Cars Section*/}
         <>
           {/* Popular Cars Header */}
           <HomeViewAllHeader titleText='Popular Cars' />
@@ -66,7 +65,6 @@ const Home: React.FC = () => {
           </div>
         </>
 
-        {/* Recommended Cars Section*/}
         <>
           {/* Recommended Cars Header*/}
           <HomeViewAllHeader titleText='Recommended Cars' />
