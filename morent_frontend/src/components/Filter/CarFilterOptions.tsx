@@ -39,7 +39,7 @@ export default function CarFilterOptions({
                 : handleCapacityChange(item.key);
             }}
           />
-          <p className='text-gray-700 font-semibold inline-flex gap-2 dark:text-white'>
+          <p className='text-gray-700 font-semibold inline-flex gap-2 dark:text-white text-sm'>
             {item.label}
             <span className='text-gray-400'>(10)</span>
           </p>

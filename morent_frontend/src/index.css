@@ -173,11 +173,10 @@
   .btn {
     @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5;
   }
-    .max-container {
-      @apply mx-auto max-w-[1440px];
-    }
+  .max-container {
+    @apply mx-auto max-w-[1440px];
   }
-
+}
 
 @layer components {
   /* Home Page */

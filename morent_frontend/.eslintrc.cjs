@@ -29,5 +29,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     'no-undef': 'off',
+    'react-refresh/only-export-components'
   },
 };
