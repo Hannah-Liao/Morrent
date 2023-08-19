@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { CalendarIcon } from '@radix-ui/react-icons';
+import TimePicker from 'react-time-picker';
 
 import { Button } from '../ui/button';
 import {
@@ -33,23 +33,21 @@ import {
 import { Calendar } from '../ui/calendar';
 import { cn } from '../../lib/utils';
 import { pickupLocation } from '../../constant/index';
+import getCurrentTime from '../../utils/getCurrentTime';
+import { dots, clock, calendar } from '../../assets/icons';
 
 const formSchema = z.object({
   location: z.string({
     required_error: 'Location is required',
   }),
-  startDate: z
+  pickUpDate: z
     .date()
     .min(new Date(), { message: 'Please select a future date' }),
-  endDate: z.date({
-    required_error: 'the date is required',
-  }),
   dropOffDate: z
     .date()
     .min(new Date(), { message: 'Please select a future date' }),
-  dropOfDate: z.date({
-    required_error: 'the date is required',
-  }),
+  pickUpTime: z.string(),
+  dropOffTime: z.string(),
 });
 
 interface RentNowModalProps {
@@ -60,13 +58,19 @@ interface RentNowModalProps {
 const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      pickUpDate: new Date(),
+      pickUpTime: getCurrentTime(),
+      dropOffDate: new Date(),
+      dropOffTime: getCurrentTime(),
+    },
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
 
   return (
     <Dialog open={open} onOpenChange={(open) => setOpen(open ? 'rent' : '')}>
-      <DialogContent className='max-w-[500px] shrink-0 rounded-[10px] p-[50px] bg-white dark:bg-gray-850 '>
+      <DialogContent className='max-w-[500px] shrink-0 rounded-[10px] px-[16px] sm:px-[50px] py-[40px] sm:py-[50px] bg-white dark:bg-gray-850 '>
         <DialogHeader className='flex flex-col gap-2.5 mb-7 sm:mb-10'>
           <DialogTitle className='base-bold text-gray-900 dark:text-white'>
             Add Pickup & Drop-Off Info
@@ -83,7 +87,12 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
               name='location'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white leading-[120%]'>
+                  <FormLabel className='formTitle leading-[120%]'>
+                    <img
+                      src={dots}
+                      alt='icon'
+                      className='modalIcon bg-[#3563e94d] p-1 rounded-full '
+                    />
                     Pickup Location
                   </FormLabel>
                   <FormControl>
@@ -91,7 +100,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className='w-full h-[46px] sm:h-[56px] bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200'>
+                      <SelectTrigger className='min-h-[46px] sm:min-h-[56px] inputArea'>
                         <SelectValue placeholder='Location Address' />
                       </SelectTrigger>
                       <SelectContent className='bg-white-200 dark:bg-gray-800 capitalize'>
@@ -110,14 +119,14 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
               )}
             />
 
-            <div className='flex flex-col sm:flex-row gap-6 sm:gap-2.5 '>
+            <div className='gridCol2'>
               <FormField
                 control={form.control}
-                name='startDate'
+                name='pickUpDate'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
+                    <FormLabel className='formTitle'>
+                      <img src={calendar} alt='icon' className='modalIcon' />
                       Pick-Up Date
                     </FormLabel>
                     <Popover>
@@ -125,7 +134,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
+                            'inputArea min-h-[56px] justify-start text-left ',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
@@ -149,55 +158,37 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
                   </FormItem>
                 )}
               />
-              {/* <DateFormField form={...form} /> */}
+
               <FormField
                 control={form.control}
-                name='endDate'
+                name='pickUpTime'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
-                      Availability To
+                    <FormLabel className='formTitle'>
+                      <img src={clock} alt='icon' className='modalIcon' />
+                      Pick-Up Time
                     </FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={'outline'}
-                          className={cn(
-                            'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
-                            !field.value && 'text-muted-foreground',
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, 'LLL dd, y')
-                          ) : (
-                            <span>Select your date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0'>
-                        <Calendar
-                          mode='single'
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <TimePicker
+                      disableClock
+                      clearIcon
+                      onChange={field.onChange}
+                      value={field.value}
+                      id='modalpickUpTime'
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
 
-            <div className='flex flex-col sm:flex-row gap-6 sm:gap-2.5 '>
+            <div className='gridCol2'>
               <FormField
                 control={form.control}
                 name='dropOffDate'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
+                    <FormLabel className='formTitle'>
+                      <img src={calendar} alt='icon' className='modalIcon' />
                       Drop-Off Date
                     </FormLabel>
                     <Popover>
@@ -205,7 +196,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
+                            'inputArea min-h-[56px] justify-start text-left',
                             !field.value && 'text-muted-foreground',
                           )}
                         >
@@ -232,38 +223,20 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
 
               <FormField
                 control={form.control}
-                name='endDate'
+                name='dropOffTime'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel className='body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white flex'>
-                      <CalendarIcon className='mr-2 h-4 w-4 text-blue-500 ' />
-                      Availability To
+                    <FormLabel className='formTitle'>
+                      <img src={clock} alt='icon' className='modalIcon' />
+                      Drop-Off Time
                     </FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant={'outline'}
-                          className={cn(
-                            'w-full sm:w-[195px] h-[56px] justify-start text-left bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200',
-                            !field.value && 'text-muted-foreground',
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, 'LLL dd, y')
-                          ) : (
-                            <span>Select your date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0'>
-                        <Calendar
-                          mode='single'
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <TimePicker
+                      disableClock
+                      clearIcon
+                      id='modaldropOffTime'
+                      onChange={field.onChange}
+                      value={field.value}
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -272,7 +245,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
 
             <Button
               type='submit'
-              className='bg-blue-500 rounded-[10px] w-full h-[56px] p-bold text-white mb-[18px]'
+              className='btn rounded-[10px] w-full h-[56px] p-bold  mb-[18px]'
             >
               Rent Now
             </Button>
