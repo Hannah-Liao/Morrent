@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 
-export function DropdownMenuDemo() {
+export function ModeDropdown() {
   const [mode, setMode] = useState('light');
 
   useEffect(() => {

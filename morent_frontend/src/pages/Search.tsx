@@ -1,11 +1,15 @@
 import { useState } from 'react';
+
 import { Filter, PickDropForm } from '../components';
 import CarCard from '../components/CarCard/CarCard';
 import SearchInput from '../components/SearchInput/SearchInput';
-import car from '../assets/images/anotherCar.png';
+import { cars } from '../constant';
+import { CarInfo } from '../types/carInfo';
 
 export default function Search() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [, setCarModalData] = useState<CarInfo | null>(null);
+  const [, setCarModalOpen] = useState<boolean>(false);
 
   return (
     <div className='flex min-h-screen flex-col md:flex-row gap-5 p-2 md:p-0 w-full'>
@@ -22,18 +26,15 @@ export default function Search() {
         </div>
         <PickDropForm isShow={false} />
         <section className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 1xl:grid-cols-2 xl:grid-cols-3   gap-8 justify-center pt-9'>
-          {[1, 2, 3, 4, 5, 6, 7].map((card) => (
-            <div key={card} className=' w-full sm:max-w-xs md:max-w-full'>
+          {cars.map((car) => (
+            <div key={car.price} className=' w-full sm:max-w-xs md:max-w-full'>
               <CarCard
-                buttonText='More Info'
-                carImage={car}
-                carType='Sport '
-                discountPrice={50}
-                fuelTankSize={100}
-                numberOfPeople={2}
-                price={100}
-                title='Koenigsegg'
-                transmissionType='manual'
+                data={car}
+                shouldOpenModal={true}
+                hideButton={false}
+                editIcon={false}
+                setCardModalData={setCarModalData}
+                setIsCarModalOpen={setCarModalOpen}
               />
             </div>
           ))}

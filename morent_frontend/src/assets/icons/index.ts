@@ -8,6 +8,7 @@ import people from './people.svg';
 import heartNoFill from './heartNoFill.svg';
 import heartFilled from './heartFilled.svg';
 import transmission from './transmissionBg.png';
+import uploadIcon from './uploadIcon.svg';
 import dots from './dots.svg';
 import calendar from './calendar.svg';
 import clock from './clock.svg';
@@ -16,12 +17,17 @@ import searchWhite from './search-white.svg';
 import filter from './filter.svg';
 import close from './close.svg';
 import filterDark from './filter-dark.svg';
+import closeIcon from './closeIcon.svg';
+import starFilled from './starFilled.svg';
+import starNoFill from './starNoFill.svg';
+import edit from './edit.svg';
 
 export {
   visa,
   amex,
   frame,
   discover,
+  uploadIcon,
   mastercard,
   dots,
   calendar,
@@ -36,4 +42,8 @@ export {
   heartNoFill,
   people,
   transmission,
+  closeIcon,
+  starFilled,
+  starNoFill,
+  edit,
 };

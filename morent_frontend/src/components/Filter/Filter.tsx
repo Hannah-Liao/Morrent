@@ -36,7 +36,7 @@ export default function Filter({ setIsOpen }: Props) {
       >
         <img src={close} alt='close icon' />
       </Button>
-      <h2 className='text-2xl pt-3 font-semibold text-gray-850 dark:text-gray-100'>
+      <h2 className='text-2xl pt-3 font-semibold text-gray-850 md:hidden dark:text-gray-100'>
         Filter
       </h2>
 

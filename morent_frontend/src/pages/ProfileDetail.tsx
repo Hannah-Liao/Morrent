@@ -18,7 +18,7 @@ const ProfileDetail = () => {
             </a>
           </div>
 
-          <div className='relative py-[38px]'>
+          <div className='relative pt-[31px] pb-[38px]'>
             <img
               src={profileImg}
               alt='profileImg'
@@ -27,7 +27,7 @@ const ProfileDetail = () => {
 
             <div className='ml-3.5 sm:ml-[152px] mt-[10px] sm:mt-0 '>
               <p className='base-bold text-gray-900 dark:text-white'>
-                Jane Daniel
+                Aane Daniel
               </p>
               <p className='body-regular text-opacity-50 text-gray-900 dark:text-blue-100'>
                 Agent
@@ -36,7 +36,7 @@ const ProfileDetail = () => {
 
             <a
               href=''
-              className='btn absolute right-[20px] bottom-[10px] sm:top-[38px] rounded-[10px] small-bold sm:body-bold min-h-[36px] sm:h-[46px]'
+              className='btn absolute right-[20px] bottom-[10px] sm:top-[31px] rounded-[10px] small-bold sm:body-bold min-h-[36px] sm:h-[46px]'
             >
               Edit Profile
             </a>
@@ -55,7 +55,7 @@ const ProfileDetail = () => {
       </section>
 
       <a
-        href=''
+        href='/add-car'
         className='btn rounded sm:rounded-[10px] min-h-[37px] sm:min-h-[56px] w-fit small-semibold sm:p-bold mx-auto my-12'
       >
         Add More Cars for Rent

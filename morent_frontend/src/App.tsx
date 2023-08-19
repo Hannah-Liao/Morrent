@@ -9,6 +9,7 @@ import {
   Search,
   Success,
   ProfileDetail,
+  AddCar,
 } from './pages';
 import { NavBar, Footer } from './components';
 function App() {
@@ -16,10 +17,11 @@ function App() {
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2%]'>
+        <div className='w-full max-container p-[2.5%]'>
           <Routes>
             <Route index path='/' element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />
+            <Route path='add-car' element={<AddCar />} />
             <Route path='/search' element={<Search />} />
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />
