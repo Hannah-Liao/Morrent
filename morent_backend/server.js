@@ -3,22 +3,26 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import connectToDatabase from './src/configs/db.js';
+import userRouter from './src/routes/user.js';
 
-// Connect to Express
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
-// SCHEMA
+app.use('/api/user', userRouter);
 
-// Routes
-app.get('/message', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Hello from the server!' });
 });
+
+// app.get('/protected', authorization(secret), (req, res) => {
+//   return res.json({ user: { id: req.userId, role: req.userRole } });
+// });
 
 // connect db
 connectToDatabase()
