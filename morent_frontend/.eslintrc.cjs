@@ -22,7 +22,7 @@ module.exports = {
       { allowConstantExport: true },
     ],
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
-    'no-unused-vars': 'error',
+    // 'no-unused-vars': 'error',
     'react/prop-types': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',

@@ -9,6 +9,7 @@ import {
 } from '../ui/select';
 
 type LocationProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onChange: (...event: any[]) => void;
   placeholder: string;
 };
@@ -19,6 +20,7 @@ export default function LocationSelect({
 }: LocationProps) {
   const [cities, setCities] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchUserCountry = async () => {
     try {
@@ -30,7 +32,7 @@ export default function LocationSelect({
 
       await fetchCitiesInCountry(locationData?.country_name);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      setError('Something went wrong when fetching country data');
     } finally {
       setLoading(false);
     }
@@ -58,13 +60,15 @@ export default function LocationSelect({
         setCities(result.data.splice(0, 40));
       }
     } catch (error) {
-      console.log('Error:', error);
+      setError('Something went wrong when fetching cities');
     }
   };
 
   useEffect(() => {
     fetchUserCountry();
   }, []);
+
+  if (error) return <p>{error}</p>;
 
   return (
     <Select onValueChange={onChange}>
