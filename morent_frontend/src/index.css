@@ -171,7 +171,7 @@
   }
 
   .btn {
-    @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5;
+    @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5 !important;
   }
   .max-container {
     @apply mx-auto max-w-[1440px];
@@ -255,15 +255,15 @@
 
   /* rent now modal */
   .gridCol2 {
-    @apply grid grid-cols-2 gap-2.5;
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-2.5;
   }
 
   .formTitle {
-    @apply flex body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white;
+    @apply flex body-semibold sm:p-semibold mb-2.5 sm:mb-4 text-gray-900 dark:text-white !important;
   }
 
   .inputArea {
-    @apply border-none bg-white-200 dark:bg-gray-800 body-regular text-gray-400 dark:text-white-200;
+    @apply border-none  body-regular text-gray-400 dark:text-white-200 bg-white-200 dark:bg-gray-800 !important;
   }
 
   .modalIcon {

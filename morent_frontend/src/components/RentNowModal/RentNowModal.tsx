@@ -245,7 +245,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
 
             <Button
               type='submit'
-              className='bg-blue-500 rounded-[10px] w-full h-[56px] p-bold text-white mb-[18px]'
+              className='btn rounded-[10px] w-full h-[56px] p-bold  mb-[18px]'
             >
               Rent Now
             </Button>
