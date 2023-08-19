@@ -11,7 +11,6 @@ import {
   ProfileDetail,
 } from './pages';
 import { NavBar, Footer } from './components';
-
 function App() {
   return (
     <main>

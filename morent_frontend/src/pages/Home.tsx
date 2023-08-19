@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import { CarCard, PopularCarsMobile, HomeHeader } from '../components/index';
+import {
+  CarCard,
+  PopularCarsMobile,
+  HomeHeader,
+  PickDropForm,
+} from '../components/index';
 import { cars } from '../constant/index';
 
 const Home: React.FC = () => {
@@ -14,8 +19,8 @@ const Home: React.FC = () => {
       <HomeHeader />
 
       {/* Search Bar */}
-      <div className='h-[136px] border-2 border-red my-[36px]'>
-        <p>Search Bar</p>
+      <div className=' py-5'>
+        <PickDropForm isShow={true} />
       </div>
 
       {/* Popular Cars */}

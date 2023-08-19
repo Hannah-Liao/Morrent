@@ -8,7 +8,7 @@ module.exports = {
     'prettier',
     'plugin:react/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', './src/components/ui/*'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   settings: {
@@ -22,13 +22,12 @@ module.exports = {
       { allowConstantExport: true },
     ],
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'warning',
     'react/prop-types': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     'no-undef': 'off',
-    'react-refresh/only-export-components'
   },
 };

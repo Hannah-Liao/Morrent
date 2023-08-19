@@ -5,7 +5,6 @@ import {
   mastercard,
   visa,
   dots,
-  clock,
   calendar,
 } from '../assets/icons';
 import { success, fail, cancel } from '../assets/images';
@@ -244,7 +243,7 @@ export const formData = [
     label: 'Location',
     dataSelects: ['Gianyar', 'Ubud', 'Badung', 'Singaraja'],
     key: 'location',
-    placeholder: 'Select your city',
+    placeholder: 'Location - Select your city',
     errorMessage: 'Please select a city',
   },
   {
@@ -255,25 +254,11 @@ export const formData = [
     errorMessage: 'Please select a pick-up date',
   },
   {
-    icon: clock,
-    label: 'Availability Time from',
-    key: 'availabilityTimeFrom',
-    placeholder: 'Select your time',
-    errorMessage: 'Please select a pick-up time',
-  },
-  {
     icon: calendar,
     label: 'Availability To',
     key: 'availabilityTo',
     placeholder: 'Select your date',
     errorMessage: 'Please select drop-off date',
-  },
-  {
-    icon: clock,
-    label: 'Availability Time to',
-    key: 'availabilityTimeTo',
-    placeholder: 'Select your time',
-    errorMessage: 'Please select drop-off time',
   },
 ];
 

@@ -234,7 +234,7 @@
   }
 
   .cardIconItem {
-    @apply flex justify-start lg:justify-between items-center;
+    @apply flex justify-start lg:justify-between truncate items-center;
   }
 
   .cardIcon {
@@ -259,6 +259,15 @@
 #slider span span > span {
   background-color: #3563e9 !important;
 }
+.react-time-picker .react-time-picker_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px !important;
+  margin-bottom: 0 !important;
+  min-width: 300px !important;
+  height: 100%;
+}
 .react-time-picker__inputGroup {
   display: flex;
   justify-content: flex-start;
@@ -266,9 +275,10 @@
   color: #90a3bf;
   width: 100%;
   background-color: #f6f7f9;
-  height: 40px;
-  padding: 5px;
+  min-height: 40px;
+  height: 100%;
   font-size: 12px;
+  padding: 0 5px;
   border-radius: 5px;
 }
 .react-time-picker__inputGroup__input {

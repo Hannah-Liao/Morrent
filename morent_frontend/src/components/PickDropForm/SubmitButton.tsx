@@ -3,7 +3,11 @@ import { searchWhite } from '../../assets/icons';
 
 export default function SubmitButton({ isShow }: { isShow: boolean }) {
   return (
-    <div className={`${!isShow ? 'w-full lg:w-[40px]' : 'w-full lg:w-auto'}`}>
+    <div
+      className={`pt-[27px] ${
+        !isShow ? 'w-full lg:w-[40px]' : 'w-full lg:w-auto'
+      }`}
+    >
       <Button
         type='submit'
         className={`bg-blue-500 mt-1  hover:bg-blue-700 w-full flex items-center gap-2 ${

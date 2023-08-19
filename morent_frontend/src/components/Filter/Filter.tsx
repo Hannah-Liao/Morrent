@@ -20,6 +20,7 @@ export default function Filter({ setIsOpen }: Props) {
   const [selectedPrice, setSelectedPrice] = useState([100]);
 
   const handleSubmit = () => {
+    setIsOpen(false);
     console.log({ capacity, type, selectedPrice });
   };
 
