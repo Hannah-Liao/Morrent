@@ -1,89 +1,129 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import { CarCard, PopularCarsMobile, HomeHeader } from '../components/index';
-import { cars } from '../constant/index';
+import {
+  CarCard,
+  PopularCarsMobile,
+  HomeHeader,
+  HomeViewAllHeader,
+  CarInfoModal,
+  PickDropForm,
+  RentNowModal,
+} from '../components/index';
+import { CarInfo } from '../types/carInfo';
+import { cars } from '../constant';
 
 const Home: React.FC = () => {
-  const [showMoreCars, setShowMoreCars] = useState(false);
+  const [showMoreCars, setShowMoreCars] = useState<boolean>(false);
+  const [cardModalData, setCardModalData] = useState<null | CarInfo>(null);
+  const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
+    '',
+  );
 
   return (
-    <section className='py-3 px-[8px] md:px-[24px] pt-[20px] sm:pt-[0.5%]'>
-      {/* Big Cards */}
-      <HomeHeader />
+    <>
+      <section className='homeContainer'>
+        {/* Big Header Cards */}
+        <HomeHeader />
 
-      {/* Search Bar */}
-      <div className='h-[136px] border-2 border-red my-[36px]'>
-        <p>Search Bar</p>
-      </div>
+        {/* Search Bar */}
+        <div className='mt-[32px] mb-[36px]'>
+          <PickDropForm isShow={true} />
+        </div>
 
-      {/* Popular Cars */}
-      <>
-        <div className='flex justify-between leading-[16px] md:leading-[44px]'>
-          <h5 className='body-medium md:p-semibold text-gray-400'>
-            Popular Cars
-          </h5>
-          <NavLink
-            to='/search'
-            className='small-regular md:p-semibold text-blue-500'
+        <>
+          {/* Popular Cars Header */}
+          <HomeViewAllHeader titleText='Popular Cars' />
+
+          {/* Popular Cars Grid */}
+          <div className='homePopularCarsGrid'>
+            {cars.slice(0, 4).map((car, i) => (
+              <div key={i}>
+                {/* Blur cards that are not fully in the viewport on mobile */}
+                {window.innerWidth < 500 ? (
+                  <VisibilitySensor>
+                    {({ isVisible }: { isVisible: boolean }) => (
+                      <PopularCarsMobile
+                        data={car}
+                        isHidden={!isVisible}
+                        setCardModalData={setCardModalData}
+                        setIsCarModalOpen={() => setOpenModalName('car_info')}
+                        shouldOpenModal={true}
+                      />
+                    )}
+                  </VisibilitySensor>
+                ) : (
+                  <PopularCarsMobile
+                    data={car}
+                    setCardModalData={setCardModalData}
+                    setIsCarModalOpen={() => setOpenModalName('car_info')}
+                    shouldOpenModal={true}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+
+        <>
+          {/* Recommended Cars Header*/}
+          <HomeViewAllHeader titleText='Recommended Cars' />
+
+          {/* Recommended Cars Grid*/}
+          <div className='homeRecommendedGrid'>
+            {/* Show more cars on button click*/}
+            {showMoreCars
+              ? cars
+                  .slice(0, 16)
+                  .map((car, i) => (
+                    <CarCard
+                      key={i}
+                      data={car}
+                      setCardModalData={setCardModalData}
+                      setIsCarModalOpen={() => setOpenModalName('car_info')}
+                      shouldOpenModal={true}
+                      hideButton={false}
+                    />
+                  ))
+              : cars
+                  .slice(0, 8)
+                  .map((car, i) => (
+                    <CarCard
+                      key={i}
+                      data={car}
+                      setCardModalData={setCardModalData}
+                      setIsCarModalOpen={() => setOpenModalName('car_info')}
+                      shouldOpenModal={true}
+                      hideButton={false}
+                    />
+                  ))}
+          </div>
+        </>
+
+        {/* Button */}
+        <div className='mx-auto text-center py-[64px]'>
+          <button
+            className='cardButton px-[50px] min-h-[55px]'
+            onClick={() => setShowMoreCars((prevCars) => !prevCars)}
           >
-            View All
-          </NavLink>
+            {showMoreCars ? 'Hide cars' : 'Show more cars'}
+          </button>
         </div>
-        <div className='homePopularCarsGrid'>
-          {cars.slice(0, 4).map((car) => (
-            <div key={car.title}>
-              {/* Blur overflowing cards on mobile */}
-              {window.innerWidth < 500 ? (
-                <VisibilitySensor>
-                  {({ isVisible }: { isVisible: boolean }) => (
-                    <PopularCarsMobile {...car} isHidden={!isVisible} />
-                  )}
-                </VisibilitySensor>
-              ) : (
-                <PopularCarsMobile {...car} />
-              )}
-            </div>
-          ))}
-        </div>
-      </>
+      </section>
 
-      {/* Recommended Cars */}
-      <>
-        <div className='flex justify-between leading-[16px] md:leading-[44px] mt-[32px]'>
-          <h5 className='body-medium md:p-semibold text-gray-400'>
-            Recommended Cars
-          </h5>
-          <NavLink
-            to='/search'
-            className='small-regular md:p-semibold text-blue-500'
-          >
-            View All
-          </NavLink>
-        </div>
-        <div className='homeRecommendedGrid'>
-          {showMoreCars
-            ? cars
-                .slice(0, 16)
-                .map((car) => <CarCard key={car.title} {...car} />)
-            : cars
-                .slice(0, 8)
-                .map((car) => <CarCard key={car.title} {...car} />)}
-        </div>
-      </>
+      {/* Car Info Modal */}
+      <CarInfoModal
+        open={openModalName === 'car_info'}
+        setOpen={setOpenModalName}
+        data={cardModalData}
+      />
 
-      {/* Button */}
-      <div className='mx-auto text-center py-[64px]'>
-        {' '}
-        <button
-          className='cardButton px-[50px] h-[55px]'
-          onClick={() => setShowMoreCars((prevCars) => !prevCars)}
-        >
-          {showMoreCars ? 'Hide cars' : 'Show more cars'}
-        </button>
-      </div>
-    </section>
+      {/* Rent Now Modal */}
+      <RentNowModal
+        open={openModalName === 'rent'}
+        setOpen={setOpenModalName}
+      />
+    </>
   );
 };
 
