@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
+import checkout from './src/routes/checkout.js';
 
 import connectToDatabase from './src/configs/db.js';
 
@@ -10,7 +11,11 @@ import connectToDatabase from './src/configs/db.js';
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+  })
+);
 app.use(express.json());
 
 // SCHEMA
@@ -20,7 +25,12 @@ app.get('/message', (req, res) => {
   res.json({ message: 'Hello from the server!' });
 });
 
+// stripe
+
+app.use('/', checkout);
+
 // connect db
+
 connectToDatabase()
   .then(() => {
     app.listen(8004, () => console.log('Server is running on port 8004'));

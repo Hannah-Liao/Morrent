@@ -5,6 +5,9 @@ import {
   visa,
   dots,
   calendar,
+  navSearch,
+  plus,
+  home,
 } from '../assets/icons';
 import { success, fail, cancel } from '../assets/images';
 
@@ -438,3 +441,16 @@ export const statusData = {
     backButtonLabel: 'Go Back',
   },
 };
+export const navlinks = [
+  { label: 'Home', icon: home, path: '' },
+  {
+    label: 'Search',
+    icon: navSearch,
+    path: 'search',
+  },
+  {
+    label: 'Add Car',
+    icon: plus,
+    path: 'add-car',
+  },
+];
