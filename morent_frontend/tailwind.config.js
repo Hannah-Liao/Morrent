@@ -34,6 +34,7 @@ module.exports = {
           750: '#1E2430',
           800: '#424b5c',
           850: '#293346',
+          870: '#1A202C',
           900: '#1a202c',
         },
         blue: {
@@ -42,6 +43,7 @@ module.exports = {
           300: '#5caffc',
           500: '#3563e9',
         },
+
         red: '#ed3f3f',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -77,11 +79,13 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
+
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+
       keyframes: {
         'accordion-down': {
           from: { height: 0 },

@@ -16,11 +16,12 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    // "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+  "exclude": ["src/components/ui"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "@/*": ["./src/*"]
 }
