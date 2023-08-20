@@ -28,8 +28,12 @@ export default function LocationSelect({
 
       const response2 = await fetch(`https://ipapi.co/${ip}/json/`);
       const locationData = await response2.json();
+      console.log(locationData);
 
-      await fetchCitiesInCountry(locationData?.country_name);
+      await fetchCitiesInCountry(
+        locationData?.country_name,
+        locationData?.region,
+      );
     } catch (error) {
       setError('Something went wrong when fetching country data');
     } finally {
@@ -37,12 +41,13 @@ export default function LocationSelect({
     }
   };
 
-  const fetchCitiesInCountry = async (country: string) => {
+  const fetchCitiesInCountry = async (country: string, state: string) => {
     try {
       const requestOptions = {
         method: 'POST',
         body: JSON.stringify({
           country,
+          state,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -50,13 +55,13 @@ export default function LocationSelect({
         redirect: 'follow',
       };
       const response = await fetch(
-        'https://countriesnow.space/api/v0.1/countries/cities',
+        'https://countriesnow.space/api/v0.1/countries/state/cities',
         requestOptions as RequestInit,
       );
       const result = await response.json();
 
       if (!result.error) {
-        setCities(result.data.splice(0, 40));
+        setCities(result.data);
       }
     } catch (error) {
       setError('Something went wrong when fetching cities');
@@ -76,11 +81,15 @@ export default function LocationSelect({
       </SelectTrigger>
 
       <SelectContent className='max-h-52 overflow-y-auto'>
-        {cities?.map((val) => (
-          <SelectItem key={val} value={val} title={val}>
-            {val}
-          </SelectItem>
-        ))}
+        {cities.length > 0 ? (
+          cities?.map((val) => (
+            <SelectItem key={val} value={val} title={val}>
+              {val}
+            </SelectItem>
+          ))
+        ) : (
+          <SelectItem value={'Loading...'}>Loading...</SelectItem>
+        )}
       </SelectContent>
     </Select>
   );
