@@ -12,13 +12,12 @@ import {
   AddCar,
 } from './pages';
 import { NavBar, Footer } from './components';
-
 function App() {
   return (
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2.5%]'>
+        <div className='w-full max-container p-[2.5%] pt-[124px] md:pt-[132px]'>
           <Routes>
             <Route index path='/' element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />

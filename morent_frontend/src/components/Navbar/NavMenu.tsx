@@ -1,27 +1,34 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-type props = {
+import { navlinks } from '../../constant';
+
+type Props = {
   isHidden?: string;
+  isMobile?: boolean;
 };
 
-const NavMenu: FC<props> = ({ isHidden }) => {
+const NavMenu: FC<Props> = ({ isHidden, isMobile }) => {
   return (
     <nav className={isHidden}>
-      <ul className='flex flex-col md:flex-row md:justify-center mt-[30%] md:mt-0 items-center gap-10 md:gap-[1.875rem] text-justify p-medium text-gray-700 dark:text-white leading-[150%] tracking-[-0.02rem]'>
-        <li>
-          <NavLink to='/'>Home</NavLink>
-        </li>
-        <li>
-          <NavLink to='/search'>Search</NavLink>
-        </li>
-        <li>
-          <NavLink to='/add-car'>Add Car</NavLink>
-        </li>
+      <ul
+        className={`flex flex-col md:flex-row justify-center mt-8 md:mt-0 md:items-center gap-1 md:gap-[1.875rem] text-justify p-medium text-gray-700 dark:text-white leading-[150%] tracking-[-0.02rem]`}
+      >
+        {navlinks.map(({ label, icon, path }) => (
+          <li key={label}>
+            <NavLink to={path} className='flex gap-1.5 p-3 md:p-0'>
+              {isMobile && (
+                <img
+                  src={icon}
+                  alt='nav links icons'
+                  className='dark:invert dark:brightness-0'
+                />
+              )}
 
-        <li className='btn p-5 min-w-[110px] h-11 p-semibold rounded'>
-          <NavLink to='/login'>Login</NavLink>
-        </li>
+              {label}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );

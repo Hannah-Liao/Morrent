@@ -167,18 +167,31 @@
   }
 
   .active {
-    @apply text-blue-500 dark:text-blue-300;
+    @apply text-white md:text-blue-500 md:dark:text-blue-300 max-md:bg-blue-500 rounded md:rounded-none;
   }
 
-  .btn {
-    @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5 !important;
+  .active img {
+    @apply invert brightness-0;
   }
+
   .max-container {
     @apply mx-auto max-w-[1440px];
   }
 }
 
 @layer components {
+  /* buttons */
+  .btn {
+    @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5 !important;
+  }
+
+  .deleteBtn {
+    @apply flex-center  bg-red text-white  body-semibold !important;
+  }
+
+  .mobileLoginBtn {
+    @apply leading-[150%] tracking-[-0.28px] flex-center w-full min-h-[49px] border border-blue-50 dark:border-none bg-white dark:bg-gray-700 text-blue-500 dark:text-blue-300 body-semibold px-9 !important;
+  }
   /* Home Page */
 
   .homeContainer {
@@ -238,7 +251,7 @@
   }
 
   .cardIconItem {
-    @apply flex justify-start lg:justify-between items-center;
+    @apply flex justify-start lg:justify-between truncate items-center;
   }
 
   .cardIcon {
@@ -255,7 +268,7 @@
 
   /* rent now modal */
   .gridCol2 {
-    @apply grid grid-cols-1 sm:grid-cols-2 gap-2.5;
+    @apply grid grid-cols-2 gap-2.5;
   }
 
   .formTitle {
@@ -330,6 +343,15 @@
 #slider span span > span {
   background-color: #3563e9 !important;
 }
+.react-time-picker .react-time-picker_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px !important;
+  margin-bottom: 0 !important;
+  min-width: 300px !important;
+  height: 100%;
+}
 .react-time-picker__inputGroup {
   display: flex;
   justify-content: flex-start;
@@ -337,9 +359,10 @@
   color: #90a3bf;
   width: 100%;
   background-color: #f6f7f9;
-  height: 40px;
-  padding: 5px;
+  min-height: 40px;
+  height: 100%;
   font-size: 12px;
+  padding: 0 5px;
   border-radius: 5px;
 }
 
