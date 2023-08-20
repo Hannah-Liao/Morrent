@@ -20,10 +20,6 @@ app.get('/', (req, res) => {
   res.json({ message: 'Hello from the server!' });
 });
 
-// app.get('/protected', authorization(secret), (req, res) => {
-//   return res.json({ user: { id: req.userId, role: req.userRole } });
-// });
-
 // connect db
 connectToDatabase()
   .then(() => {
