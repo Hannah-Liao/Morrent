@@ -6,7 +6,7 @@ export const createCar = async (req, res) => {
 
   try {
     const savedCar = await newCar.save();
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: 'Successfully created',
       data: savedCar,
