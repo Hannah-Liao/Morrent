@@ -1,24 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-type intialStateType = {
-  value: string;
+export type intialStateType = {
+  value: {
+    type: string;
+    capacity: string;
+  };
 };
 
 const initialState: intialStateType = {
-  value: 'sport',
+  value: {
+    type: 'sport',
+    capacity: '2',
+  },
 };
 
-const carTypeSlices = createSlice({
-  name: 'carType',
+const carFilter = createSlice({
+  name: 'carFilter',
   initialState,
   reducers: {
     selectCarType: (state, action: PayloadAction<string>) => {
-      state.value = action.payload;
+      state.value.type = action.payload;
+    },
+    setCapacity: (state, action: PayloadAction<string>) => {
+      state.value.capacity = action.payload;
     },
   },
 });
 
-export const { selectCarType } = carTypeSlices.actions;
+export const { selectCarType, setCapacity } = carFilter.actions;
 
-export default carTypeSlices.reducer;
+export default carFilter.reducer;

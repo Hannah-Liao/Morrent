@@ -39,7 +39,7 @@ export default function SearchInput({ setIsOpen }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='w-full bg-white dark:bg-gray-900 flex items-end gap-2 mb-5 md:mb-0 '
+        className=' bg-white dark:bg-gray-900 md:p-0 flex items-end p-5 dark:p-0 gap-2 mb-5 md:mb-0 '
       >
         <FormField
           control={form.control}
