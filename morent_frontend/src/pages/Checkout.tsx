@@ -50,7 +50,7 @@ export default function Checkout() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      const SERVER_URL = process.env.VITE_SERVER_URL;
+      const SERVER_URL = import.meta.env.VITE_SERVER_URL;
       const res = await fetch(`${SERVER_URL}/checkout`, {
         method: 'POST',
         headers: {
