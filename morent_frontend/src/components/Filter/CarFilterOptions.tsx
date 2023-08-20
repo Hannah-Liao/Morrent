@@ -2,17 +2,8 @@ import { useDispatch } from 'react-redux';
 
 import { Checkbox } from '../ui/checkbox';
 import { selectCarType, setCapacity } from '../../slice/carFilterSlice';
+import { CarFilterOptionsProps } from '../../types/carInfo';
 
-type CarData = {
-  label: string;
-  key: string;
-};
-
-type CarFilterOptionsProps = {
-  title: string;
-  options: CarData[];
-  value: string;
-};
 export default function CarFilterOptions({
   title,
   options,

@@ -9,8 +9,7 @@ import {
 } from '../ui/select';
 
 type LocationProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onChange: (...event: any[]) => void;
+  onChange: (...event: string[]) => void;
   placeholder: string;
 };
 

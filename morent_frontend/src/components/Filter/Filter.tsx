@@ -21,7 +21,6 @@ export default function Filter({ setIsOpen }: Props) {
 
   const handleSubmit = () => {
     setIsOpen(false);
-    console.log({ capacity, type, selectedPrice });
   };
 
   return (
