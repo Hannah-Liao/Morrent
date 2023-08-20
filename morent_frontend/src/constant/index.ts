@@ -417,7 +417,6 @@ export const carTypes = [
     key: 'hatchback',
   },
 ];
-
 export const pickupLocation = [
   'london',
   'bristol',
