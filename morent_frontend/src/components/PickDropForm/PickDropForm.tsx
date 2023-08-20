@@ -116,7 +116,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                     <>
                       <TimePicker
                         disableClock
-                        clearIcon
+                        clearIcon={false}
                         onChange={field.onChange}
                         value={field.value}
                       />
