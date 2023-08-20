@@ -6,6 +6,9 @@ import {
   dots,
   clock,
   calendar,
+  navSearch,
+  plus,
+  home,
 } from '../assets/icons';
 
 import {
@@ -424,4 +427,18 @@ export const pickupLocation = [
   'york',
   'birminham',
   'bath',
+];
+
+export const navlinks = [
+  { label: 'Home', icon: home, path: '' },
+  {
+    label: 'Search',
+    icon: navSearch,
+    path: 'search',
+  },
+  {
+    label: 'Add Car',
+    icon: plus,
+    path: 'add-car',
+  },
 ];

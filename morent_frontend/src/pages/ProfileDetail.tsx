@@ -21,13 +21,13 @@ const ProfileDetail = () => {
           <div className='relative pt-[31px] pb-[38px]'>
             <img
               src={profileImg}
-              alt='profileImg'
+              alt='user profile photo'
               className='w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] absolute left-[13px] sm:left-[31px] top-[-30px] sm:top-[-50px] rounded-[70px]'
             />
 
             <div className='ml-3.5 sm:ml-[152px] mt-[10px] sm:mt-0 '>
               <p className='base-bold text-gray-900 dark:text-white'>
-                Aane Daniel
+                Jane Daniel
               </p>
               <p className='body-regular text-opacity-50 text-gray-900 dark:text-blue-100'>
                 Agent
@@ -51,7 +51,7 @@ const ProfileDetail = () => {
 
       <section className='pt-10'>
         <h1 className='subtitle'>My Cars for Rent</h1>
-        <CarsDispalySection />
+        <CarsDispalySection hideButton={true} editIcon={true} />
       </section>
 
       <a
