@@ -9,7 +9,7 @@ const ProfileDetail = () => {
           My Profile
         </h1>
         <div className='rounded-[10px] bg-white dark:bg-gray-850'>
-          <div className='relative bg-[url("../src/assets/images/carImage.png")] bg-center bg-no-repeat bg-cover min-h-[182px]'>
+          <div className='relative bg-[url("../src/assets/images/cover.png")] bg-center bg-no-repeat bg-cover min-h-[182px] rounded-tl-[10px] rounded-tr-[10px]'>
             <a
               href=''
               className='absolute right-[10px] sm:right-[57px] bottom-[10px] sm:bottom-[23px] flex-center gap-2 bg-white bg-opacity-40 text-white xsmall-regular sm:body-medium rounded py-1.5 sm:py-3 px-2 sm:px-4'
