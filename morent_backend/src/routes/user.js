@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post('/add-user', (req, res) => {
   let userData = req.body;
-  console.log(userData);
+  console.log(userData, 'userData');
   res.send('Add user form');
 });
 
