@@ -4,12 +4,12 @@ import {
   mastercard,
   visa,
   dots,
-  clock,
   calendar,
   navSearch,
   plus,
   home,
 } from '../assets/icons';
+import { success, fail, cancel } from '../assets/images';
 
 import {
   carImage,
@@ -346,80 +346,67 @@ export const formData = [
     label: 'Location',
     dataSelects: ['Gianyar', 'Ubud', 'Badung', 'Singaraja'],
     key: 'location',
-    placeholder: 'Select your city',
+    placeholder: 'Location - Select your city',
     errorMessage: 'Please select a city',
   },
   {
     icon: calendar,
-    label: 'Pick-Up Date',
-    key: 'dropOffDate',
+    label: 'Availability from',
+    key: 'availabilityFrom',
     placeholder: 'Select your date',
     errorMessage: 'Please select a pick-up date',
   },
   {
-    icon: clock,
-    label: 'Pick-Up Time',
-    key: 'dropOffTime',
-    placeholder: 'Select your time',
-    errorMessage: 'Please select a pick-up time',
-  },
-  {
     icon: calendar,
-    label: 'Drop-Off Date',
-    key: 'pickUpDate',
+    label: 'Availability To',
+    key: 'availabilityTo',
     placeholder: 'Select your date',
     errorMessage: 'Please select drop-off date',
   },
-  {
-    icon: clock,
-    label: 'Drop-Off Time',
-    key: 'pickUpTime',
-    placeholder: 'Select your time',
-    errorMessage: 'Please select drop-off time',
-  },
 ];
 
-export const CarCapacityLists = [
-  {
-    label: '2 Person',
-    key: '2',
-  },
-  {
-    label: '4 Person',
-    key: '4',
-  },
-  {
-    label: '6 person',
-    key: '6',
-  },
-  {
-    label: '8 Person',
-    key: '8',
-  },
-];
-
-export const carTypes = [
-  {
-    label: 'Sport',
-    key: 'sport',
-  },
-  {
-    label: 'MPV',
-    key: 'mpv',
-  },
-  {
-    label: 'Sedan',
-    key: 'sedan',
-  },
-  {
-    label: 'Coupe',
-    key: 'coupe',
-  },
-  {
-    label: 'Hatchback',
-    key: 'hatchback',
-  },
-];
+export const carFilterOptions = {
+  type: [
+    {
+      label: 'Sport',
+      key: 'sport',
+    },
+    {
+      label: 'MPV',
+      key: 'mpv',
+    },
+    {
+      label: 'Sedan',
+      key: 'sedan',
+    },
+    {
+      label: 'Coupe',
+      key: 'coupe',
+    },
+    {
+      label: 'Hatchback',
+      key: 'hatchback',
+    },
+  ],
+  capacity: [
+    {
+      label: '2 Person',
+      key: '2',
+    },
+    {
+      label: '4 Person',
+      key: '4',
+    },
+    {
+      label: '6 person',
+      key: '6',
+    },
+    {
+      label: '8 Person',
+      key: '8',
+    },
+  ],
+};
 export const pickupLocation = [
   'london',
   'bristol',
@@ -428,6 +415,32 @@ export const pickupLocation = [
   'bath',
 ];
 
+export const statusData = {
+  success: {
+    text: 'Thank You For Your Purchase',
+    img: success,
+    title: 'Payment Successful',
+    path: '/rented-car',
+    button: 'View Rented Car',
+    backButtonLabel: 'Generate receipt',
+  },
+  canceled: {
+    text: 'You cancelled the payment',
+    img: cancel,
+    title: 'Payment Canceled',
+    path: '/',
+    button: 'Back to Homepage',
+    backButtonLabel: 'Go Back',
+  },
+  fail: {
+    text: 'There was an error making payment',
+    img: fail,
+    title: 'Payment Failed',
+    path: '/',
+    button: 'Try Again',
+    backButtonLabel: 'Go Back',
+  },
+};
 export const navlinks = [
   { label: 'Home', icon: home, path: '' },
   {

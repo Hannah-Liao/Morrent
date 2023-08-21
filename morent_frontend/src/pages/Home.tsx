@@ -27,6 +27,7 @@ const Home: React.FC = () => {
         <HomeHeader />
 
         {/* Search Bar */}
+
         <div className='mt-[32px] mb-[36px]'>
           <PickDropForm isShow={true} />
         </div>

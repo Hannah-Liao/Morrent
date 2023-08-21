@@ -3,12 +3,14 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import checkout from './src/routes/checkout.js';
 
 import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
 import carRouter from './routes/cars.js';
+import userRouter from './src/routes/user.js';
 
-// Connect to Express
 const app = express();
 
 // Middleware
@@ -18,9 +20,15 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/api/car', carRouter);
+app.use('/api/user', userRouter);
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from the server!' });
+});
 
 // stripe
 app.use('/', checkout);

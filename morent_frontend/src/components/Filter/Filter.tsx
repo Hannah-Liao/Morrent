@@ -1,27 +1,28 @@
 import { useState, type Dispatch, type SetStateAction } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Button } from '../ui/button';
 import { close } from '../../assets/icons';
 import { Slider } from '../ui/slider';
-import CarType from './CarType';
-import CarCapacity from './CarCapacity';
 import { SearchInput } from '..';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import CarFilterOptions from './CarFilterOptions';
+import { carFilterOptions } from '../../constant';
 
 type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Filter({ setIsOpen }: Props) {
-  const { selectCarType, setCapacity } = useSelector(
-    (state: RootState) => state,
+  const { capacity, type } = useSelector(
+    ({ carFilter: { value } }: RootState) => value,
   );
   const [selectedPrice, setSelectedPrice] = useState([100]);
 
   const handleSubmit = () => {
-    console.log({ selectCarType, setCapacity, selectedPrice });
+    setIsOpen(false);
   };
+
   return (
     <aside className='w-full  flex flex-col md:pr-3'>
       <div className='hidden md:block'>
@@ -34,12 +35,21 @@ export default function Filter({ setIsOpen }: Props) {
       >
         <img src={close} alt='close icon' />
       </Button>
-      <h2 className='text-2xl pt-3 font-semibold text-gray-850 dark:text-gray-100'>
+      <h2 className='text-2xl pt-3 font-semibold text-gray-850 md:hidden dark:text-gray-100'>
         Filter
       </h2>
 
-      <CarType />
-      <CarCapacity />
+      <CarFilterOptions
+        title='Type'
+        options={carFilterOptions.type}
+        value={type}
+      />
+      <CarFilterOptions
+        title='Capacity'
+        options={carFilterOptions.capacity}
+        value={capacity}
+      />
+
       <div className='w-full h-full'>
         <h3 className='pt-1 md:pt-3'>
           <span className='filter-title'>Price</span>
