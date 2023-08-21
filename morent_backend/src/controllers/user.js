@@ -30,10 +30,9 @@ export const signup = async (req, res) => {
     const accessToken = generateAccessToken(newUser, secret);
     const refreshToken = generateRefreshToken(newUser, secret);
 
-    // Set the "access_token" and "refresh_token" cookies
     res.cookie('access_token', accessToken, {
-      httpOnly: true, // used during the development of the application
-      secure: true, // used during the production environment with HTTPS
+      httpOnly: true,
+      secure: true,
     });
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
@@ -43,8 +42,6 @@ export const signup = async (req, res) => {
     res.status(201).json({
       message: 'User created',
       user: newUser,
-      accessToken,
-      refreshToken,
     });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong' });
@@ -86,19 +83,15 @@ export const signin = async (req, res) => {
 
     res.status(200).json({
       message: 'Successfully logged in',
-      email,
-      accessToken,
-      refreshToken,
     });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong', email });
+    res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
 // User Logout
 export const logout = (req, res) => {
   try {
-    // const access_token = req.cookies.access_token;
     res.clearCookie('access_token');
     res.clearCookie('refresh_token');
     res.status(200).json({ message: `Successfully logged out` });
