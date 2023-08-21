@@ -3,11 +3,12 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import checkout from './src/routes/checkout.js';
 
 import connectToDatabase from './src/configs/db.js';
+import userRouter from './src/routes/user.js';
 
-// Connect to Express
 const app = express();
 
 // Middleware
@@ -17,11 +18,11 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 
-// SCHEMA
+app.use('/api/user', userRouter);
 
-// Routes
-app.get('/message', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Hello from the server!' });
 });
 
