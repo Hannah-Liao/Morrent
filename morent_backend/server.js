@@ -4,7 +4,6 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import checkout from './src/routes/checkout.js';
 
 import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
