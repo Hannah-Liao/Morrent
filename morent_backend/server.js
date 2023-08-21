@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
-import carRouter from './routes/cars.js';
+import carRouter from './src/routes/cars.js';
 import userRouter from './src/routes/user.js';
 
 const app = express();
