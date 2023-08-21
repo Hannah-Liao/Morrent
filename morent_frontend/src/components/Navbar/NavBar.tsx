@@ -6,6 +6,7 @@ import { Logo } from '../index';
 import profileImg from '../../assets/images/profile.png';
 import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
+import { ProfileMenu } from './profileMenu';
 
 const NavBar = () => {
   const isLogin = true;
@@ -44,22 +45,16 @@ const NavBar = () => {
             onClick={() => setOpen((prev) => !prev)}
           />
 
-          {isLogin && (
-            <img
-              src={profileImg}
-              alt='user profile photo'
-              className='w-7 md:w-9 h-7 md:h-9 rounded-[90px]'
-            />
-          )}
+          {isLogin && <ProfileMenu />}
 
-          <Link
-            to='/login'
-            className={`${
-              !isLogin ? 'btn' : 'deleteBtn'
-            } min-w-[110px] h-11 p-semibold rounded hidden md:flex`}
-          >
-            {!isLogin ? 'Login' : 'Logout'}
-          </Link>
+          {!isLogin && (
+            <Link
+              to='/login'
+              className='btn min-w-[110px] h-11 p-semibold rounded hidden md:flex'
+            >
+              Login
+            </Link>
+          )}
 
           <div className='hidden md:block bg-blue-50 w-[0.1rem] h-[2.25rem]'></div>
           <ModeDropdown />
@@ -93,15 +88,6 @@ const NavBar = () => {
               />
               {isLogin ? 'My Profile' : 'Login'}
             </Link>
-
-            {isLogin && (
-              <Link
-                to='/logout'
-                className='deleteBtn min-full min-h-[49px] px-9 p-semibold rounded'
-              >
-                Logout
-              </Link>
-            )}
           </div>
         </div>
       </div>
