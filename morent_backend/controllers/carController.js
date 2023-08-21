@@ -20,10 +20,17 @@ export const createCar = async (req, res) => {
 
 // get all car
 export const getCars = async (req, res) => {
-  const page = parseInt(req.query.page);
+  const page = parseInt(req.query.page) - 1;
+  const carType = req.query.carType;
+  const capacity = parseInt(req.query.capacity);
+  const price = parseInt(req.query.price);
 
   try {
-    const cars = await Car.find({})
+    const cars = await Car.find({
+      carType,
+      capacity: { $gte: capacity },
+      price: { $lte: price },
+    })
       .sort({ createdAt: -1 })
       .skip(page * 12)
       .limit(12);
@@ -34,7 +41,7 @@ export const getCars = async (req, res) => {
       cars,
     });
   } catch (err) {
-    res.status(404).json({ success: false, message: 'Not found' });
+    res.status(404).json({ success: false, message: 'No cars found' });
   }
 };
 
@@ -45,9 +52,7 @@ export const deleteCar = async (req, res) => {
   try {
     await Car.findByIdAndDelete(id);
 
-    res
-      .status(200)
-      .json({ success: true, message: 'Successfully deteled a car model' });
+    res.status(200).json({ success: true, message: 'Successfully deteled' });
   } catch (err) {
     res
       .status(500)
@@ -55,35 +60,21 @@ export const deleteCar = async (req, res) => {
   }
 };
 
-//get popular cars
-export const getPopularCars = async (req, res) => {
-  try {
-    const popularCars = await Car.find({ popular: true }).limit(8);
-
-    res
-      .status(200)
-      .json({ success: true, message: 'Successful', data: popularCars });
-  } catch (err) {
-    res.status(404).json({ success: false, message: 'Not found' });
-  }
-};
-
-//get cars by search
-export const getCarsBySearch = async (req, res) => {
-  //"i" means case sensitive
-  const carType = req.query.carType;
-  const capacity = parseInt(req.query.capacity);
-  const price = parseInt(req.query.price);
+//update car
+export const updateCar = async (req, res) => {
+  const id = req.params.id;
 
   try {
-    const cars = await Car.find({
-      carType,
-      capacity: { $gte: capacity },
-      price: { $lte: price },
+    const updatedCar = await Car.findByIdAndUpdate(id, req.body, { new: true });
+
+    res.status(200).json({
+      success: true,
+      message: 'Successfully updated',
+      data: updatedCar,
     });
-
-    res.status(200).json({ success: true, message: 'Successful', data: cars });
   } catch (err) {
-    res.status(404).json({ success: false, message: 'Not found' });
+    res
+      .status(500)
+      .json({ success: false, message: 'Failed to update. Try again' });
   }
 };

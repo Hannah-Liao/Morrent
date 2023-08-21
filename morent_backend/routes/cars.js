@@ -4,16 +4,14 @@ import {
   createCar,
   getCars,
   deleteCar,
-  getPopularCars,
-  getCarsBySearch,
+  updateCar,
 } from '../controllers/carController.js';
 
 const router = Router();
 
 router.get('/', getCars);
 router.post('/', createCar);
-router.delete('/:id', deleteCar);
-router.get('/getPopularCars', getPopularCars);
-router.get('/search/getCarsBySearch', getCarsBySearch);
+router.delete('/delete/:id', deleteCar);
+router.put('/update/:id', updateCar);
 
 export default router;

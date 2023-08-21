@@ -20,7 +20,7 @@ app.use(
 app.use(express.json());
 
 // Routes
-app.use('/api', carRouter);
+app.use('/api/car', carRouter);
 
 // stripe
 app.use('/', checkout);
