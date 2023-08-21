@@ -1,0 +1,1 @@
+const startDate = new Date();

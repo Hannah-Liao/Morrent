@@ -17,8 +17,12 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongodb": "^5.7.0",
+<<<<<<< HEAD
     "mongoose": "^7.4.2",
     "stripe": "^12.18.0"
+=======
+    "mongoose": "^7.4.3"
+>>>>>>> 761bbaa (user api)
   },
   "devDependencies": {
     "eslint": "^8.46.0",
