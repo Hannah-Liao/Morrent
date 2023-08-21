@@ -21,13 +21,19 @@ export const createCar = async (req, res) => {
 // get all car
 export const getCars = async (req, res) => {
   const page = parseInt(req.query.page) - 1;
-  const carType = req.query.carType;
+  const carType = req.query.type;
   const capacity = parseInt(req.query.capacity);
   const price = parseInt(req.query.price);
+  const carLocation = req.query.location;
+  const rentedDateFrom = req.query.availabilityFrom;
+  const rentedDateTo = req.query.availabilityTo;
 
   try {
     const cars = await Car.find({
       carType,
+      carLocation,
+      rentedDateFrom,
+      rentedDateTo,
       capacity: { $gte: capacity },
       price: { $lte: price },
     })
