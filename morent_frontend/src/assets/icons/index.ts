@@ -21,6 +21,9 @@ import closeIcon from './closeIcon.svg';
 import starFilled from './starFilled.svg';
 import starNoFill from './starNoFill.svg';
 import edit from './edit.svg';
+import navSearch from './navSearch.svg';
+import plus from './Plus.svg';
+import home from './Home.svg';
 
 export {
   visa,
@@ -46,4 +49,7 @@ export {
   starFilled,
   starNoFill,
   edit,
+  navSearch,
+  plus,
+  home,
 };

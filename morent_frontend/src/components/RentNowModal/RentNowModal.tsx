@@ -114,7 +114,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormMessage className='text-xs font-normal' />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -170,7 +170,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
                     </FormLabel>
                     <TimePicker
                       disableClock
-                      clearIcon
+                      clearIcon={false}
                       onChange={field.onChange}
                       value={field.value}
                       id='modalpickUpTime'
@@ -232,7 +232,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
                     </FormLabel>
                     <TimePicker
                       disableClock
-                      clearIcon
+                      clearIcon={false}
                       id='modaldropOffTime'
                       onChange={field.onChange}
                       value={field.value}
