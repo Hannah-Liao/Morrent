@@ -1,7 +1,7 @@
 import { CarForm } from '../components';
 
-const AddCar = () => {
+const EditCar = () => {
   return <CarForm />;
 };
 
-export default AddCar;
+export default EditCar;

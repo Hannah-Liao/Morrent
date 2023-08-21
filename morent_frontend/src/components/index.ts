@@ -14,3 +14,4 @@ export { default as HomeViewAllHeader } from './HomeViewAllHeader/HomeViewAllHea
 export { default as PopularCarsMobile } from './PopularCarsMobile/PopularCarsMobile';
 export { default as CarInfoModal } from './CarInfoModal/CarInfoModal';
 export { default as RentNowModal } from './RentNowModal/RentNowModal';
+export { default as CarForm } from './CarForm/CarForm';
