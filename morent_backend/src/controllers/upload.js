@@ -5,17 +5,6 @@ import cloudinaryConfig from '../configs/cloudinary.js';
 const multerConf = multer();
 
 const upload = multerConf.array('photos', 4);
-cloudinary.image(
-  'transformImage',
-  {
-    transformation: [
-      {
-        width: 400,
-        height: 400,
-      },
-    ],
-  }.transformation
-);
 
 const filesUpload = async (req, res) => {
   try {
