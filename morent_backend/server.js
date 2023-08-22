@@ -5,10 +5,10 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import checkout from './src/routes/checkout.js';
-import upload from './src/routes/fileUpload.js';
 
 import connectToDatabase from './src/configs/db.js';
 import userRouter from './src/routes/user.js';
+import filesUpload from './src/routes/fileUpload.js';
 
 const app = express();
 
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 
 app.use('/', checkout);
 
-app.use('/', upload);
+app.use('/', filesUpload);
 
 // connect db
 
