@@ -4,6 +4,7 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import checkout from './src/routes/checkout.js';
+import upload from './src/routes/fileUpload.js';
 
 import connectToDatabase from './src/configs/db.js';
 
@@ -28,6 +29,8 @@ app.get('/message', (req, res) => {
 // stripe
 
 app.use('/', checkout);
+
+app.use('/', upload);
 
 // connect db
 
