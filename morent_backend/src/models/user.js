@@ -18,8 +18,6 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
-      minLength: 6,
-      maxLength: 18,
     },
     phoneNumber: {
       type: Number,
@@ -35,10 +33,7 @@ const userSchema = new Schema(
       type: String,
       maxLength: 200,
     },
-    favCars: {
-      type: Array,
-      carId: [Schema.Types.Mixed],
-    },
+    favCars: [{ type: Schema.Types.ObjectId, ref: 'Car' }],
     rentedCars: {
       type: Array,
       carId: [Schema.Types.Mixed],

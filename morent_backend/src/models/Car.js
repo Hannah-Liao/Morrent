@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const carSchema = new mongoose.Schema(
+const carSchema = new Schema(
   {
     title: {
       type: String,
@@ -113,4 +113,4 @@ const carSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Car = mongoose.model('Car', carSchema);
+export const Car = model('Car', carSchema);
