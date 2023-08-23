@@ -1,7 +1,7 @@
 import { CarForm } from '../components';
 
 const AddCar = () => {
-  return <CarForm />;
+  return <CarForm isEditCarPage={false} />;
 };
 
 export default AddCar;

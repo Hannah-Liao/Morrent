@@ -13,9 +13,13 @@ import {
 import { Input } from '../ui/input';
 import { toast } from '../ui/use-toast';
 import { addCarSchema } from './CarSchema';
-import { uploadIcon } from '../../assets/icons';
+import { uploadIcon, deleteIcon } from '../../assets/icons';
 
-const CarForm = () => {
+type CarFormProps = {
+  isEditCarPage: boolean;
+};
+
+const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
@@ -44,7 +48,7 @@ const CarForm = () => {
   return (
     <div className='w-full max-w-[852px] p-[24px] mx-auto dark:bg-gray-850 bg-white borderRadius-lg'>
       <p className='text-gray-900 base-bold pb-[10px] dark:text-white'>
-        Add a Car for Rent
+        {isEditCarPage ? 'Edit Car Details' : 'Add a Car for Rent'}
       </p>
       <p className='text-gray-400 body-regular pb-[35px]'>
         Please enter your car info
@@ -246,12 +250,21 @@ const CarForm = () => {
             </div>
           </div>
 
-          <div className='flex justify-end'>
+          <div className='flex flex-col-reverse sm:flex-row justify-end gap-5'>
+            {isEditCarPage && (
+              <Button
+                type='submit'
+                className='gap-2 removeBtn p-bold py-4 rounded-[10px] focus:ring-4 focus:outline-none w-full md:w-auto'
+              >
+                <img src={deleteIcon} alt='deleteIcon' />
+                Remove Car
+              </Button>
+            )}
             <Button
               type='submit'
-              className='text-white p-bold px-[20px] py-[16px] rounded-[10px] bg-blue-500 hover:bg-blue-300 focus:ring-4 focus:outline-none focus:ring-blue-300   w-full md:w-auto text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-300 lg:justify-end'
+              className='btn p-bold py-4 rounded-[10px] focus:ring-4 focus:outline-none focus:ring-blue-300 w-full md:w-auto dark:focus:ring-blue-300 lg:justify-end'
             >
-              Submit
+              {isEditCarPage ? 'Edit Car' : 'Submit'}
             </Button>
           </div>
         </form>
