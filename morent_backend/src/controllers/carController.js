@@ -21,21 +21,20 @@ export const createCar = async (req, res) => {
 // get all car
 export const getCars = async (req, res) => {
   const page = parseInt(req.query.page) - 1;
-  const carType = req.query.type;
+  const { type, location, availabilityFrom, availabilityTo } = req.query;
   const capacity = parseInt(req.query.capacity);
   const price = parseInt(req.query.price);
-  const carLocation = req.query.location;
-  const rentedDateFrom = req.query.availabilityFrom;
-  const rentedDateTo = req.query.availabilityTo;
 
   try {
     const cars = await Car.find({
-      carType,
-      carLocation,
-      rentedDateFrom,
-      rentedDateTo,
-      capacity: { $gte: capacity },
-      price: { $lte: price },
+      $and: [
+        type ? { carType: type } : {},
+        location ? { carLocation: location } : {},
+        capacity ? { capacity: { $gte: capacity } } : {},
+        price ? { price: price } : {},
+        availabilityFrom ? { rentedDateFrom: availabilityFrom } : {},
+        availabilityTo ? { rentedDateTo: availabilityTo } : {},
+      ],
     })
       .sort({ createdAt: -1 })
       .skip(page * 12)
