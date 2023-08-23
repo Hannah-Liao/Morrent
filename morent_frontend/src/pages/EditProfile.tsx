@@ -14,7 +14,10 @@ import { Input } from '../components/ui/input';
 import { uploadIcon } from '../assets/icons';
 
 const formSchema = z.object({
-  userName: z.string({
+  firstName: z.string({
+    required_error: 'name is required',
+  }),
+  lastName: z.string({
     required_error: 'name is required',
   }),
   role: z.string({
@@ -23,6 +26,10 @@ const formSchema = z.object({
   email: z.string({
     required_error: 'email is required',
   }),
+  photoNumber: z.number({
+    required_error: 'photo number is required',
+  }),
+  address: z.string(),
 });
 
 const EditProfile = () => {
@@ -49,16 +56,36 @@ const EditProfile = () => {
           <div className='flex flex-col flex-wrap pb-11'>
             <FormField
               control={form.control}
-              name='userName'
+              name='firstName'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='userName' className='inputLabel'>
-                    User name
+                  <label htmlFor='firstName' className='inputLabel'>
+                    First name
                   </label>
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='User name'
+                      placeholder='First name'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='lastName'
+              render={({ field }) => (
+                <FormItem>
+                  <label htmlFor='lastName' className='inputLabel'>
+                    Last name
+                  </label>
+                  <FormControl>
+                    <Input
+                      className='inputField'
+                      placeholder='Last name'
                       {...field}
                     />
                   </FormControl>
@@ -72,7 +99,7 @@ const EditProfile = () => {
               name='role'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='role' className='inputLabel mt-3'>
+                  <label htmlFor='role' className='inputLabel'>
                     User role
                   </label>
                   <FormControl>
@@ -92,7 +119,7 @@ const EditProfile = () => {
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='email' className='inputLabel mt-3'>
+                  <label htmlFor='email' className='inputLabel'>
                     Email
                   </label>
                   <FormControl>
@@ -100,6 +127,48 @@ const EditProfile = () => {
                       type='number'
                       className='inputField'
                       placeholder='Your email'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='photoNumber'
+              render={({ field }) => (
+                <FormItem>
+                  <label htmlFor='photoNumber' className='inputLabel'>
+                    Photo number
+                  </label>
+                  <FormControl>
+                    <Input
+                      type='number'
+                      className='inputField'
+                      placeholder='Photo number'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='address'
+              render={({ field }) => (
+                <FormItem>
+                  <label htmlFor='address' className='inputLabel'>
+                    Address
+                  </label>
+                  <FormControl>
+                    <Input
+                      type='number'
+                      className='inputField'
+                      placeholder='Address'
                       {...field}
                     />
                   </FormControl>

@@ -298,7 +298,7 @@
   }
 
   .inputLabel {
-    @apply block p-semibold mb-[16px] text-gray-900 dark:text-white !important;
+    @apply block p-semibold mb-[16px] text-gray-900 dark:text-white mt-3 !important;
   }
 
   /* Car Info Modal */
