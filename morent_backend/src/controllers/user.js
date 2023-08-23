@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 
-import { secret } from '../utils/token.utils.js';
 import {
-  generateAccessToken,
-  generateRefreshToken,
+  generateToken,
+  setTokenCookies,
+  secret,
 } from '../utils/token.utils.js';
 import UserModel from '../models/user.js';
 
@@ -27,17 +27,10 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
 
-    const accessToken = generateAccessToken(newUser, secret);
-    const refreshToken = generateRefreshToken(newUser, secret);
+    const accessToken = generateToken(newUser, secret, '1h');
+    const refreshToken = generateToken(newUser, secret, '7d');
 
-    res.cookie('access_token', accessToken, {
-      httpOnly: true,
-      secure: true,
-    });
-    res.cookie('refresh_token', refreshToken, {
-      httpOnly: true,
-      secure: true,
-    });
+    setTokenCookies(res, accessToken, refreshToken);
 
     res.status(201).json({
       message: 'User created',
@@ -69,20 +62,14 @@ export const signin = async (req, res) => {
         .status(400)
         .json({ message: 'Invalid credentials', email: user.email });
 
-    const accessToken = generateAccessToken(oldUser, secret);
-    const refreshToken = generateRefreshToken(oldUser, secret);
+    const accessToken = generateToken(oldUser, secret, '1h');
+    const refreshToken = generateToken(oldUser, secret, '7d');
 
-    res.cookie('access_token', accessToken, {
-      httpOnly: true,
-      secure: true,
-    });
-    res.cookie('refresh_token', refreshToken, {
-      httpOnly: true,
-      secure: true,
-    });
+    setTokenCookies(res, accessToken, refreshToken);
 
     res.status(200).json({
       message: 'Successfully logged in',
+      token: accessToken,
     });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong' });
@@ -93,7 +80,7 @@ export const signin = async (req, res) => {
 export const logout = (req, res) => {
   try {
     res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
+    // res.clearCookie('refresh_token');
     res.status(200).json({ message: `Successfully logged out` });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred during logout' });
