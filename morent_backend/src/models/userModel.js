@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     minLength: 1,
     maxLength: 100,
   },
-
   lastName: {
     type: String,
     required: true,
@@ -19,6 +18,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minLength: 5,
+    unique: true,
     maxLength: 100,
   },
   phoneNumber: {
@@ -49,9 +49,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     carId: [Schema.Types.Mixed],
   },
-  //   offeredForRent: {
-  //     type:
-  //   },
+
   accessToken: {
     type: [Schema.Types.Mixed],
   },

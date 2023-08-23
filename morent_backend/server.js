@@ -3,8 +3,9 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
-import checkout from './src/routes/checkout.js';
+import bodyParser from 'body-parser';
 
+import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
 import { carRouter } from './src/routes/cars.js';
 import { userRouter } from './src/routes/user.js';
@@ -20,6 +21,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // SCHEMA
 
@@ -29,7 +31,6 @@ app.get('/message', (req, res) => {
 });
 
 // stripe
-
 app.use('/', checkout);
 app.use('/cars', carRouter);
 
