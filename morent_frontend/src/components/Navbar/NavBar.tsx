@@ -38,7 +38,7 @@ const NavBar = () => {
       <div className='max-container flex justify-between items-start px-[20px] md:px-[60px] py-[32px] md:py-[28px] '>
         <Logo />
         <div className='flex-center flex-row-reverse md:flex-row gap-6'>
-          <NavMenu isHidden={'hidden md:block'} />
+          <NavMenu isHidden={'hidden md:block'} setOpen={setOpen} />
 
           <HamburgerMenuIcon
             className='text-gray-700 w-6 h-6 md:hidden'
@@ -74,7 +74,7 @@ const NavBar = () => {
             />
           </div>
 
-          <NavMenu isMobile={true} />
+          <NavMenu isMobile={true} setOpen={setOpen} />
 
           <div className='flex flex-col gap-2.5 my-5'>
             <Link
