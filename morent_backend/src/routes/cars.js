@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { CarModel } from '../models/CarModel.js';
+import { Car } from '../models/Car.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {

@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
 
+import UserModel from '../models/user.js';
 import { secret } from '../utils/token.utils.js';
 import {
   generateAccessToken,
   generateRefreshToken,
 } from '../utils/token.utils.js';
-import UserModel from '../models/user.js';
 
 // User Signup
 export const signup = async (req, res) => {
@@ -97,5 +97,65 @@ export const logout = (req, res) => {
     res.status(200).json({ message: `Successfully logged out` });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred during logout' });
+  }
+};
+
+// export const addUser =  async (req, res) => {
+
+//   try {
+//     const user = await UserModel.findOne({ email: req.body.email });
+
+//     if (user) {
+//       return res.status(400).json({
+//         message: 'User already exists',
+//       });
+//     }
+
+//     const newUser = new UserModel(req.body);
+//     await newUser.save();
+
+//     console.log(newUser, 'New user created');
+
+//     return res.status(200).json({
+//       message: 'New user created',
+//       user: newUser,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       message: 'Internal server error',
+//     });
+//   }
+// };
+
+export const updateUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedUserData = req.body;
+
+    // do the validation for up
+
+    // Find the user by ID
+    const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
+      new: true,
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found',
+      });
+    }
+
+    schemaMiddleware(UserModel.schema, req.body);
+
+    return res.status(200).json({
+      message: 'User updated successfully',
+      user: user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Internal server error',
+    });
   }
 };

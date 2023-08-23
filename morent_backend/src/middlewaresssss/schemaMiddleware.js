@@ -1,4 +1,4 @@
-import { UserModel } from '../models/userModel.js';
+import { UserModel } from '../models/user.js';
 const schemaMiddleware = (schema, data) => {
   const definedAttr = Object.keys(schema.paths);
 

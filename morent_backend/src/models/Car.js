@@ -66,25 +66,16 @@ const carSchema = new mongoose.Schema({
     type: [String],
     validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
   },
-  availabilityTimeFrom: {
+  rentedDateFrom: {
     type: String,
-    required: true,
-  },
-  availabilityTimeTo: {
-    type: String,
-    required: true,
-  },
-  availabilityDateFrom: {
-    type: String,
-    required: true,
     validate: {
-      // validator: function (value) {
-      //   const startDate = new Date();
-      //   const endDate = new Date(startDate);
-      //   endDate.setMonth(endDate.getMonth() + 1);
-      //   return value >= startDate && value <= endDate;
-      // },
-      // message: 'The date must be between today and one month from today.',
+      validator: function (value) {
+        const startDate = new Date();
+        const endDate = new Date(startDate);
+        endDate.setMonth(endDate.getMonth() + 1);
+        return value >= startDate && value <= endDate;
+      },
+      message: 'The date must be between today and one month from today.',
 
       validator: function (value) {
         // Get the current date
@@ -101,20 +92,19 @@ const carSchema = new mongoose.Schema({
     },
   },
 
-  // availabilityDateTo: {
-  //   type: String,
-  //   required: true,
-  //   validate: {
-  //     validator: function (value) {
-  //       const startDate = new Date();
-  //       startDate.setDate(startDate.getDate() + 1);
-  //       const endDate = new Date(startDate);
-  //       endDate.setMonth(endDate.getMonth() + 1);
-  //       return value >= startDate && value <= endDate;
-  //     },
-  //     message: 'The date must be between today and one month from today.',
-  //   },
-  // },
+  rentedDateTo: {
+    type: String,
+    validate: {
+      validator: function (value) {
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() + 1);
+        const endDate = new Date(startDate);
+        endDate.setMonth(endDate.getMonth() + 1);
+        return value >= startDate && value <= endDate;
+      },
+      message: 'The date must be between today and one month from today.',
+    },
+  },
 });
 
-export const CarModel = mongoose.model('Car', carSchema);
+export const Car = mongoose.model('Car', carSchema);
