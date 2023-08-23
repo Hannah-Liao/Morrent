@@ -6,7 +6,7 @@ import { Logo } from '../index';
 import profileImg from '../../assets/images/profile.png';
 import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
-import { ProfileMenu } from './profileMenu';
+import { ProfileMenu } from './ProfileMenu';
 
 const NavBar = () => {
   const isLogin = true;
