@@ -8,6 +8,7 @@ import Success from './Success';
 import Failed from './Failed';
 import Canceled from './Cancel';
 import ProfileDetail from './ProfileDetail';
+import Login from './Login';
 
 export {
   Home,
@@ -19,4 +20,5 @@ export {
   Failed,
   Canceled,
   ProfileDetail,
+  Login,
 };
