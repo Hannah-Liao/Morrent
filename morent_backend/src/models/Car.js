@@ -4,33 +4,33 @@ const carSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, 'Please add a title'],
     },
     carType: {
       type: String,
-      required: true,
+      required: [true, 'Please add a type'],
     },
     description: {
       type: String,
-      required: true,
+      required: [true, 'Please add description'],
       minlength: 30,
       maxLength: 300,
     },
     capacity: {
       type: Number,
-      required: true,
+      required: [true, 'Please add capacity'],
       min: 1,
       max: 12,
     },
     fuelTankSize: {
       type: Number,
-      required: true,
+      required: [true, 'Please add fuel tank size'],
       min: 10,
       max: 200,
     },
     transmissionType: {
       type: String,
-      required: true,
+      required: [true, 'Please add transmission type'],
     },
     price: {
       type: Number,
@@ -42,28 +42,25 @@ const carSchema = new Schema(
       },
       min: 10,
       max: 3000,
-      required: true,
+      required: [true, 'Please add price'],
     },
     discountPrice: {
       type: Number,
-      required: true,
       validate: {
         validator: function (value) {
           return value % 1 === 0;
         },
         message: 'The field must be a whole number without decimals.',
       },
-      min: 8,
-      max: 2500,
     },
     carLocation: {
       type: String,
-      required: true,
+      required: [true, 'Please add location'],
       minlength: 2,
       maxLength: 200,
     },
     carImages: {
-      required: true,
+      required: [true, 'Please add car images'],
       type: [String],
       validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
     },
@@ -108,6 +105,11 @@ const carSchema = new Schema(
     },
     isRented: {
       type: Boolean,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
     },
   },
   { timestamps: true }
