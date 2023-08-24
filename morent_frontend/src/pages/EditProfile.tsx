@@ -60,7 +60,7 @@ const EditProfile = () => {
               render={({ field }) => (
                 <FormItem>
                   <label htmlFor='firstName' className='inputLabel'>
-                    First name
+                    First Name
                   </label>
                   <FormControl>
                     <Input
@@ -80,7 +80,7 @@ const EditProfile = () => {
               render={({ field }) => (
                 <FormItem>
                   <label htmlFor='lastName' className='inputLabel'>
-                    Last name
+                    Last Name
                   </label>
                   <FormControl>
                     <Input
@@ -100,7 +100,7 @@ const EditProfile = () => {
               render={({ field }) => (
                 <FormItem>
                   <label htmlFor='role' className='inputLabel'>
-                    User role
+                    User Role
                   </label>
                   <FormControl>
                     <Input
@@ -124,7 +124,7 @@ const EditProfile = () => {
                   </label>
                   <FormControl>
                     <Input
-                      type='number'
+                      type='email'
                       className='inputField'
                       placeholder='Your email'
                       {...field}
@@ -141,13 +141,13 @@ const EditProfile = () => {
               render={({ field }) => (
                 <FormItem>
                   <label htmlFor='photoNumber' className='inputLabel'>
-                    Photo number
+                    Phone Number
                   </label>
                   <FormControl>
                     <Input
                       type='number'
                       className='inputField'
-                      placeholder='Photo number'
+                      placeholder='Phone number'
                       {...field}
                     />
                   </FormControl>
@@ -166,7 +166,7 @@ const EditProfile = () => {
                   </label>
                   <FormControl>
                     <Input
-                      type='number'
+                      type='text'
                       className='inputField'
                       placeholder='Address'
                       {...field}
@@ -180,7 +180,7 @@ const EditProfile = () => {
 
           <div className='w-full mb-[37px]'>
             <label htmlFor='uploadImg' className='inputLabel'>
-              Upload profile photo
+              Upload Profile Photo
             </label>
 
             <div className='flex items-center justify-center w-full'>

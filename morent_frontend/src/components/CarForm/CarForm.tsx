@@ -71,7 +71,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Car Title'
+                      placeholder='Car title'
                       {...field}
                     />
                   </FormControl>
@@ -91,7 +91,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Brand Name'
+                      placeholder='Brand name'
                       {...field}
                     />
                   </FormControl>
@@ -133,7 +133,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
                     <Input
                       type='number'
                       className='inputField'
-                      placeholder='Capacity in person'
+                      placeholder='No. of people'
                       {...field}
                     />
                   </FormControl>
@@ -153,7 +153,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Car Type'
+                      placeholder='Car type'
                       {...field}
                     />
                   </FormControl>
@@ -194,7 +194,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
                     <Input
                       type='number'
                       className='inputField'
-                      placeholder='Fuel Capicity in liters'
+                      placeholder='Fuel capacity in liters'
                       {...field}
                     />
                   </FormControl>
@@ -214,7 +214,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Fuel Capicity in liters'
+                      placeholder='Description ...'
                       {...field}
                     />
                   </FormControl>
