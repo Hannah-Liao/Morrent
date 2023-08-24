@@ -23,12 +23,8 @@ import {
   FormMessage,
 } from '../ui/form';
 
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 const signInSchema = z.object({
-  email: z.string().refine((value) => emailRegex.test(value), {
-    message: 'Invalid email format',
-  }),
+  email: z.string().email({ message: 'Invalid email format' }),
   password: z
     .string()
     .min(6, {
