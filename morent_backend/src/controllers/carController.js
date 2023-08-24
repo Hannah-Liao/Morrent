@@ -58,11 +58,11 @@ export const deleteCar = async (req, res) => {
   try {
     await Car.findByIdAndDelete(id);
 
-    res.status(200).json({ success: true, message: 'Successfully deteled' });
+    res.status(200).json({ success: true, message: 'Successfully deleted' });
   } catch (err) {
     res
       .status(500)
-      .json({ success: false, message: 'Failed to detele. Try again' });
+      .json({ success: false, message: 'Failed to deleted. Try again' });
   }
 };
 
