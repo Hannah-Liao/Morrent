@@ -10,11 +10,11 @@ export const generateToken = (user, secret, expiry) => {
 export const setTokenCookies = (res, accessToken, refreshToken) => {
   res.cookie('access_token', accessToken, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
   });
   res.cookie('refresh_token', refreshToken, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
   });
 };
 

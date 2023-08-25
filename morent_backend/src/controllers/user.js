@@ -62,6 +62,8 @@ export const signin = async (req, res) => {
         .status(400)
         .json({ message: 'Invalid credentials', email: user.email });
 
+    // const { password, ...rest } = oldUser._doc;
+
     const accessToken = generateToken(oldUser, secret, '1h');
     const refreshToken = generateToken(oldUser, secret, '7d');
 
@@ -69,7 +71,7 @@ export const signin = async (req, res) => {
 
     res.status(200).json({
       message: 'Successfully logged in',
-      token: accessToken,
+      // data: { ...rest },
     });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong' });
@@ -80,7 +82,7 @@ export const signin = async (req, res) => {
 export const logout = (req, res) => {
   try {
     res.clearCookie('access_token');
-    // res.clearCookie('refresh_token');
+    res.clearCookie('refresh_token');
     res.status(200).json({ message: `Successfully logged out` });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred during logout' });
