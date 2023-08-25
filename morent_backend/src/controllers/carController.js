@@ -53,12 +53,29 @@ export const getCars = async (req, res) => {
 
 //delete a car
 export const deleteCar = async (req, res) => {
-  const id = req.params.id;
+  const userID = req.userId;
+  const carId = req.params.id;
 
   try {
-    await Car.findByIdAndDelete(id);
+    const foundCar = await Car.findById(carId);
 
-    res.status(200).json({ success: true, message: 'Successfully deleted' });
+    if (foundCar.user === userID) {
+      // delete the car in user favcars
+      const user = await User.findOneAndUpdate(
+        { _id: userID },
+        { $pull: { favCars: carId } },
+        { new: true }
+      );
+      // delete the car
+      await Car.findByIdAndDelete(carId);
+      res
+        .status(200)
+        .json({ success: true, message: 'Successfully deleted', data: user });
+    } else {
+      res
+        .status(403)
+        .json({ success: true, message: 'This car not belongs to this user' });
+    }
   } catch (err) {
     res
       .status(500)
@@ -89,10 +106,9 @@ export const updateCar = async (req, res) => {
 export const addFavCar = async (req, res) => {
   try {
     // carID and userID will send from frontend
-    const favCar = await Car.findById(req.body.carID);
     const user = await User.findById(req.body.userID);
 
-    user.favCars.unshift(favCar);
+    user.favCars.unshift(req.body.carID);
     await user.save();
     res.status(200).json({ favCars: user.favCars });
   } catch (err) {
@@ -134,7 +150,11 @@ export const deleteFavCarID = async (req, res) => {
 
     res
       .status(200)
-      .json({ success: true, message: 'Successfully removed a fav car' });
+      .json({
+        success: true,
+        message: 'Successfully removed a fav car',
+        data: user,
+      });
   } catch (err) {
     res
       .status(500)
