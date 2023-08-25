@@ -59,7 +59,7 @@ export const deleteCar = async (req, res) => {
   try {
     const foundCar = await Car.findById(carId);
 
-    if (foundCar.user === userID) {
+    if (foundCar.user.equals(userID)) {
       // delete the car in user favcars
       const user = await User.findOneAndUpdate(
         { _id: userID },
@@ -85,16 +85,27 @@ export const deleteCar = async (req, res) => {
 
 //update a car
 export const updateCar = async (req, res) => {
-  const id = req.params.id;
+  const userID = req.userId;
+  const carId = req.params.id;
 
   try {
-    const updatedCar = await Car.findByIdAndUpdate(id, req.body, { new: true });
+    const foundCar = await Car.findById(carId);
 
-    res.status(200).json({
-      success: true,
-      message: 'Successfully updated',
-      data: updatedCar,
-    });
+    if (foundCar.user.equals(userID)) {
+      const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
+        new: true,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: 'Successfully updated',
+        data: updatedCar,
+      });
+    } else {
+      res
+        .status(403)
+        .json({ success: true, message: 'This car not belongs to this user' });
+    }
   } catch (err) {
     res
       .status(500)
@@ -105,10 +116,10 @@ export const updateCar = async (req, res) => {
 // add fav cars
 export const addFavCar = async (req, res) => {
   try {
-    // carID and userID will send from frontend
-    const user = await User.findById(req.body.userID);
+    const userID = req.userId;
+    const user = await User.findById(userID);
 
-    user.favCars.unshift(req.body.carID);
+    user.favCars.unshift(userID);
     await user.save();
     res.status(200).json({ favCars: user.favCars });
   } catch (err) {
@@ -148,13 +159,11 @@ export const deleteFavCarID = async (req, res) => {
       { new: true }
     );
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Successfully removed a fav car',
-        data: user,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Successfully removed a fav car',
+      data: user,
+    });
   } catch (err) {
     res
       .status(500)
