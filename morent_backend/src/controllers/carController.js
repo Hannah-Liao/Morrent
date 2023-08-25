@@ -119,7 +119,7 @@ export const addFavCar = async (req, res) => {
     const userID = req.userId;
     const user = await User.findById(userID);
 
-    user.favCars.unshift(userID);
+    user.favCars.unshift(req.body.carID);
     await user.save();
     res.status(200).json({ favCars: user.favCars });
   } catch (err) {
@@ -132,12 +132,14 @@ export const addFavCar = async (req, res) => {
 
 // get fav cars
 export const getFavCars = async (req, res) => {
+  const userID = req.userId;
+
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const start = (page - 1) * 12;
   const end = page * 12;
 
   try {
-    const user = await User.findById(req.params.userID).populate('favCars');
+    const user = await User.findById(userID).populate('favCars');
     const favCars = user.favCars;
 
     res.status(200).json({
