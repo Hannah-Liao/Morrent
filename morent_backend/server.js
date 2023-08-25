@@ -8,6 +8,7 @@ import checkout from './src/routes/checkout.js';
 
 import connectToDatabase from './src/configs/db.js';
 import userRouter from './src/routes/user.js';
+import { authenticateUser } from './src/middleware/auth.js';
 import filesUpload from './src/routes/fileUpload.js';
 
 const app = express();
@@ -25,6 +26,10 @@ app.use('/api/user', userRouter);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from the server!' });
+});
+
+app.get('/api/user/protected', authenticateUser, (req, res) => {
+  return res.json({ user: { id: req.userId } });
 });
 
 // stripe
