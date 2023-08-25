@@ -9,6 +9,7 @@ import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
 import userRouter from './src/routes/user.js';
 import { authenticateUser } from './src/middleware/auth.js';
+import filesUpload from './src/routes/fileUpload.js';
 
 const app = express();
 
@@ -35,6 +36,8 @@ app.get('/api/user/protected', authenticateUser, (req, res) => {
 // stripe
 
 app.use('/', checkout);
+
+app.use('/', filesUpload);
 
 // connect db
 
