@@ -15,3 +15,4 @@ export { default as PopularCarsMobile } from './PopularCarsMobile/PopularCarsMob
 export { default as CarInfoModal } from './CarInfoModal/CarInfoModal';
 export { default as RentNowModal } from './RentNowModal/RentNowModal';
 export { default as CarForm } from './CarForm/CarForm';
+export { default as LoginForm } from './LoginForm/LoginForm';

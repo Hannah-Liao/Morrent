@@ -9,6 +9,7 @@ import Canceled from './Cancel';
 import ProfileDetail from './ProfileDetail';
 import EditProfile from './EditProfile';
 import EditCar from './EditCar';
+import Login from './Login';
 
 export {
   Home,
@@ -22,4 +23,5 @@ export {
   ProfileDetail,
   EditProfile,
   EditCar,
+  Login,
 };

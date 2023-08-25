@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { carShadow } from '../../assets/images/index';
 import {
@@ -41,12 +42,14 @@ const CarCard: React.FC<CarCardProps> = ({
           <h4 className='cardSubtitle'>{data.carType}</h4>
         </div>
         {editIcon ? (
-          <img
-            src={edit}
-            className='isFavoritedIcon'
-            alt='Edit Icon'
-            aria-label='Edit Icon'
-          />
+          <NavLink to='/edit-car'>
+            <img
+              src={edit}
+              className='isFavoritedIcon'
+              alt='Edit Icon'
+              aria-label='Edit Icon'
+            />
+          </NavLink>
         ) : (
           <img
             src={isFavorited ? heartFilled : heartNoFill}

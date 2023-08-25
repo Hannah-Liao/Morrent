@@ -340,7 +340,41 @@
   }
 
   .statsContainer {
-    @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-[8px] sm:gap-[30px] py-[12px] md:py-[28px] xl:pt-6;
+    @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-[8px] md:gap-[16px] lg:gap-[30px] py-[12px] md:py-[28px] xl:pt-6;
+  }
+
+  /* Signin Form */
+
+  .signInInputLabel {
+    @apply block p-semibold mb-[4px] text-gray-900 dark:text-white !important;
+  }
+
+  .rememberMeLabel {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !important;
+  }
+
+  .signInButton {
+    @apply text-white p-bold py-[25px] rounded-[10px] bg-blue-500 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 w-full text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-300 !important;
+  }
+
+  .signUpLink {
+    @apply text-blue-600 dark:text-blue-600 hover:underline bg-white dark:bg-gray-850 !important;
+  }
+
+  .signUpLink .active {
+    @apply bg-white text-blue-500;
+  }
+
+  .formMessage {
+    @apply dark:text-[#ff2400] dark:font-light font-normal !important;
+  }
+
+  .navLink {
+    @apply dark:bg-gray-850 dark:text-gray-400 underline text-black pl-[4px] !important;
+  }
+
+  .signInCard {
+    @apply w-full m-auto bg-white dark:bg-gray-850 md:max-w-lg rounded-xl !important;
   }
 }
 
