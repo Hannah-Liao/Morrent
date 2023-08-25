@@ -26,8 +26,8 @@ const formSchema = z.object({
   email: z.string({
     required_error: 'email is required',
   }),
-  photoNumber: z.number({
-    required_error: 'photo number is required',
+  phonenumber: z.number({
+    required_error: 'phone number is required',
   }),
   address: z.string(),
 });
@@ -137,10 +137,10 @@ const EditProfile = () => {
 
             <FormField
               control={form.control}
-              name='photoNumber'
+              name='phonenumber'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='photoNumber' className='inputLabel'>
+                  <label htmlFor='phonenumber' className='inputLabel'>
                     Phone Number
                   </label>
                   <FormControl>
