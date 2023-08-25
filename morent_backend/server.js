@@ -30,7 +30,6 @@ app.get('/', (req, res) => {
 
 app.get('/api/user/protected', authenticateUser, (req, res) => {
   return res.json({ user: { id: req.userId } });
-  // role: req.userRole;
 });
 
 // stripe

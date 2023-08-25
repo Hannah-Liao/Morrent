@@ -51,27 +51,20 @@ export const signin = async (req, res) => {
     const oldUser = await UserModel.findOne({ email });
 
     if (!oldUser)
-      return res
-        .status(404)
-        .json({ message: "User doesn't exist", email: user.email });
+      return res.status(404).json({ message: "User doesn't exist", email });
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect)
-      return res
-        .status(400)
-        .json({ message: 'Invalid credentials', email: user.email });
+      return res.status(400).json({ message: 'Invalid credentials', email });
 
-    // const { password, ...rest } = oldUser._doc;
-
-    const accessToken = generateToken(oldUser, secret, '1h');
+    const accessToken = generateToken(oldUser, secret, '10h');
     const refreshToken = generateToken(oldUser, secret, '7d');
 
     setTokenCookies(res, accessToken, refreshToken);
 
     res.status(200).json({
       message: 'Successfully logged in',
-      // data: { ...rest },
     });
   } catch (err) {
     res.status(500).json({ message: 'Something went wrong' });

@@ -8,8 +8,8 @@ export const authenticateUser = (req, res, next) => {
   }
   try {
     const data = jwt.verify(token, secret);
+    console.log(data);
     req.userId = data.id;
-    // req.userRole = data.role;
     return next();
   } catch {
     return res.sendStatus(403);
