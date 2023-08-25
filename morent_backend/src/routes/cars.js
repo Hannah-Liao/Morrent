@@ -1,19 +1,23 @@
-import express from 'express';
+import { Router } from 'express';
 
-import { Car } from '../models/Car.js';
-const router = express.Router();
+import {
+  createCar,
+  getCars,
+  deleteCar,
+  updateCar,
+  addFavCar,
+  getFavCars,
+  deleteFavCarID,
+} from '../controllers/carController.js';
 
-router.get('/', async (req, res) => {
-  const user = new CarModel({ title: 'Audi', type: 'Sedan' });
-  console.log(user);
+const router = Router();
 
-  await user.save().then((data) => {
-    console.log('saved data', data);
-  });
+router.get('/', getCars);
+router.post('/', createCar);
+router.put('/add-fav-car', addFavCar);
+router.get('/fav-car/:userID', getFavCars);
+router.patch('/delete-fav-car/:userID', deleteFavCarID);
+router.delete('/delete/:id', deleteCar);
+router.put('/update/:id', updateCar);
 
-  res.send('Cars Page');
-});
-
-router.post('/add-car', (req, res) => {});
-
-export { router as carRouter };
+export default router;

@@ -4,12 +4,12 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import checkout from './src/routes/checkout.js';
 
+import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
-import { carRouter } from './src/routes/cars.js';
-import { userRouter } from './src/routes/user.js';
 import filesUpload from './src/routes/fileUpload.js';
+import carRouter from './src/routes/cars.js';
+import userRouter from './src/routes/user.js';
 
 const app = express();
 
@@ -23,6 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Routes
+app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
 
 app.get('/', (req, res) => {
@@ -39,7 +41,6 @@ app.use('/user', userRouter);
 app.use('/', filesUpload);
 
 // connect db
-
 connectToDatabase()
   .then(() => {
     app.listen(8004, () => console.log('Server is running on port 8004'));
