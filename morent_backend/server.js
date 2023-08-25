@@ -9,6 +9,7 @@ import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
 import { carRouter } from './src/routes/cars.js';
 import { userRouter } from './src/routes/user.js';
+import filesUpload from './src/routes/fileUpload.js';
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.use('/cars', carRouter);
 
 // User routes
 app.use('/user', userRouter);
+
+app.use('/', filesUpload);
 
 // connect db
 
