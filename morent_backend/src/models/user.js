@@ -34,10 +34,7 @@ const userSchema = new Schema(
       maxLength: 200,
     },
     favCars: [{ type: Schema.Types.ObjectId, ref: 'Car' }],
-    rentedCars: {
-      type: Array,
-      carId: [Schema.Types.Mixed],
-    },
+    rentedCars: [{ type: Schema.Types.ObjectId, ref: 'Car' }],
   },
   { timestamps: true }
 );
