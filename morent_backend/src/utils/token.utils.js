@@ -1,17 +1,20 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
-// Generate an access token
-export const generateAccessToken = (user, secret) => {
+export const generateToken = (user, secret, expiry) => {
   return jwt.sign({ email: user.email, id: user._id }, secret, {
-    expiresIn: '1h',
+    expiresIn: expiry,
   });
 };
 
-// Generate a refresh token
-export const generateRefreshToken = (user, secret) => {
-  return jwt.sign({ email: user.email, id: user._id }, secret, {
-    expiresIn: '7d',
+export const setTokenCookies = (res, accessToken, refreshToken) => {
+  res.cookie('access_token', accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+  });
+  res.cookie('refresh_token', refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
   });
 };
 

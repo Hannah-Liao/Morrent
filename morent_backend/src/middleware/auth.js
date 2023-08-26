@@ -2,21 +2,16 @@ import jwt from 'jsonwebtoken';
 import { secret } from '../utils/token.utils.js';
 
 export const authenticateUser = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).send('No authorization header');
-  }
-
-  const token = authHeader.split(' ')[1];
+  const token = req.cookies.access_token;
   if (!token) {
-    return res.status(401).send('No token present');
+    return res.sendStatus(403);
   }
-
   try {
-    const decoded = jwt.verify(token, secret);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).send('Invalid token');
+    const data = jwt.verify(token, secret);
+    console.log(data);
+    req.userId = data.id;
+    return next();
+  } catch {
+    return res.sendStatus(403);
   }
 };

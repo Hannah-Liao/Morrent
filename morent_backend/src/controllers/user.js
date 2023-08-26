@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
 
-import UserModel from '../models/user.js';
-import { secret } from '../utils/token.utils.js';
 import {
-  generateAccessToken,
-  generateRefreshToken,
+  generateToken,
+  setTokenCookies,
+  secret,
 } from '../utils/token.utils.js';
+import UserModel from '../models/user.js';
 
 // User Signup
 export const signup = async (req, res) => {
@@ -27,17 +27,10 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
 
-    const accessToken = generateAccessToken(newUser, secret);
-    const refreshToken = generateRefreshToken(newUser, secret);
+    const accessToken = generateToken(newUser, secret, '1h');
+    const refreshToken = generateToken(newUser, secret, '7d');
 
-    res.cookie('access_token', accessToken, {
-      httpOnly: true,
-      secure: true,
-    });
-    res.cookie('refresh_token', refreshToken, {
-      httpOnly: true,
-      secure: true,
-    });
+    setTokenCookies(res, accessToken, refreshToken);
 
     res.status(201).json({
       message: 'User created',
@@ -58,28 +51,17 @@ export const signin = async (req, res) => {
     const oldUser = await UserModel.findOne({ email });
 
     if (!oldUser)
-      return res
-        .status(404)
-        .json({ message: "User doesn't exist", email: user.email });
+      return res.status(404).json({ message: "User doesn't exist", email });
 
     const isPasswordCorrect = await bcrypt.compare(password, oldUser.password);
 
     if (!isPasswordCorrect)
-      return res
-        .status(400)
-        .json({ message: 'Invalid credentials', email: user.email });
+      return res.status(400).json({ message: 'Invalid credentials', email });
 
-    const accessToken = generateAccessToken(oldUser, secret);
-    const refreshToken = generateRefreshToken(oldUser, secret);
+    const accessToken = generateToken(oldUser, secret, '10h');
+    const refreshToken = generateToken(oldUser, secret, '7d');
 
-    res.cookie('access_token', accessToken, {
-      httpOnly: true,
-      secure: true,
-    });
-    res.cookie('refresh_token', refreshToken, {
-      httpOnly: true,
-      secure: true,
-    });
+    setTokenCookies(res, accessToken, refreshToken);
 
     res.status(200).json({
       message: 'Successfully logged in',

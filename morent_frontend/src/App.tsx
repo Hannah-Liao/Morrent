@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import {
   Canceled,
   Checkout,
-  Failed,
   Home,
   NotFound,
   Search,
@@ -13,8 +12,10 @@ import {
   Login,
   EditUser,
   SignUp,
+  Failed,
 } from './pages';
 import { NavBar, Footer } from './components';
+import { Upload } from 'lucide-react';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
+            <Route path='/upload' element={<Upload />} />
             <Route path='/profile/:id' element={<ProfileDetail />} />
             <Route path='/profile/:id/edit' element={<EditUser />} />
             <Route path='*' element={<NotFound />} />
