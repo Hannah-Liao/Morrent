@@ -6,9 +6,17 @@ import { Logo } from '../index';
 import profileImg from '../../assets/images/profile.png';
 import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateLogin } from '../../slice/loginSlice';
 
 const NavBar = () => {
-  const isLogin = true;
+  // const isLogin = true;
+  const { isLoggedIn } = useSelector(
+    (state: { userInfo: { isLoggedIn: boolean } }) => {
+      return state.userInfo;
+    },
+  );
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -44,7 +52,7 @@ const NavBar = () => {
             onClick={() => setOpen((prev) => !prev)}
           />
 
-          {isLogin && (
+          {isLoggedIn && (
             <img
               src={profileImg}
               alt='user profile photo'
@@ -53,12 +61,20 @@ const NavBar = () => {
           )}
 
           <Link
-            to='/login'
+            to={isLoggedIn ? '/' : '/login'}
+            onClick={() => {
+              dispatch(
+                updateLogin({
+                  isLoggedIn: false,
+                  email: '',
+                }),
+              );
+            }}
             className={`${
-              !isLogin ? 'btn' : 'deleteBtn'
+              !isLoggedIn ? 'btn' : 'deleteBtn'
             } min-w-[110px] h-11 p-semibold rounded hidden md:flex`}
           >
-            {!isLogin ? 'Login' : 'Logout'}
+            {!isLoggedIn ? 'Login' : 'Logout'}
           </Link>
 
           <div className='hidden md:block bg-blue-50 w-[0.1rem] h-[2.25rem]'></div>
@@ -83,7 +99,7 @@ const NavBar = () => {
 
           <div className='flex flex-col gap-2.5 my-5'>
             <Link
-              to={isLogin ? '/profile/:id' : '/login'}
+              to={isLoggedIn ? '/profile/:id' : '/login'}
               className='mobileLoginBtn min-full min-h-[49px] px-9 p-semibold rounded'
             >
               <img
@@ -91,12 +107,20 @@ const NavBar = () => {
                 alt='user profile photo'
                 className='w-5 h-5 mr-1.5 rounded-[90px]'
               />
-              {isLogin ? 'My Profile' : 'Login'}
+              {isLoggedIn ? 'My Profile' : 'Login'}
             </Link>
 
-            {isLogin && (
+            {isLoggedIn && (
               <Link
-                to='/logout'
+                to={isLoggedIn ? '/' : '/login'}
+                onClick={() => {
+                  dispatch(
+                    updateLogin({
+                      isLoggedIn: false,
+                      email: '',
+                    }),
+                  );
+                }}
                 className='deleteBtn min-full min-h-[49px] px-9 p-semibold rounded'
               >
                 Logout

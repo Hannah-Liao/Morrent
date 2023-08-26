@@ -1,33 +1,40 @@
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { z } from 'zod';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { Button } from '../ui/button';
-import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
 } from '../ui/card';
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
 } from '../ui/form';
-import { useLoginMutation } from '../../services/api';
+import { useSignupMutation } from '../../services/api';
 import { updateLogin } from '../../slice/loginSlice';
 
-const signInSchema = z.object({
+const signUpSchema = z.object({
+  firstName: z
+    .string()
+    .nonempty({ message: 'First name should not be empty' })
+    .max(50, { message: 'Not a valid first name' }),
+  lastName: z
+    .string()
+    .nonempty({ message: 'Last name should not be empty' })
+    .max(50, { message: 'Not a valid last name' }),
   email: z.string().email({ message: 'Invalid email format' }),
   password: z
     .string()
@@ -35,45 +42,48 @@ const signInSchema = z.object({
       message: 'Password must be at least 6 characters',
     })
     .max(18, { message: 'Password must be less than 18 characters' }),
-  rememberMe: z.boolean().optional(),
+  confirmPassword: z.string(), // need to add function to confirm password!
 });
 
-const LoginForm = () => {
-  const navigate = useNavigate();
+const SignUpForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [error, setError] = useState('');
-  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
-  const userInfo = useSelector((s) => s.userInfo);
+  const [signup, { isLoading: isSignUpLoading }] = useSignupMutation();
 
-  console.log({ userInfo });
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: userInfo.email || '',
+      firstName: '',
+      lastName: '',
+      email: '',
       password: '',
-      rememberMe: false,
     },
   });
 
-  async function onSubmit(data: z.infer<typeof signInSchema>) {
+  async function onSubmit(data: z.infer<typeof signUpSchema>) {
     try {
-      await login(data)
+      await signup(data)
         .unwrap()
-        .then((userInfo) => {
-          if (userInfo.success) {
+        .then((res) => {
+          if (res.success) {
+            navigate('/login');
             dispatch(
               updateLogin({
-                email: userInfo.email,
-                isLoggedIn: userInfo.success,
+                email: res.user.email,
+                isLoggedIn: false,
               }),
             );
-            navigate(`/profile/${userInfo.userId}`);
           }
         });
-    } catch (error: { data: { message: string; email: string } }) {
+    } catch (error: { data: { message: string } }) {
       console.log(error);
-      setError(error?.data.message);
+      setError(error.data.message);
+      console.error(error);
     }
   }
 
@@ -84,10 +94,10 @@ const LoginForm = () => {
           {/* Form Header */}
           <CardHeader className='space-y-1'>
             <CardTitle className='text-2xl text-center mb-[10px]'>
-              Login
+              Signup
             </CardTitle>
             <CardDescription className='text-center text-gray-400'>
-              Enter your email and password to login
+              Add your details to signup
             </CardDescription>
           </CardHeader>
 
@@ -95,6 +105,57 @@ const LoginForm = () => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
               <CardContent className='grid gap-4 pb-0'>
+                {/* Name Input*/}
+                <FormField
+                  control={form.control}
+                  name='firstName'
+                  render={({ field }) => (
+                    <FormItem className='grid gap-2 mb-[10px]'>
+                      <FormLabel
+                        htmlFor='firstName'
+                        className='signInInputLabel'
+                      >
+                        First Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          id='firstName'
+                          type='text'
+                          placeholder='Enter your first name'
+                          className='inputField dark:bg-gray-800'
+                        />
+                      </FormControl>
+                      <FormMessage className='formMessage' />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name='lastName'
+                  render={({ field }) => (
+                    <FormItem className='grid gap-2 mb-[10px]'>
+                      <FormLabel
+                        htmlFor='lastName'
+                        className='signInInputLabel'
+                      >
+                        Last Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          id='lastName'
+                          type='text'
+                          placeholder='Enter your last name'
+                          className='inputField dark:bg-gray-800'
+                        />
+                      </FormControl>
+                      <FormMessage className='formMessage' />
+                    </FormItem>
+                  )}
+                />
+
                 {/* Email Input*/}
                 <FormField
                   control={form.control}
@@ -144,19 +205,41 @@ const LoginForm = () => {
                   )}
                 />
 
-                {/* 'Remember Me' checkbox */}
-                <div className='flex items-center space-x-2'>
-                  <Checkbox id='rememberMe' {...form.register('rememberMe')} />
-                  <label htmlFor='rememberMe' className='rememberMeLabel'>
-                    Remember me
-                  </label>
-                </div>
+                {/* Repeat Password Input*/}
+                <FormField
+                  control={form.control}
+                  name='confirmPassword'
+                  render={({ field }) => (
+                    <FormItem className='grid gap-2 mb-[10px]'>
+                      <FormLabel
+                        htmlFor='confirmPassword'
+                        className='signInInputLabel'
+                      >
+                        Confirm Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          id='confirmPassword'
+                          type='password'
+                          placeholder='Confirm your password'
+                          className='inputField'
+                        />
+                      </FormControl>
+                      <FormMessage className='formMessage' />
+                    </FormItem>
+                  )}
+                />
               </CardContent>
 
               {/* Button */}
               <CardFooter className='flex flex-col'>
-                <Button type='submit' className='signInButton'>
-                  {isLoginLoading && (
+                <Button
+                  type='submit'
+                  className='signInButton'
+                  onClick={goToTop}
+                >
+                  {isSignUpLoading && (
                     <svg
                       aria-hidden='true'
                       role='status'
@@ -175,15 +258,14 @@ const LoginForm = () => {
                       />
                     </svg>
                   )}
-                  {isLoginLoading ? 'Logging in...' : 'Login'}
+                  {isSignUpLoading ? 'Signing up...' : 'Signup'}
                 </Button>
                 {error && <p className='text-sm text-red mt-4'>{error}!</p>}
                 <p className='mt-4 text-xs text-center text-gray-700 dark:text-white'>
-                  {' '}
-                  Don't have an account?
+                  Already have an account?
                   <span className='signUpLink'>
-                    <NavLink to='/signup' className='navLink'>
-                      Sign up
+                    <NavLink to='/login' className='navLink'>
+                      Login
                     </NavLink>
                   </span>
                 </p>
@@ -196,4 +278,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

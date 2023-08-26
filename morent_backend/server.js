@@ -18,12 +18,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
+// cors({
+//   origin: process.env.CLIENT_URL,
+// })
 // Middleware
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'uploads')));
