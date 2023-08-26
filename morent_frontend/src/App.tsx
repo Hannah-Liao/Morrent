@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import {
   Canceled,
   Checkout,
-  Failed,
   Home,
   NotFound,
   Search,
@@ -13,6 +12,7 @@ import {
   EditProfile,
   EditCar,
   Login,
+  Failed,
 } from './pages';
 import { NavBar, Footer } from './components';
 
