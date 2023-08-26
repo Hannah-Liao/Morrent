@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../ui/button';
 import {
@@ -11,15 +12,18 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { toast } from '../ui/use-toast';
 import { addCarSchema } from './CarSchema';
 import { uploadIcon, deleteIcon } from '../../assets/icons';
+import { useAddCarMutation } from '../../services/api';
 
 type CarFormProps = {
   isEditCarPage: boolean;
 };
 
 const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
+  const [addCar] = useAddCarMutation();
+  const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
@@ -34,7 +38,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof addCarSchema>) => console.log(data);
+  const onSubmit = (data: z.infer<typeof addCarSchema>) => {
+    addCar(data);
+    navigate('/');
+  };
 
   return (
     <div className='w-full max-w-[852px] p-[24px] mx-auto dark:bg-gray-850 bg-white borderRadius-lg'>
