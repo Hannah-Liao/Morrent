@@ -9,7 +9,7 @@ import { authenticateUser } from '../middleware/auth.js';
 router.post('/signin', signin);
 router.post('/signup', signup);
 router.post('/logout', authenticateUser, logout);
-router.patch('update-user/:id', updateUser);
+router.patch('update-user/:id', authenticateUser, updateUser);
 // router.post('/protected', protectedRoute);
 
 export default router;

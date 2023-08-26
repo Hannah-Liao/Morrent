@@ -100,34 +100,7 @@ export const logout = (req, res) => {
   }
 };
 
-// export const addUser =  async (req, res) => {
-
-//   try {
-//     const user = await UserModel.findOne({ email: req.body.email });
-
-//     if (user) {
-//       return res.status(400).json({
-//         message: 'User already exists',
-//       });
-//     }
-
-//     const newUser = new UserModel(req.body);
-//     await newUser.save();
-
-//     console.log(newUser, 'New user created');
-
-//     return res.status(200).json({
-//       message: 'New user created',
-//       user: newUser,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({
-//       message: 'Internal server error',
-//     });
-//   }
-// };
-
+// Update user
 export const updateUser = async (req, res) => {
   try {
     const id = req.params.id;
@@ -145,8 +118,6 @@ export const updateUser = async (req, res) => {
         message: 'User not found',
       });
     }
-
-    schemaMiddleware(UserModel.schema, req.body);
 
     return res.status(200).json({
       message: 'User updated successfully',
