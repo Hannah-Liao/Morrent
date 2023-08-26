@@ -8,7 +8,6 @@ export const authenticateUser = (req, res, next) => {
   }
   try {
     const data = jwt.verify(token, secret);
-    console.log(data);
     req.userId = data.id;
     return next();
   } catch {
