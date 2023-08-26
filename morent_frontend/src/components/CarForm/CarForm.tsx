@@ -23,27 +23,18 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
-      carTitle: '',
+      title: '',
       carType: '',
-      rentPrice: '',
+      price: '',
       capacity: '',
-      transmission: '',
-      location: '',
-      fuelCapacity: '',
-      shortDesc: '',
+      transmissionType: '',
+      carLocation: '',
+      fuelTankSize: '',
+      description: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof addCarSchema>) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  const onSubmit = (data: z.infer<typeof addCarSchema>) => console.log(data);
 
   return (
     <div className='w-full max-w-[852px] p-[24px] mx-auto dark:bg-gray-850 bg-white borderRadius-lg'>
@@ -62,10 +53,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
           <div className='grid gap-6 mb-6 md:grid-cols-2 pb-[45px]'>
             <FormField
               control={form.control}
-              name='carTitle'
+              name='title'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='carTitle' className='inputLabel'>
+                  <label htmlFor='title' className='inputLabel'>
                     Car Title
                   </label>
                   <FormControl>
@@ -102,10 +93,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='rentPrice'
+              name='price'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='rentPrice' className='inputLabel'>
+                  <label htmlFor='price' className='inputLabel'>
                     Rent Price
                   </label>
                   <FormControl>
@@ -144,16 +135,16 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='transmission'
+              name='transmissionType'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='transmission' className='inputLabel'>
+                  <label htmlFor='transmissionType' className='inputLabel'>
                     Transmission
                   </label>
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Car type'
+                      placeholder='transmission type'
                       {...field}
                     />
                   </FormControl>
@@ -164,10 +155,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='location'
+              name='carLocation'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='location' className='inputLabel'>
+                  <label htmlFor='carLocation' className='inputLabel'>
                     Location
                   </label>
                   <FormControl>
@@ -184,10 +175,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='fuelCapacity'
+              name='fuelTankSize'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='fuelCapacity' className='inputLabel'>
+                  <label htmlFor='fuelTankSize' className='inputLabel'>
                     Fuel Capacity
                   </label>
                   <FormControl>
@@ -205,10 +196,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='shortDesc'
+              name='description'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='shortDesc' className='inputLabel'>
+                  <label htmlFor='description' className='inputLabel'>
                     Short Description
                   </label>
                   <FormControl>
