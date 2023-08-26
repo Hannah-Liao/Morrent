@@ -19,9 +19,19 @@ import { useAddCarMutation, useUpdateCarMutation } from '../../services/api';
 type CarFormProps = {
   isEditCarPage: boolean;
   carID: string | undefined;
+  data: {
+    title: string;
+    carType: string;
+    price: number | null;
+    capacity: number | null;
+    transmissionType: string;
+    carLocation: string;
+    fuelTankSize: number | null;
+    description: string;
+  };
 };
 
-const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID }) => {
+const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, data }) => {
   const [addCar] = useAddCarMutation();
   const [updateCar] = useUpdateCarMutation();
   const navigate = useNavigate();
@@ -29,14 +39,14 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID }) => {
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
-      title: '',
-      carType: '',
-      price: '',
-      capacity: '',
-      transmissionType: '',
-      carLocation: '',
-      fuelTankSize: '',
-      description: '',
+      title: isEditCarPage ? data && data.title : '',
+      carType: isEditCarPage ? data && data.carType : '',
+      price: isEditCarPage ? data && data.price : '',
+      capacity: isEditCarPage ? data && data.capacity : '',
+      transmissionType: isEditCarPage ? data && data.transmissionType : '',
+      carLocation: isEditCarPage ? data && data.carLocation : '',
+      fuelTankSize: isEditCarPage ? data && data.fuelTankSize : '',
+      description: isEditCarPage ? data && data.description : '',
     },
   });
 

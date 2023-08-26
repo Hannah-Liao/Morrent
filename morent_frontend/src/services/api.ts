@@ -7,6 +7,9 @@ export const api = createApi({
   }),
 
   endpoints: (builder) => ({
+    getSingleCar: builder.query({
+      query: (carID) => `api/car/get-single-car/${carID}`,
+    }),
     addCar: builder.mutation({
       query: (car) => ({
         url: `api/car`,
@@ -24,4 +27,5 @@ export const api = createApi({
   }),
 });
 
-export const { useAddCarMutation, useUpdateCarMutation } = api;
+export const { useGetSingleCarQuery, useAddCarMutation, useUpdateCarMutation } =
+  api;
