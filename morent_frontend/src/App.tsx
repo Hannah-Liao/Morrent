@@ -3,15 +3,16 @@ import { Route, Routes } from 'react-router-dom';
 import {
   Canceled,
   Checkout,
-  Failed,
   Home,
   NotFound,
   Search,
   Success,
   ProfileDetail,
   AddCar,
+  Failed,
 } from './pages';
 import { NavBar, Footer } from './components';
+import Upload from './pages/upload';
 function App() {
   return (
     <main>
@@ -26,6 +27,7 @@ function App() {
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
+            <Route path='/upload' element={<Upload />} />
             <Route path='/profile/:id' element={<ProfileDetail />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
