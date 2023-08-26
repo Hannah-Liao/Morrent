@@ -14,7 +14,7 @@ import {
 import { Input } from '../ui/input';
 import { addCarSchema } from './CarSchema';
 import { uploadIcon, deleteIcon } from '../../assets/icons';
-import { useAddCarMutation } from '../../services/api';
+import { useAddCarMutation, useUpdateCarMutation } from '../../services/api';
 
 type CarFormProps = {
   isEditCarPage: boolean;
@@ -22,6 +22,7 @@ type CarFormProps = {
 
 const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
   const [addCar] = useAddCarMutation();
+  const [updateCar] = useUpdateCarMutation();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof addCarSchema>>({
@@ -41,6 +42,8 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
   const onSubmit = (data: z.infer<typeof addCarSchema>) => {
     if (!isEditCarPage) {
       addCar(data);
+    } else {
+      updateCar({ car: data, carID: '64ea6f3da0aedfae31e0af94' });
     }
     navigate('/');
   };

@@ -14,7 +14,14 @@ export const api = createApi({
         body: car,
       }),
     }),
+    updateCar: builder.mutation({
+      query: ({ car, carID }) => ({
+        url: `api/car/update/${carID}`,
+        method: 'PUT',
+        body: car,
+      }),
+    }),
   }),
 });
 
-export const { useAddCarMutation } = api;
+export const { useAddCarMutation, useUpdateCarMutation } = api;
