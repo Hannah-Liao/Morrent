@@ -35,7 +35,7 @@ const ProfileDetail = () => {
             </div>
 
             <a
-              href=''
+              href='/edit-profile'
               className='btn absolute right-[20px] bottom-[10px] sm:top-[31px] rounded-[10px] small-bold sm:body-bold min-h-[36px] sm:h-[46px]'
             >
               Edit Profile

@@ -27,9 +27,9 @@ export function ModeDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {mode === 'dark' ? (
-          <MoonIcon className='text-blue-500 w-5 h-5' />
+          <MoonIcon className='modeIcon' />
         ) : (
-          <SunIcon className='text-blue-500 w-5 h-5' />
+          <SunIcon className='modeIcon' />
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-50 mt-9'>
@@ -40,7 +40,7 @@ export function ModeDropdown() {
               localStorage.theme = 'light';
             }}
           >
-            <SunIcon className='mr-2 h-4 w-4' />
+            <SunIcon className='dropDownIcons' />
             <span>Light</span>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -49,7 +49,7 @@ export function ModeDropdown() {
               localStorage.theme = 'dark';
             }}
           >
-            <MoonIcon className='mr-2 h-4 w-4' />
+            <MoonIcon className='dropDownIcons' />
             <span>Dark</span>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -65,7 +65,7 @@ export function ModeDropdown() {
               }
             }}
           >
-            <DesktopIcon className='mr-2 h-4 w-4' />
+            <DesktopIcon className='dropDownIcons' />
             <span>System</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
