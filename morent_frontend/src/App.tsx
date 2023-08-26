@@ -11,6 +11,8 @@ import {
   ProfileDetail,
   AddCar,
   Login,
+  EditUser,
+  SignUp,
 } from './pages';
 import { NavBar, Footer } from './components';
 
@@ -23,6 +25,7 @@ function App() {
           <Routes>
             <Route index path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='add-car' element={<AddCar />} />
             <Route path='/search' element={<Search />} />
@@ -30,6 +33,7 @@ function App() {
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
             <Route path='/profile/:id' element={<ProfileDetail />} />
+            <Route path='/profile/:id/edit' element={<EditUser />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>

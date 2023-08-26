@@ -9,6 +9,8 @@ import Failed from './Failed';
 import Canceled from './Cancel';
 import ProfileDetail from './ProfileDetail';
 import Login from './Login';
+import EditUser from './EditUser';
+import SignUp from './SignUp';
 
 export {
   Home,
@@ -21,4 +23,6 @@ export {
   Canceled,
   ProfileDetail,
   Login,
+  SignUp,
+  EditUser,
 };

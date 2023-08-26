@@ -1,32 +1,31 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { Button } from 'react-day-picker';
+import { uploadIcon } from '../../assets/icons';
 
-import { Button } from '../components/ui/button';
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
+  FormControl,
   FormMessage,
-} from '../components/ui/form';
-import { Input } from '../components/ui/input';
-import { toast } from '../components/ui/use-toast';
-import { addCarSchema } from '../components/CarSchema';
-import { uploadIcon } from '../assets/icons';
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { addCarSchema } from '../CarSchema';
+import { toast } from '../ui/use-toast';
 
-const AddCar = () => {
+const EditUserForm = () => {
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
-      carTitle: '',
-      carType: '',
-      rentPrice: '',
-      capacity: '',
-      transmission: '',
+      userName: '',
+      userType: '',
+      prfoileImage: '',
+      profileBanner: '',
+      phoneNumber: '',
+      dob: '',
       location: '',
-      fuelCapacity: '',
-      shortDesc: '',
     },
   });
 
@@ -44,13 +43,13 @@ const AddCar = () => {
   return (
     <div className='w-full max-w-[852px] p-[24px] mx-auto dark:bg-gray-850 bg-white borderRadius-lg'>
       <p className='text-gray-900 base-bold pb-[10px] dark:text-white'>
-        Edit User profile
+        Edit User
       </p>
       <p className='text-gray-400 body-regular pb-[35px]'>
-        Please enter your user info
+        Please Edit User Info
       </p>
       <p className='heading-3-bold text-blue-500 pb-[35px] dark:text-blue-300'>
-        User Info
+        User Profile
       </p>
 
       <Form {...form}>
@@ -58,16 +57,16 @@ const AddCar = () => {
           <div className='grid gap-6 mb-6 md:grid-cols-2 pb-[45px]'>
             <FormField
               control={form.control}
-              name='carTitle'
+              name='userName'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='carTitle' className='inputLabel'>
-                    Car Title
+                  <label htmlFor='userName' className='inputLabel'>
+                    Name
                   </label>
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Car Title'
+                      placeholder='Name'
                       {...field}
                     />
                   </FormControl>
@@ -78,16 +77,16 @@ const AddCar = () => {
 
             <FormField
               control={form.control}
-              name='carType'
+              name='userType'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='carType' className='inputLabel'>
-                    Car Type
+                  <label htmlFor='userType' className='inputLabel'>
+                    User Type
                   </label>
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Brand Name'
+                      placeholder='Agent/User'
                       {...field}
                     />
                   </FormControl>
@@ -98,119 +97,37 @@ const AddCar = () => {
 
             <FormField
               control={form.control}
-              name='rentPrice'
+              name='phoneNumber'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='rentPrice' className='inputLabel'>
-                    Rent Price
+                  <label htmlFor='phoneNumber' className='inputLabel'>
+                    Address
+                  </label>
+                  <FormControl>
+                    <Input
+                      className='inputField'
+                      placeholder='Address'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='phoneNumber'
+              render={({ field }) => (
+                <FormItem>
+                  <label htmlFor='phoneNumber' className='inputLabel'>
+                    Phone Number
                   </label>
                   <FormControl>
                     <Input
                       type='number'
                       className='inputField'
-                      placeholder='Price in dollars'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='capacity'
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor='capacity' className='inputLabel'>
-                    Capacity
-                  </label>
-                  <FormControl>
-                    <Input
-                      type='number'
-                      className='inputField'
-                      placeholder='Capacity in person'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='transmission'
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor='transmission' className='inputLabel'>
-                    Transmission
-                  </label>
-                  <FormControl>
-                    <Input
-                      className='inputField'
-                      placeholder='Car Type'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='location'
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor='location' className='inputLabel'>
-                    Location
-                  </label>
-                  <FormControl>
-                    <Input
-                      className='inputField'
-                      placeholder='Select your city'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='fuelCapacity'
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor='fuelCapacity' className='inputLabel'>
-                    Fuel Capacity
-                  </label>
-                  <FormControl>
-                    <Input
-                      type='number'
-                      className='inputField'
-                      placeholder='Fuel Capicity in liters'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='shortDesc'
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor='shortDesc' className='inputLabel'>
-                    Short Description
-                  </label>
-                  <FormControl>
-                    <Input
-                      className='inputField'
-                      placeholder='Fuel Capicity in liters'
+                      placeholder='1234567890'
                       {...field}
                     />
                   </FormControl>
@@ -260,4 +177,4 @@ const AddCar = () => {
   );
 };
 
-export default AddCar;
+export default EditUserForm;
