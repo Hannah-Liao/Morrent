@@ -27,7 +27,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='add-car' element={<AddCar />} />
-            <Route path='/edit-car' element={<EditCar />} />
+            <Route path='/edit-car/:id' element={<EditCar />} />
             <Route path='/search' element={<Search />} />
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />

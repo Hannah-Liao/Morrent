@@ -18,9 +18,10 @@ import { useAddCarMutation, useUpdateCarMutation } from '../../services/api';
 
 type CarFormProps = {
   isEditCarPage: boolean;
+  carID: string | undefined;
 };
 
-const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
+const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID }) => {
   const [addCar] = useAddCarMutation();
   const [updateCar] = useUpdateCarMutation();
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
     if (!isEditCarPage) {
       addCar(data);
     } else {
-      updateCar({ car: data, carID: '64ea6f3da0aedfae31e0af94' });
+      updateCar({ car: data, carID: carID });
     }
     navigate('/');
   };

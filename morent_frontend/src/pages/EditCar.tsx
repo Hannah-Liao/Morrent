@@ -1,7 +1,11 @@
+import { useParams } from 'react-router-dom';
+
 import { CarForm } from '../components';
 
 const EditCar = () => {
-  return <CarForm isEditCarPage={true} />;
+  const { id } = useParams();
+
+  return <CarForm isEditCarPage={true} carID={id} />;
 };
 
 export default EditCar;
