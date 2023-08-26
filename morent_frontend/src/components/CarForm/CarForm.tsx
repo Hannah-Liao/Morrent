@@ -39,7 +39,9 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
   });
 
   const onSubmit = (data: z.infer<typeof addCarSchema>) => {
-    addCar(data);
+    if (!isEditCarPage) {
+      addCar(data);
+    }
     navigate('/');
   };
 
