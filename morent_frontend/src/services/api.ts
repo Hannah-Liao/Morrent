@@ -7,6 +7,9 @@ export const api = createApi({
   }),
 
   endpoints: (builder) => ({
+    getCurrentUser: builder.query({
+      query: () => 'api/user/current-user',
+    }),
     getSingleCar: builder.query({
       query: (carID) => `api/car/get-single-car/${carID}`,
     }),
@@ -27,5 +30,9 @@ export const api = createApi({
   }),
 });
 
-export const { useGetSingleCarQuery, useAddCarMutation, useUpdateCarMutation } =
-  api;
+export const {
+  useGetSingleCarQuery,
+  useGetCurrentUserQuery,
+  useAddCarMutation,
+  useUpdateCarMutation,
+} = api;

@@ -39,14 +39,14 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, data }) => {
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
-      title: isEditCarPage ? data && data.title : '',
-      carType: isEditCarPage ? data && data.carType : '',
-      price: isEditCarPage ? data && data.price : '',
-      capacity: isEditCarPage ? data && data.capacity : '',
-      transmissionType: isEditCarPage ? data && data.transmissionType : '',
-      carLocation: isEditCarPage ? data && data.carLocation : '',
-      fuelTankSize: isEditCarPage ? data && data.fuelTankSize : '',
-      description: isEditCarPage ? data && data.description : '',
+      title: data?.title || ' ',
+      carType: data?.carType || ' ',
+      price: data?.price || ' ',
+      capacity: data?.capacity || ' ',
+      transmissionType: data?.transmissionType || ' ',
+      carLocation: data?.carLocation || ' ',
+      fuelTankSize: data?.fuelTankSize || ' ',
+      description: data?.description || ' ',
     },
   });
 
@@ -259,7 +259,13 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, data }) => {
                     High resolution images (png, jpg, gif)
                   </p>
                 </div>
-                <input id='dropzone-file' type='file' className='hidden' />
+                <input
+                  id='dropzone-file'
+                  type='file'
+                  className='hidden'
+                  name='photos'
+                  multiple
+                />
               </label>
             </div>
           </div>
@@ -267,8 +273,11 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, data }) => {
           <div className='flex flex-col-reverse sm:flex-row justify-end gap-5'>
             {isEditCarPage && (
               <Button
-                type='submit'
+                type='button'
                 className='gap-2 removeBtn p-bold py-4 rounded-[10px] focus:ring-4 focus:outline-none w-full md:w-auto'
+                onClick={() => {
+                  console.log('deleted');
+                }}
               >
                 <img src={deleteIcon} alt='deleteIcon' />
                 Remove Car

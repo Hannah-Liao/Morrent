@@ -81,3 +81,7 @@ export const logout = (req, res) => {
     res.status(500).json({ error: 'An error occurred during logout' });
   }
 };
+
+export const showCurrentUser = async (req, res) => {
+  res.status(200).json({ userID: req.userId });
+};

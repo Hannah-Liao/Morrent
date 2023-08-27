@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage }).array('photos', 4);
+const upload = multer({ storage }).array('photos', 3);
 
 const handleUploadError = (req, res, next) => {
   upload(req, res, function (err) {

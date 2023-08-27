@@ -85,27 +85,27 @@ export const deleteCar = async (req, res) => {
 
 //update a car
 export const updateCar = async (req, res) => {
-  const userID = req.userId;
+  // const userID = req.userId;
   const carId = req.params.id;
 
   try {
-    const foundCar = await Car.findById(carId);
+    // const foundCar = await Car.findById(carId);
 
-    if (foundCar.user.equals(userID)) {
-      const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
-        new: true,
-      });
+    // if (foundCar.user.equals(userID)) {
+    const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
+      new: true,
+    });
 
-      res.status(200).json({
-        success: true,
-        message: 'Successfully updated',
-        data: updatedCar,
-      });
-    } else {
-      res
-        .status(403)
-        .json({ success: true, message: 'This car not belongs to this user' });
-    }
+    res.status(200).json({
+      success: true,
+      message: 'Successfully updated',
+      data: updatedCar,
+    });
+    // } else {
+    //   res
+    //     .status(403)
+    //     .json({ success: true, message: 'This car not belongs to this user' });
+    // }
   } catch (err) {
     res
       .status(500)
@@ -170,5 +170,20 @@ export const deleteFavCarID = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: 'Failed to detele. Try again' });
+  }
+};
+
+// get a single car
+export const getSingleCar = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const car = await Car.findById(id);
+
+    res
+      .status(200)
+      .json({ success: true, message: 'Successfully get a car', data: car });
+  } catch (err) {
+    res.status(404).json({ success: false, message: 'Not found' });
   }
 };

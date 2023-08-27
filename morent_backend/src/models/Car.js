@@ -59,11 +59,11 @@ const carSchema = new Schema(
       minlength: 2,
       maxLength: 200,
     },
-    carImages: {
-      required: [true, 'Please add car images'],
-      type: [String],
-      validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
-    },
+    // carImages: {
+    //   // required: [true, 'Please add car images'],
+    //   type: [String],
+    //   validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
+    // },
     rentedDateFrom: {
       type: String,
       validate: {
@@ -103,14 +103,11 @@ const carSchema = new Schema(
         message: 'The date must be between today and one month from today.',
       },
     },
-    isRented: {
-      type: Boolean,
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
+    // user: {
+    //   type: Schema.Types.ObjectId,
+    //   required: true,
+    //   ref: 'User',
+    // },
   },
   { timestamps: true }
 );
