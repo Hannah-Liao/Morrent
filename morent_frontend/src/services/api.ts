@@ -27,6 +27,12 @@ export const api = createApi({
         body: car,
       }),
     }),
+    deleteCar: builder.mutation({
+      query: (carID) => ({
+        url: `api/car/delete/${carID}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
@@ -35,4 +41,5 @@ export const {
   useGetCurrentUserQuery,
   useAddCarMutation,
   useUpdateCarMutation,
+  useDeleteCarMutation,
 } = api;

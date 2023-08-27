@@ -11,7 +11,7 @@ const EditCar = () => {
   if (isFetching) return <h1>Loading</h1>;
   if (isError) return <h1>error</h1>;
 
-  return <CarForm isEditCarPage={true} carID={id} data={data.data} />;
+  return <CarForm isEditCarPage={true} carID={id} carData={data.data} />;
 };
 
 export default EditCar;

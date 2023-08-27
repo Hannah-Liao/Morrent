@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import { Button } from '../ui/button';
 import {
@@ -14,12 +15,16 @@ import {
 import { Input } from '../ui/input';
 import { addCarSchema } from './CarSchema';
 import { uploadIcon, deleteIcon } from '../../assets/icons';
-import { useAddCarMutation, useUpdateCarMutation } from '../../services/api';
+import {
+  useAddCarMutation,
+  useUpdateCarMutation,
+  useDeleteCarMutation,
+} from '../../services/api';
 
 type CarFormProps = {
   isEditCarPage: boolean;
   carID: string | undefined;
-  data: {
+  carData: {
     title: string;
     carType: string;
     price: number | null;
@@ -31,32 +36,38 @@ type CarFormProps = {
   };
 };
 
-const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, data }) => {
+const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const [addCar] = useAddCarMutation();
   const [updateCar] = useUpdateCarMutation();
+  const [deleteCar] = useDeleteCarMutation();
   const navigate = useNavigate();
+
+  const [images, setImages] = useState<FormData | null>(null);
 
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
-      title: data?.title || ' ',
-      carType: data?.carType || ' ',
-      price: data?.price || ' ',
-      capacity: data?.capacity || ' ',
-      transmissionType: data?.transmissionType || ' ',
-      carLocation: data?.carLocation || ' ',
-      fuelTankSize: data?.fuelTankSize || ' ',
-      description: data?.description || ' ',
+      title: carData?.title || '',
+      carType: carData?.carType || '',
+      price: carData?.price || '',
+      capacity: carData?.capacity || '',
+      transmissionType: carData?.transmissionType || '',
+      carLocation: carData?.carLocation || '',
+      fuelTankSize: carData?.fuelTankSize || '',
+      description: carData?.description || '',
     },
   });
 
   const onSubmit = (data: z.infer<typeof addCarSchema>) => {
-    if (!isEditCarPage) {
-      addCar(data);
-    } else {
-      updateCar({ car: data, carID: carID });
+    if (images) {
+      data.carImages = images;
+      if (!isEditCarPage) {
+        addCar(data);
+      } else {
+        updateCar({ car: data, carID: carID });
+      }
+      navigate('/');
     }
-    navigate('/');
   };
 
   return (
@@ -260,11 +271,27 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, data }) => {
                   </p>
                 </div>
                 <input
+                  onChange={async (e) => {
+                    const formData = new FormData();
+                    const files = e.target.files!;
+
+                    Array.from(files).forEach((file) => {
+                      formData.append('photos', file);
+                    });
+                    const res = await fetch('http://localhost:8004/upload', {
+                      method: 'POST',
+                      body: formData,
+                    });
+
+                    const data = await res.json();
+
+                    setImages(data);
+                  }}
                   id='dropzone-file'
+                  multiple
+                  name='photos'
                   type='file'
                   className='hidden'
-                  name='photos'
-                  multiple
                 />
               </label>
             </div>
@@ -276,7 +303,8 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, data }) => {
                 type='button'
                 className='gap-2 removeBtn p-bold py-4 rounded-[10px] focus:ring-4 focus:outline-none w-full md:w-auto'
                 onClick={() => {
-                  console.log('deleted');
+                  deleteCar(carID);
+                  navigate('/');
                 }}
               >
                 <img src={deleteIcon} alt='deleteIcon' />
