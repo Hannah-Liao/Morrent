@@ -18,10 +18,7 @@ export const addCarSchema: ZodType = z.object({
     .min(1, { message: 'Capacity must be at least 1' }),
 
   transmission: z.string().min(1),
-  location: z
-    .string()
-    .trim()
-    .min(10, { message: 'Location must have at least 10 characters' }),
+  location: z.string(),
   fuelCapacity: z.coerce
     .number()
     .min(1, { message: 'Fuel Capacity must be at least 1' }),

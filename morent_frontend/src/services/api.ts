@@ -1,22 +1,24 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-const apiKey = import.meta.env.VITE_APP_JSEARCH_KEY;
+import { CarDataInfo } from '../types/carInfo';
 
 export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/',
-    prepareHeaders: (headers) => {
-      headers.set('Bearer', apiKey);
-    },
+    baseUrl: 'http://localhost:8004',
   }),
   endpoints: (builder) => ({
-    getCarLists: builder.query({
-      query: ({ page }) => {
-        return `car-list/${page}`;
+    getCarList: builder.query({
+      query: () => {
+        return '/api/car';
       },
+    }),
+    getPopularCars: builder.query({
+      query: () => {
+        return '/api/car/popular';
+      },
+      transformResponse: ({ cars }) => cars.slice(0, 4) as CarDataInfo[],
     }),
   }),
 });
 
-export const { useGetCarListsQuery } = api;
+export const { useGetCarListQuery, useGetPopularCarsQuery } = api;

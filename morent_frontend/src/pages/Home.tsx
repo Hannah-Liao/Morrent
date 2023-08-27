@@ -10,37 +10,41 @@ import {
   PickDropForm,
   RentNowModal,
 } from '../components/index';
-import { CarInfo } from '../types/carInfo';
-import { cars } from '../constant';
+import { CarDataInfo } from '../types/carInfo';
+import { useGetCarListQuery, useGetPopularCarsQuery } from '../services/api';
 
-const Home: React.FC = () => {
+const Home = () => {
   const [showMoreCars, setShowMoreCars] = useState<boolean>(false);
-  const [cardModalData, setCardModalData] = useState<null | CarInfo>(null);
+  const [cardModalData, setCardModalData] = useState<null | CarDataInfo>(null);
   const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
     '',
   );
 
+  const { data, isError, isLoading } = useGetCarListQuery('');
+  const {
+    data: popularCars,
+    isError: popularCarError,
+    isLoading: popularCarLoading,
+  } = useGetPopularCarsQuery('');
+
+  if (isLoading || popularCarLoading) return <p>Loading....</p>;
+
+  if (isError || popularCarError) return <p>Error....</p>;
+
   return (
     <>
       <section className='homeContainer'>
-        {/* Big Header Cards */}
         <HomeHeader />
-
-        {/* Search Bar */}
-
         <div className='mt-[32px] mb-[36px]'>
           <PickDropForm isShow={true} />
         </div>
 
-        <>
-          {/* Popular Cars Header */}
-          <HomeViewAllHeader titleText='Popular Cars' />
+        <HomeViewAllHeader titleText='Popular Cars' />
 
-          {/* Popular Cars Grid */}
-          <div className='homePopularCarsGrid'>
-            {cars.slice(0, 4).map((car, i) => (
-              <div key={i}>
-                {/* Blur cards that are not fully in the viewport on mobile */}
+        <section className=' w-full relative'>
+          <div className='homePopularCarsGrid '>
+            {popularCars?.map((car) => (
+              <div key={car._id}>
                 {window.innerWidth < 500 ? (
                   <VisibilitySensor>
                     {({ isVisible }: { isVisible: boolean }) => (
@@ -64,44 +68,24 @@ const Home: React.FC = () => {
               </div>
             ))}
           </div>
-        </>
+          <div className='absolute top-0 bg-gradient-to-l from-white dark:from-[#2E3C56] dark:to-[#2e3c5600] -right-6 h-full bottom-0 w-11'></div>
+        </section>
 
-        <>
-          {/* Recommended Cars Header*/}
-          <HomeViewAllHeader titleText='Recommended Cars' />
+        <HomeViewAllHeader titleText='Recommended Cars' />
 
-          {/* Recommended Cars Grid*/}
-          <div className='homeRecommendedGrid'>
-            {/* Show more cars on button click*/}
-            {showMoreCars
-              ? cars
-                  .slice(0, 16)
-                  .map((car, i) => (
-                    <CarCard
-                      key={i}
-                      data={car}
-                      setCardModalData={setCardModalData}
-                      setIsCarModalOpen={() => setOpenModalName('car_info')}
-                      shouldOpenModal={true}
-                      hideButton={false}
-                    />
-                  ))
-              : cars
-                  .slice(0, 8)
-                  .map((car, i) => (
-                    <CarCard
-                      key={i}
-                      data={car}
-                      setCardModalData={setCardModalData}
-                      setIsCarModalOpen={() => setOpenModalName('car_info')}
-                      shouldOpenModal={true}
-                      hideButton={false}
-                    />
-                  ))}
-          </div>
-        </>
+        <div className='homeRecommendedGrid'>
+          {data?.cars.map((car: CarDataInfo) => (
+            <CarCard
+              key={car._id}
+              data={car}
+              setCardModalData={setCardModalData}
+              setIsCarModalOpen={() => setOpenModalName('car_info')}
+              shouldOpenModal={true}
+              hideButton={false}
+            />
+          ))}
+        </div>
 
-        {/* Button */}
         <div className='mx-auto text-center py-[64px]'>
           <button
             className='cardButton px-[50px] min-h-[55px]'
@@ -112,14 +96,12 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Car Info Modal */}
       <CarInfoModal
         open={openModalName === 'car_info'}
         setOpen={setOpenModalName}
         data={cardModalData}
       />
 
-      {/* Rent Now Modal */}
       <RentNowModal
         open={openModalName === 'rent'}
         setOpen={setOpenModalName}

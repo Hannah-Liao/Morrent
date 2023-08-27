@@ -44,8 +44,20 @@ const LoginForm = () => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof signInSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof signInSchema>) {
+    try {
+      const res = await fetch('http://localhost:8004/api/user/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      console.log(json);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

@@ -3,12 +3,12 @@ import { Dialog, DialogContent } from '../ui/dialog';
 
 import { blueBackground } from '../../assets/images/index';
 import { starFilled, starNoFill } from '../../assets/icons';
-import { CarInfo } from '../../types/carInfo';
+import { CarDataInfo } from '../../types/carInfo';
 
 interface CarInfoModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<'' | 'car_info' | 'rent'>>;
-  data: CarInfo | null;
+  data: CarDataInfo | null;
 }
 
 const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
@@ -47,7 +47,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                 src={selectLargeImage(activeImageIndex)}
                 alt='Car View 1 Large'
                 style={{ backgroundImage: `url(${blueBackground})` }}
-                className='w-full h-full object-contain rounded-[10px]'
+                className='w-full h-full object-cover aspect-square rounded-[10px]'
                 aria-label='Large car image'
               />
             </div>
@@ -69,7 +69,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                       alt='Car View 1 Small'
                       aria-label='Car View 1 Small'
                       style={{ backgroundImage: `url(${blueBackground})` }}
-                      className='w-full h-full object-contain rounded-[10px] cursor-pointer'
+                      className='w-full h-full object-cover aspect-square rounded-[10px] cursor-pointer'
                       onClick={() => setActiveImageIndex(i + 1)}
                     />
                   ) : (

@@ -8,12 +8,12 @@ import {
   heartFilled,
   transmission,
 } from '../../assets/icons/index';
-import { CarInfo } from '../../types/carInfo';
+import { CarDataInfo } from '../../types/carInfo';
 
 interface CarCardProps {
-  data: CarInfo | null;
+  data: CarDataInfo | null;
   isHidden?: boolean;
-  setCardModalData: Dispatch<SetStateAction<CarInfo | null>>;
+  setCardModalData: Dispatch<SetStateAction<CarDataInfo | null>>;
   setIsCarModalOpen: Dispatch<SetStateAction<boolean>>;
   shouldOpenModal: boolean;
 }
@@ -30,7 +30,7 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
   if (!data) return;
 
   return (
-    <div className={`cardContainer ${isHidden ? 'blur-xs' : ''}`}>
+    <div className={`popular-card  ${isHidden ? 'blur-xs' : ''}`}>
       {/* Car Title Section */}
       <header className='flex justify-between p-[16px] sm:p-[24px]'>
         <div className='flex-3 w-[90%] overflow-hidden'>
@@ -50,25 +50,21 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
         </div>
       </header>
 
-      {/* Car Image and Stats Section */}
       <div className='flex justify-between items-center flex-col'>
-        {/* Car Image with Shadow*/}
-        <div className='w-full lg:w-full mx-auto py-[20px] lg:py-[32px]'>
+        <div className='w-full lg:w-full mx-auto relative'>
           <div
             style={{ backgroundImage: `url(${data.carImages[0]})` }}
             className='cardImage'
           >
-            <div className='mt-10 dark:opacity-0'>
-              <img
-                className='h-[64px] w-full opacity:90'
-                src={carShadow}
-                alt='Shadow overlay'
-              />
-            </div>
+            <img
+              className='h-[64px] w-full opacity:90 mt-10 dark:opacity-0 absolute bottom-0 left-0 right-0'
+              src={carShadow}
+              alt='Shadow overlay'
+            />
           </div>
         </div>
         {/* Stats*/}
-        <ul className='cardIconContainer flex-row w-full mb-2 body-medium px-[16px] sm:px-[24px]'>
+        <ul className='cardIconContainer flex-row w-full mb-2 mt-5 body-medium px-4 sm:px-6'>
           <li className='cardIconItem'>
             <img
               src={gasStation}
@@ -141,7 +137,7 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
               }
             }}
           >
-            {data.buttonText}
+            More Info
           </button>
         </div>
       </div>

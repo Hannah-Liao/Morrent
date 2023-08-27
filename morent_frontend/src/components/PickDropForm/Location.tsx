@@ -28,7 +28,6 @@ export default function LocationSelect({
 
       const response2 = await fetch(`https://ipapi.co/${ip}/json/`);
       const locationData = await response2.json();
-      console.log(locationData);
 
       await fetchCitiesInCountry(
         locationData?.country_name,

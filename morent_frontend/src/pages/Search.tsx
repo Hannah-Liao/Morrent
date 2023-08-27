@@ -14,7 +14,7 @@ export default function Search() {
   return (
     <div className='flex min-h-screen flex-col md:flex-row gap-5 p-2 md:p-0 w-full'>
       <section
-        className={`fixed z-10 md:sticky transition-all ease duration-500 top-0 md:h-screen md:max-w-[260px] bg-white h-screen dark:bg-gray-900 w-full overflow-y-auto p-5 ${
+        className={`fixed z-10 top-0 md:z-0 md:sticky md:top-20 transition-all ease duration-500  md:h-screen md:max-w-[260px] bg-white h-screen dark:bg-gray-900 w-full overflow-y-auto p-5 ${
           isOpen ? 'left-0' : '-left-full'
         }`}
       >

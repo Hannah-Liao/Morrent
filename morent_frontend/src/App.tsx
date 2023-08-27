@@ -10,9 +10,8 @@ import {
   ProfileDetail,
   AddCar,
   Failed,
+  Login,
 } from './pages';
-import Upload from './pages/upload';
-import { Login } from './pages';
 import { NavBar, Footer } from './components';
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2.5%] pt-[124px] md:pt-[132px]'>
+        <div className='w-full max-container p-[2.5%]'>
           <Routes>
             <Route index path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
@@ -30,7 +29,6 @@ function App() {
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
-            <Route path='/upload' element={<Upload />} />
             <Route path='/profile/:id' element={<ProfileDetail />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
