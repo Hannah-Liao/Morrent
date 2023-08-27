@@ -88,12 +88,14 @@ export const updateUser = async (req, res) => {
     const id = req.params.id;
     const updatedUserData = req.body;
 
-    // do the validation for up
-
     // Find the user by ID
     const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
       new: true,
+    }).setOptions({
+      strictQuery: true,
     });
+
+    console.log(user);
 
     if (!user) {
       return res.status(404).json({
@@ -110,5 +112,40 @@ export const updateUser = async (req, res) => {
     return res.status(500).json({
       message: 'Internal server error',
     });
+  }
+};
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await UserModel.findById(id);
+    console.log(user.id);
+
+    if (!user) {
+      return res.send({ message: 'No user find' });
+    }
+
+    const deletedUser = await UserModel.findByIdAndDelete(user.id);
+
+    return res.send({ message: 'User deleted', deletedUser: deletedUser });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: 'Internal Server Error',
+    });
+  }
+};
+
+export const viewUsers = async (req, res) => {
+  try {
+    const allUsers = await UserModel.find();
+    if (!allUsers) {
+      return res.json({ message: 'No user existed', allUsers: [] });
+    }
+
+    return res.send(allUsers);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ Error: 'some internal error' });
   }
 };
