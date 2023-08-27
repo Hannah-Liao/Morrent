@@ -20,6 +20,7 @@ export default function LocationSelect({
   const [cities, setCities] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [sliceNumber, setSliceNumber] = useState<number>(10);
 
   const fetchUserCountry = async () => {
     try {
@@ -28,7 +29,6 @@ export default function LocationSelect({
 
       const response2 = await fetch(`https://ipapi.co/${ip}/json/`);
       const locationData = await response2.json();
-      console.log(locationData);
 
       await fetchCitiesInCountry(
         locationData?.country_name,
@@ -82,7 +82,7 @@ export default function LocationSelect({
 
       <SelectContent className='max-h-52 overflow-y-auto'>
         {cities.length > 0 ? (
-          cities?.map((val) => (
+          cities?.slice(0, sliceNumber).map((val) => (
             <SelectItem key={val} value={val} title={val}>
               {val}
             </SelectItem>
@@ -90,6 +90,12 @@ export default function LocationSelect({
         ) : (
           <SelectItem value={'Loading...'}>Loading...</SelectItem>
         )}
+        <button
+          className='text-left text-xs pl-8 w-full py-3'
+          onClick={() => setSliceNumber((prev) => prev + 5)}
+        >
+          Load more
+        </button>
       </SelectContent>
     </Select>
   );
