@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
@@ -26,6 +25,7 @@ import {
 } from '../ui/form';
 import { useLoginMutation } from '../../services/api';
 import { updateLogin } from '../../slice/loginSlice';
+import { isApiResponse } from '../../lib/utils';
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Invalid email format' }),
@@ -41,16 +41,13 @@ const signInSchema = z.object({
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState('');
-  const [login, { isLoading: isLoginLoading }] = useLoginMutation();
-  const userInfo = useSelector((s) => s.userInfo);
-
-  console.log({ userInfo });
+  const [login, { isLoading: isLoginLoading, error: loginError }] =
+    useLoginMutation();
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: userInfo.email || '',
+      email: '',
       password: '',
       rememberMe: false,
     },
@@ -62,6 +59,7 @@ const LoginForm = () => {
         .unwrap()
         .then((userInfo) => {
           if (userInfo.success) {
+            //store in redux
             dispatch(
               updateLogin({
                 email: userInfo.email,
@@ -71,11 +69,12 @@ const LoginForm = () => {
             navigate(`/profile/${userInfo.userId}`);
           }
         });
-    } catch (error: { data: { message: string; email: string } }) {
-      console.log(error);
-      setError(error?.data.message);
+    } catch (err) {
+      console.error('Something went wrong!');
     }
   }
+
+  console.log(loginError, 'hello');
 
   return (
     <div className='relative flex flex-col justify-center items-center my-[40px] overflow-hidden'>
@@ -177,7 +176,11 @@ const LoginForm = () => {
                   )}
                   {isLoginLoading ? 'Logging in...' : 'Login'}
                 </Button>
-                {error && <p className='text-sm text-red mt-4'>{error}!</p>}
+                {isApiResponse(loginError) && (
+                  <p className='text-sm text-red mt-4'>
+                    {loginError.data.message}
+                  </p>
+                )}
                 <p className='mt-4 text-xs text-center text-gray-700 dark:text-white'>
                   {' '}
                   Don't have an account?

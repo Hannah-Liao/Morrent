@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
@@ -24,7 +22,8 @@ import {
   FormMessage,
 } from '../ui/form';
 import { useSignupMutation } from '../../services/api';
-import { updateLogin } from '../../slice/loginSlice';
+import { isApiResponse } from '../../lib/utils';
+import console from 'console';
 
 const signUpSchema = z.object({
   firstName: z
@@ -46,10 +45,9 @@ const signUpSchema = z.object({
 });
 
 const SignUpForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState('');
-  const [signup, { isLoading: isSignUpLoading }] = useSignupMutation();
+  const [signup, { isLoading: isSignUpLoading, error: signupError }] =
+    useSignupMutation();
 
   const goToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -72,17 +70,9 @@ const SignUpForm = () => {
         .then((res) => {
           if (res.success) {
             navigate('/login');
-            dispatch(
-              updateLogin({
-                email: res.user.email,
-                isLoggedIn: false,
-              }),
-            );
           }
         });
-    } catch (error: { data: { message: string } }) {
-      console.log(error);
-      setError(error.data.message);
+    } catch (error) {
       console.error(error);
     }
   }
@@ -260,7 +250,11 @@ const SignUpForm = () => {
                   )}
                   {isSignUpLoading ? 'Signing up...' : 'Signup'}
                 </Button>
-                {error && <p className='text-sm text-red mt-4'>{error}!</p>}
+                {isApiResponse(signupError) && (
+                  <p className='text-sm text-red mt-4'>
+                    {signupError.data.message}
+                  </p>
+                )}
                 <p className='mt-4 text-xs text-center text-gray-700 dark:text-white'>
                   Already have an account?
                   <span className='signUpLink'>
