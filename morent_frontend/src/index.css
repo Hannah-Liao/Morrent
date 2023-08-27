@@ -185,13 +185,23 @@
     @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5 !important;
   }
 
-  .deleteBtn {
-    @apply flex-center  bg-red text-white  body-semibold !important;
+  .removeBtn {
+    @apply flex-center bg-red hover:opacity-90 text-white !important;
   }
 
   .mobileLoginBtn {
     @apply leading-[150%] tracking-[-0.28px] flex-center w-full min-h-[49px] border border-blue-50 dark:border-none bg-white dark:bg-gray-700 text-blue-500 dark:text-blue-300 body-semibold px-9 !important;
   }
+
+  /* icons */
+  .dropDownIcons {
+    @apply mr-2 h-4 w-4;
+  }
+
+  .modeIcon {
+    @apply text-blue-500 w-5 h-5 cursor-pointer;
+  }
+
   /* Home Page */
 
   .homeContainer {
@@ -290,7 +300,7 @@
   }
 
   .inputLabel {
-    @apply block p-semibold mb-[16px] text-gray-900 dark:text-white !important;
+    @apply block p-semibold mb-[16px] text-gray-900 dark:text-white mt-3 !important;
   }
 
   /* Car Info Modal */

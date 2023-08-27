@@ -6,6 +6,7 @@ import { Logo } from '../index';
 import profileImg from '../../assets/images/profile.png';
 import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
+import { ProfileMenu } from './ProfileMenu';
 
 const NavBar = () => {
   const isLogin = true;
@@ -37,29 +38,23 @@ const NavBar = () => {
       <div className='max-container flex justify-between items-start px-[20px] md:px-[60px] py-[32px] md:py-[28px] '>
         <Logo />
         <div className='flex-center flex-row-reverse md:flex-row gap-6'>
-          <NavMenu isHidden={'hidden md:block'} />
+          <NavMenu isHidden={'hidden md:block'} setOpen={setOpen} />
 
           <HamburgerMenuIcon
             className='text-gray-700 w-6 h-6 md:hidden'
             onClick={() => setOpen((prev) => !prev)}
           />
 
-          {isLogin && (
-            <img
-              src={profileImg}
-              alt='user profile photo'
-              className='w-7 md:w-9 h-7 md:h-9 rounded-[90px]'
-            />
-          )}
+          {isLogin && <ProfileMenu />}
 
-          <Link
-            to='/login'
-            className={`${
-              !isLogin ? 'btn' : 'deleteBtn'
-            } min-w-[110px] h-11 p-semibold rounded hidden md:flex`}
-          >
-            {!isLogin ? 'Login' : 'Logout'}
-          </Link>
+          {!isLogin && (
+            <Link
+              to='/login'
+              className='btn min-w-[110px] h-11 p-semibold rounded hidden md:flex'
+            >
+              Login
+            </Link>
+          )}
 
           <div className='hidden md:block bg-blue-50 w-[0.1rem] h-[2.25rem]'></div>
           <ModeDropdown />
@@ -79,7 +74,7 @@ const NavBar = () => {
             />
           </div>
 
-          <NavMenu isMobile={true} />
+          <NavMenu isMobile={true} setOpen={setOpen} />
 
           <div className='flex flex-col gap-2.5 my-5'>
             <Link
@@ -93,15 +88,6 @@ const NavBar = () => {
               />
               {isLogin ? 'My Profile' : 'Login'}
             </Link>
-
-            {isLogin && (
-              <Link
-                to='/logout'
-                className='deleteBtn min-full min-h-[49px] px-9 p-semibold rounded'
-              >
-                Logout
-              </Link>
-            )}
           </div>
         </div>
       </div>

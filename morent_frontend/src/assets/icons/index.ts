@@ -24,6 +24,7 @@ import edit from './edit.svg';
 import navSearch from './navSearch.svg';
 import plus from './Plus.svg';
 import home from './Home.svg';
+import deleteIcon from './delete.svg';
 
 export {
   visa,
@@ -52,4 +53,5 @@ export {
   navSearch,
   plus,
   home,
+  deleteIcon,
 };
