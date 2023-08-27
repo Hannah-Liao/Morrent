@@ -59,11 +59,11 @@ const carSchema = new Schema(
       minlength: 2,
       maxLength: 200,
     },
-    // carImages: {
-    //   // required: [true, 'Please add car images'],
-    //   type: [String],
-    //   validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
-    // },
+    carImages: {
+      required: [true, 'Please add car images'],
+      type: [String],
+      validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
+    },
     rentedDateFrom: {
       type: String,
       validate: {
