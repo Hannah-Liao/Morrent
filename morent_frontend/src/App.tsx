@@ -11,7 +11,6 @@ import {
   AddCar,
   EditCar,
   Login,
-  EditUser,
   SignUp,
   Failed,
 } from './pages';
@@ -35,7 +34,6 @@ function App() {
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
             <Route path='/profile/:id' element={<ProfileDetail />} />
-            <Route path='/profile/:id/edit' element={<EditUser />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>
