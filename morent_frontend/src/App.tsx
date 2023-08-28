@@ -9,7 +9,6 @@ import {
   Success,
   ProfileDetail,
   AddCar,
-  EditUser,
   SignUp,
   EditProfile,
   EditCar,
@@ -37,7 +36,6 @@ function App() {
             <Route path='/error' element={<Failed />} />
             <Route path='/edit-profile' element={<EditProfile />} />
             <Route path='/profile/:id' element={<ProfileDetail />} />
-            <Route path='/profile/:id/edit' element={<EditUser />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>

@@ -10,7 +10,6 @@ import ProfileDetail from './ProfileDetail';
 import EditProfile from './EditProfile';
 import EditCar from './EditCar';
 import Login from './Login';
-import EditUser from './EditUser';
 import SignUp from './SignUp';
 
 export {
@@ -27,5 +26,4 @@ export {
   EditCar,
   Login,
   SignUp,
-  EditUser,
 };
