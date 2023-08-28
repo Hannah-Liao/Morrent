@@ -24,6 +24,7 @@ function App() {
         <div className='w-full max-container p-[2.5%] pt-[124px] md:pt-[132px]'>
           <Routes>
             <Route index path='/' element={<Home />} />
+            <Route path='/signup' element={<SignUp />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/checkout' element={<Checkout />} />
