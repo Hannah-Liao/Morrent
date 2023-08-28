@@ -58,9 +58,21 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof addCarSchema>) => {
+  const onSubmit = async (data: z.infer<typeof addCarSchema>) => {
+    const formData = new FormData();
+    // @ts-ignore
+    Array.from(images).forEach((file) => {
+      formData.append('photos', file);
+    });
+    const res = await fetch('http://localhost:8004/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const formImages = await res.json();
+
     if (images) {
-      data.carImages = images;
+      data.carImages = formImages;
       if (!isEditCarPage) {
         addCar(data);
       } else {
@@ -272,20 +284,8 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
                 </div>
                 <input
                   onChange={async (e) => {
-                    const formData = new FormData();
                     const files = e.target.files!;
-
-                    Array.from(files).forEach((file) => {
-                      formData.append('photos', file);
-                    });
-                    const res = await fetch('http://localhost:8004/upload', {
-                      method: 'POST',
-                      body: formData,
-                    });
-
-                    const data = await res.json();
-
-                    setImages(data);
+                    setImages(files);
                   }}
                   id='dropzone-file'
                   multiple
