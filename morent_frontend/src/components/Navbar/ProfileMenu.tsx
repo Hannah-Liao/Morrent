@@ -27,13 +27,13 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
   const handleLogout = async () => {
     try {
       await logout({});
-      navigate('/');
       dispatch(
         updateLogin({
           isLoggedIn: false,
           email: '',
         }),
       );
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
