@@ -3,6 +3,14 @@ import User from '../models/user.js';
 
 // create new car
 export const createCar = async (req, res) => {
+  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+  if (files.length < 0) {
+    return res
+      .status(500)
+      .json({ success: false, message: 'Failed to create. Try again' });
+  }
+
+  req.body.carImages = files;
   const newCar = new Car(req.body);
 
   try {
@@ -53,30 +61,31 @@ export const getCars = async (req, res) => {
 
 //delete a car
 export const deleteCar = async (req, res) => {
-  const userID = req.userId;
+  // const userID = req.userId;
   const carId = req.params.id;
 
   try {
-    const foundCar = await Car.findById(carId);
+    // const foundCar = await Car.findById(carId);
 
-    if (foundCar.user.equals(userID)) {
-      // delete the car in user favcars
-      const user = await User.findOneAndUpdate(
-        { _id: userID },
-        { $pull: { favCars: carId } },
-        { new: true }
-      );
-      // delete the car
-      await Car.findByIdAndDelete(carId);
-      res
-        .status(200)
-        .json({ success: true, message: 'Successfully deleted', data: user });
-    } else {
-      res
-        .status(403)
-        .json({ success: true, message: 'This car not belongs to this user' });
-    }
+    // if (foundCar.user.equals(userID)) {
+    //   // delete the car in user favcars
+    //   const user = await User.findOneAndUpdate(
+    //     { _id: userID },
+    //     { $pull: { favCars: carId } },
+    //     { new: true }
+    //   );
+    // delete the car
+    await Car.findByIdAndDelete(carId);
+    res
+      .status(200)
+      .json({ success: true, message: 'Successfully deleted', data: user });
+    // } else {
+    //   res
+    //     .status(403)
+    //     .json({ success: true, message: 'This car not belongs to this user' });
+    // }
   } catch (err) {
+    console.log(err.message);
     res
       .status(500)
       .json({ success: false, message: 'Failed to deleted. Try again' });
@@ -88,10 +97,36 @@ export const updateCar = async (req, res) => {
   // const userID = req.userId;
   const carId = req.params.id;
 
+  function extractImageUrls(formDataString) {
+    // Use regular expression to split URLs
+    const regex = /,(?=[^,]*\.[a-z]{3,4}$)/gi;
+    const urlArray = formDataString.split(regex);
+
+    // Trim whitespace from each URL and decode the URL components
+    const imageUrls = urlArray.map((url) => decodeURIComponent(url.trim()));
+
+    return imageUrls;
+  }
+
+  const imageUrlsArray = extractImageUrls(req.body.carImages);
+
   try {
     // const foundCar = await Car.findById(carId);
-
+    let files = [];
     // if (foundCar.user.equals(userID)) {
+    if (req.files.length > 0) {
+      files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+      if (files.length < 0) {
+        return res
+          .status(500)
+          .json({ success: false, message: 'Failed to create. Try again' });
+      }
+    }
+
+    req.body.carImages = req.body.carImages
+      ? [...imageUrlsArray, ...files]
+      : files;
+
     const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
       new: true,
     });
