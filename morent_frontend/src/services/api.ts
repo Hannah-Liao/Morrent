@@ -33,6 +33,32 @@ export const api = createApi({
         method: 'DELETE',
       }),
     }),
+    login: builder.mutation({
+      query: (userInfo) => ({
+        url: 'api/user/signin',
+        method: 'POST',
+        body: userInfo,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }),
+    }),
+    signup: builder.mutation({
+      query: (userInfo) => ({
+        url: 'api/user/signup',
+        method: 'POST',
+        body: userInfo,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }),
+    }),
+    logout: builder.mutation({
+      query: () => ({
+        url: 'api/user/logout',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -42,4 +68,7 @@ export const {
   useAddCarMutation,
   useUpdateCarMutation,
   useDeleteCarMutation,
+  useSignupMutation,
+  useLoginMutation,
+  useLogoutMutation,
 } = api;

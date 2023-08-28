@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { api } from '../services/api';
 import carFilter from '../slice/carFilterSlice';
 import authSlice from '../slice/authSlice';
+import loginSlice from '../slice/loginSlice';
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     carFilter,
     authSlice,
+    userInfo: loginSlice,
   },
 
   middleware: (getDefaultMiddleware) =>
