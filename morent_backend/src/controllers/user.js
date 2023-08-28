@@ -38,8 +38,6 @@ export const signup = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong' });
-
-    console.log(error);
   }
 };
 
@@ -84,31 +82,36 @@ export const logout = (req, res) => {
 
 // Update user
 export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+
+  const updatedUserData = req.body;
   try {
-    const id = req.params.id;
-    const updatedUserData = req.body;
+    const userData = await UserModel.findById(userId);
 
-    // Find the user by ID
-    const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
-      new: true,
-    }).setOptions({
-      strictQuery: true,
-    });
-
-    console.log(user);
-
-    if (!user) {
+    if (!userData) {
       return res.status(404).json({
         message: 'User not found',
       });
     }
+    if (userData.id === id) {
+      // Find the user by ID
+      const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
+        new: true,
+      }).setOptions({
+        strictQuery: true,
+      });
 
-    return res.status(200).json({
-      message: 'User updated successfully',
-      user: user,
-    });
+      return res.status(200).json({
+        message: 'User updated successfully',
+        user: user,
+      });
+    } else {
+      return res.status(404).json({
+        message: 'This data not belong logged user',
+      });
+    }
   } catch (error) {
-    console.error(error);
     return res.status(500).json({
       message: 'Internal server error',
     });
@@ -116,20 +119,24 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
   try {
-    const { id } = req.params;
     const user = await UserModel.findById(id);
-    console.log(user.id);
 
     if (!user) {
       return res.send({ message: 'No user find' });
     }
 
-    const deletedUser = await UserModel.findByIdAndDelete(user.id);
-
-    return res.send({ message: 'User deleted', deletedUser: deletedUser });
+    if (user.id === id) {
+      const deletedUser = await UserModel.findByIdAndDelete(user.id);
+      return res.send({ message: 'User deleted', user });
+    } else {
+      return res
+        .send(403)
+        .json({ message: 'delete user does not belong to logged in user' });
+    }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: 'Internal Server Error',
     });
@@ -145,7 +152,6 @@ export const viewUsers = async (req, res) => {
 
     return res.send(allUsers);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ Error: 'some internal error' });
   }
 };
