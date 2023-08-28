@@ -25,6 +25,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'uploads')));
 app.use('/uploads', express.static('uploads'));
@@ -43,6 +44,10 @@ app.get('/api/user/protected', authenticateUser, (req, res) => {
 
 // stripe
 app.use('/', checkout);
+app.use('/cars', carRouter);
+
+// User routes
+app.use('/user', userRouter);
 
 app.use('/', filesUpload);
 
