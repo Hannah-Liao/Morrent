@@ -9,9 +9,10 @@ import {
   Success,
   ProfileDetail,
   AddCar,
+  SignUp,
+  EditProfile,
   EditCar,
   Login,
-  SignUp,
   Failed,
 } from './pages';
 import { NavBar, Footer } from './components';
@@ -34,6 +35,7 @@ function App() {
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
+            <Route path='/edit-profile' element={<EditProfile />} />
             <Route path='/profile/:id' element={<ProfileDetail />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
