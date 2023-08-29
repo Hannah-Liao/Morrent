@@ -1,10 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { Input } from '../ui/input';
-import { Button } from '../ui/button';
 import {
   Card,
   CardHeader,
@@ -21,6 +20,9 @@ import {
   FormControl,
   FormMessage,
 } from '../ui/form';
+import { useSignupMutation } from '../../services/api';
+import { isApiResponse } from '../../lib/utils';
+import { ButtonWithSpinner } from '../../components/index';
 
 const signUpSchema = z
   .object({
@@ -42,21 +44,37 @@ const signUpSchema = z
       .max(18, { message: 'Password must be less than 18 characters' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'Password not matched',
+    message: 'Passwords do not match',
     path: ['confirmPassword'],
   });
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+  const [signup, { isLoading: isSignUpLoading, error: signupError }] =
+    useSignupMutation();
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof signUpSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof signUpSchema>) {
+    try {
+      await signup(data)
+        .unwrap()
+        .then((res) => {
+          if (res.success) {
+            navigate('/login');
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -66,10 +84,10 @@ const SignUpForm = () => {
           {/* Form Header */}
           <CardHeader className='space-y-1'>
             <CardTitle className='text-2xl text-center mb-[10px]'>
-              Login
+              Signup
             </CardTitle>
             <CardDescription className='text-center text-gray-400'>
-              Enter your email and password to login
+              Add your details to signup
             </CardDescription>
           </CardHeader>
 
@@ -194,7 +212,7 @@ const SignUpForm = () => {
                           {...field}
                           id='confirmPassword'
                           type='password'
-                          placeholder='Repeat your password'
+                          placeholder='Confirm your password'
                           className='inputField'
                         />
                       </FormControl>
@@ -206,14 +224,21 @@ const SignUpForm = () => {
 
               {/* Button */}
               <CardFooter className='flex flex-col'>
-                <Button type='submit' className='signInButton'>
-                  Login
-                </Button>
+                <ButtonWithSpinner
+                  isLoading={isSignUpLoading}
+                  loadingText='Signing up...'
+                  text='Signup'
+                />
+                {isApiResponse(signupError) && (
+                  <p className='text-sm text-red mt-4'>
+                    {signupError.data.message}
+                  </p>
+                )}
                 <p className='mt-4 text-xs text-center text-gray-700 dark:text-white'>
-                  Don not have an account?
+                  {`Don't have an account?`}
                   <span className='signUpLink'>
-                    <NavLink to='/sign-up' className='navLink'>
-                      Sign up
+                    <NavLink to='/login' className='navLink'>
+                      Signup
                     </NavLink>
                   </span>
                 </p>
