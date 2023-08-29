@@ -27,6 +27,7 @@ export const getCars = async (req, res) => {
   const price = parseInt(req.query.price);
 
   try {
+    const length = await Car.countDocuments();
     const cars = await Car.find({
       $and: [
         type ? { carType: type } : {},
@@ -38,11 +39,11 @@ export const getCars = async (req, res) => {
       ],
     })
       .sort({ createdAt: -1 })
-      .skip(page * 12)
-      .limit(12);
+      .skip(page * 4)
+      .limit(4);
     res.status(200).json({
       success: true,
-      count: cars.length,
+      count: length,
       message: 'Successful get all cars model',
       cars,
     });
