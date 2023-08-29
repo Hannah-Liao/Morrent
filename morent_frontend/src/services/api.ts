@@ -6,17 +6,19 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:8004',
   }),
+  tagTypes: ['Car'],
   endpoints: (builder) => ({
     getCarList: builder.query({
-      query: () => {
-        return '/api/car';
+      query: (page) => {
+        return `/api/car?page=${page}`;
       },
     }),
+
     getPopularCars: builder.query({
       query: () => {
-        return '/api/car/popular';
+        return `/api/car/popular`;
       },
-      transformResponse: ({ cars }) => cars.slice(0, 4) as CarDataInfo[],
+      transformResponse: ({ data }) => data as CarDataInfo[],
     }),
   }),
 });

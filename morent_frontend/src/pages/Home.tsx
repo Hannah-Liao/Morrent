@@ -12,15 +12,18 @@ import {
 } from '../components/index';
 import { CarDataInfo } from '../types/carInfo';
 import { useGetCarListQuery, useGetPopularCarsQuery } from '../services/api';
+import Pagination from '../components/Pagination/Pagination';
 
 const Home = () => {
-  const [showMoreCars, setShowMoreCars] = useState<boolean>(false);
   const [cardModalData, setCardModalData] = useState<null | CarDataInfo>(null);
   const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
     '',
   );
+  const [page, setPage] = useState<number>(1);
 
-  const { data, isError, isLoading } = useGetCarListQuery('');
+  const { data, isError, isLoading } = useGetCarListQuery(page, {
+    refetchOnMountOrArgChange: true,
+  });
   const {
     data: popularCars,
     isError: popularCarError,
@@ -30,6 +33,8 @@ const Home = () => {
   if (isLoading || popularCarLoading) return <p>Loading....</p>;
 
   if (isError || popularCarError) return <p>Error....</p>;
+
+  console.log(data);
 
   return (
     <>
@@ -73,7 +78,7 @@ const Home = () => {
 
         <HomeViewAllHeader titleText='Recommended Cars' />
 
-        <div className='homeRecommendedGrid'>
+        <div className='homeRecommendedGrid' id='car-container'>
           {data?.cars.map((car: CarDataInfo) => (
             <CarCard
               key={car._id}
@@ -87,12 +92,12 @@ const Home = () => {
         </div>
 
         <div className='mx-auto text-center py-[64px]'>
-          <button
-            className='cardButton px-[50px] min-h-[55px]'
-            onClick={() => setShowMoreCars((prevCars) => !prevCars)}
-          >
-            {showMoreCars ? 'Hide cars' : 'Show more cars'}
-          </button>
+          <Pagination
+            allData={data.count}
+            page={page}
+            currentLength={data.cars.length}
+            setPage={setPage}
+          />
         </div>
       </section>
 
