@@ -16,7 +16,7 @@ router.post('/signin', signin);
 router.post('/signup', signup);
 router.post('/logout', authenticateUser, logout);
 router.patch('/updateuser/:id', authenticateUser, updateUser);
-router.delete('/updateuser/:id', authenticateUser, deleteUser);
+router.delete('/deleteuser/:id', authenticateUser, deleteUser);
 router.get('/viewusers', authenticateUser, viewUsers);
 
 // router.post('/protected', protectedRoute);

@@ -98,8 +98,6 @@ export const updateUser = async (req, res) => {
       // Find the user by ID
       const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
         new: true,
-      }).setOptions({
-        strictQuery: true,
       });
 
       return res.status(200).json({
@@ -118,6 +116,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
+// remove delete car also, using daleteMany where userId = id
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
   const userId = req.userId;
@@ -130,6 +129,7 @@ export const deleteUser = async (req, res) => {
 
     if (user.id === id) {
       const deletedUser = await UserModel.findByIdAndDelete(user.id);
+
       return res.send({ message: 'User deleted', user });
     } else {
       return res
@@ -155,3 +155,6 @@ export const viewUsers = async (req, res) => {
     res.status(500).json({ Error: 'some internal error' });
   }
 };
+
+// for one single user profile. Get one single info(like list of cars he added. etc)
+// Use clockify
