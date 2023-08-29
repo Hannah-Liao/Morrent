@@ -172,3 +172,19 @@ export const deleteFavCarID = async (req, res) => {
       .json({ success: false, message: 'Failed to detele. Try again' });
   }
 };
+
+export const getPopularCars = async (req, res) => {
+  try {
+    const cars = await Car.find().sort({ rentedHistory: -1 }).limit(4);
+    return res.json({
+      error: false,
+      message: 'Popular car data retrieved successfully.',
+      data: cars,
+    });
+  } catch (error) {
+    return res.json({
+      error: true,
+      message: 'Something went wrong, please try again later',
+    });
+  }
+};
