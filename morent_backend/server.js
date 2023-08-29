@@ -21,10 +21,22 @@ const app = express();
 // Middleware
 app.use(
   cors({
+    credentials: true,
     origin: process.env.CLIENT_URL,
   })
 );
+
+const setCorsHeaders = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+};
+app.use(setCorsHeaders);
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'uploads')));
 app.use('/uploads', express.static('uploads'));
@@ -43,6 +55,10 @@ app.get('/api/user/protected', authenticateUser, (req, res) => {
 
 // stripe
 app.use('/', checkout);
+app.use('/cars', carRouter);
+
+// User routes
+app.use('/user', userRouter);
 
 app.use('/', filesUpload);
 

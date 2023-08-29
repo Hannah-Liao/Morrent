@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
 import {
@@ -22,6 +22,10 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
+import { useLoginMutation } from '../../services/api';
+import { updateLogin } from '../../slice/loginSlice';
+import { isApiResponse } from '../../lib/utils';
+import { ButtonWithSpinner } from '../../components/index';
 
 const signInSchema = z.object({
   email: z.string().email({ message: 'Invalid email format' }),
@@ -35,6 +39,11 @@ const signInSchema = z.object({
 });
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login, { isLoading: isLoginLoading, error: loginError }] =
+    useLoginMutation();
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -46,17 +55,22 @@ const LoginForm = () => {
 
   async function onSubmit(data: z.infer<typeof signInSchema>) {
     try {
-      const res = await fetch('http://localhost:8004/api/user/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const json = await res.json();
-      console.log(json);
-    } catch (error) {
-      console.log(error);
+      await login(data)
+        .unwrap()
+        .then((userInfo) => {
+          if (userInfo.success) {
+            //store in redux
+            dispatch(
+              updateLogin({
+                email: userInfo.email,
+                isLoggedIn: userInfo.success,
+              }),
+            );
+            navigate(`/profile/${userInfo.userId}`);
+          }
+        });
+    } catch (err) {
+      console.error('Something went wrong!');
     }
   }
 
@@ -138,14 +152,20 @@ const LoginForm = () => {
 
               {/* Button */}
               <CardFooter className='flex flex-col'>
-                <Button type='submit' className='signInButton'>
-                  Login
-                </Button>
+                <ButtonWithSpinner
+                  isLoading={isLoginLoading}
+                  loadingText='Logging in...'
+                  text='Login'
+                />
+                {isApiResponse(loginError) && (
+                  <p className='text-sm text-red mt-4'>
+                    {loginError.data.message}
+                  </p>
+                )}
                 <p className='mt-4 text-xs text-center text-gray-700 dark:text-white'>
-                  {' '}
-                  Don't have an account?
+                  {`Don't have an account?`}
                   <span className='signUpLink'>
-                    <NavLink to='/sign-up' className='navLink'>
+                    <NavLink to='/signup' className='navLink'>
                       Sign up
                     </NavLink>
                   </span>
