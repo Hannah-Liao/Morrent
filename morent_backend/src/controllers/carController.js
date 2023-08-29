@@ -3,14 +3,16 @@ import User from '../models/user.js';
 
 // create new car
 export const createCar = async (req, res) => {
-  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
-  if (files.length < 0) {
-    return res
-      .status(500)
-      .json({ success: false, message: 'Failed to create. Try again' });
-  }
+  // if (req.files.length < 1) {
+  //   return res
+  //     .status(500)
+  //     .json({ success: false, message: 'Failed to create. Try again' });
+  // }
 
-  req.body.carImages = files;
+  // const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+
+  // req.body.carImages = files;
+  req.body.user = req.userId;
   const newCar = new Car(req.body);
 
   try {
@@ -97,18 +99,16 @@ export const updateCar = async (req, res) => {
   // const userID = req.userId;
   const carId = req.params.id;
 
-  function extractImageUrls(formDataString) {
-    // Use regular expression to split URLs
-    const regex = /,(?=[^,]*\.[a-z]{3,4}$)/gi;
-    const urlArray = formDataString.split(regex);
+  const extractImageUrls = (formDataString) => {
+    if (formDataString) {
+      const urlArray = formDataString.split(',');
+      const imageUrls = urlArray.map((url) => decodeURIComponent(url.trim()));
+      return imageUrls;
+    }
+    return [];
+  };
 
-    // Trim whitespace from each URL and decode the URL components
-    const imageUrls = urlArray.map((url) => decodeURIComponent(url.trim()));
-
-    return imageUrls;
-  }
-
-  const imageUrlsArray = extractImageUrls(req.body.carImages);
+  const imagesArrayFromForm = extractImageUrls(req.body.carImages);
 
   try {
     // const foundCar = await Car.findById(carId);
@@ -116,15 +116,10 @@ export const updateCar = async (req, res) => {
     // if (foundCar.user.equals(userID)) {
     if (req.files.length > 0) {
       files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
-      if (files.length < 0) {
-        return res
-          .status(500)
-          .json({ success: false, message: 'Failed to create. Try again' });
-      }
     }
 
     req.body.carImages = req.body.carImages
-      ? [...imageUrlsArray, ...files]
+      ? [...imagesArrayFromForm, ...files]
       : files;
 
     const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
