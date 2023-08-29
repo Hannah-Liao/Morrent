@@ -95,10 +95,7 @@ const carSchema = new Schema(
         message: 'The date must be between today and one month from today.',
       },
     },
-    isRented: {
-      type: Boolean,
-    },
-    NumberOfTimesRented: {
+    numberOfTimesRented: {
       type: Number,
     },
     user: {
