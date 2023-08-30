@@ -45,19 +45,12 @@ export const getCars = async (req, res) => {
     const price = parseInt(req.query.price);
     const currentDate = new Date();
 
-    let query = {};
-    if (location) {
-      query.carLocation = location;
-    }
-    if (type) {
-      query.carType = type;
-    }
-    if (price) {
-      query.price = { $lte: price };
-    }
-    if (capacity) {
-      query.capacity = { $gte: capacity };
-    }
+    let query = {
+      ...(location && { carLocation: location }),
+      ...(type && { carType: type }),
+      ...(price && { price: { $lte: price } }),
+      ...(capacity && { capacity: { $gte: capacity } }),
+    };
 
     const availableCarsQuery = {
       _id: {
