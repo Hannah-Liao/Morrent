@@ -7,14 +7,22 @@ import {
   logout,
   updateUser,
   showCurrentUser,
+  deleteUser,
+  viewUsers,
 } from '../controllers/user.js';
 
 const router = express.Router();
 
 router.post('/signin', signin);
 router.post('/signup', signup);
-router.post('/logout', logout);
-router.patch('update-user/:id', authenticateUser, updateUser);
 router.get('/current-user', authenticateUser, showCurrentUser);
+router.post('/logout', authenticateUser, logout);
+router.patch('/updateuser/:id', authenticateUser, updateUser);
+router.delete('/deleteuser/:id', authenticateUser, deleteUser);
+router.get('/viewusers', authenticateUser, viewUsers);
+
+// router.post('/protected', protectedRoute);
+// router.post('/', authenticateUser, addCar);
+// router.post('/update-user', authenticateUser, updateUser);
 
 export default router;
