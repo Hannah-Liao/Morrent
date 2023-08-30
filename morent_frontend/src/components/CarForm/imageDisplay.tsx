@@ -25,7 +25,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
         <div key={i} className='relative '>
           <img src={image} alt='user images' className='w-24 h-24 rounded-md' />
           <button
-            className='absolute top-[-10px] right-[-8px] border-gray-500  border-2 rounded-full'
+            className='absolute top-[-5px] right-[-5px] border-white-200  border-2 rounded-full bg-white-100'
             onClick={() => {
               const index = editedImages.indexOf(image);
               editedImages.splice(index, 1);
@@ -33,7 +33,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
               setSelectedImages(selectedImages.filter((e) => e !== image));
             }}
           >
-            <img src={close} alt='delete image icon' className='p-1' />
+            <img src={close} alt='delete image icon' className='p-[2px]' />
           </button>
         </div>
       ))}
