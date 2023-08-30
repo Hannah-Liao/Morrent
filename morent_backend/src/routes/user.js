@@ -8,6 +8,7 @@ import {
   updateUser,
   deleteUser,
   viewUsers,
+  userInfo,
 } from '../controllers/user.js';
 
 const router = express.Router();
@@ -18,6 +19,7 @@ router.post('/logout', authenticateUser, logout);
 router.patch('/updateuser/:id', authenticateUser, updateUser);
 router.delete('/deleteuser/:id', authenticateUser, deleteUser);
 router.get('/viewusers', authenticateUser, viewUsers);
+router.get('/userinfo/:id', authenticateUser, userInfo);
 
 // router.post('/protected', protectedRoute);
 // router.post('/', authenticateUser, addCar);

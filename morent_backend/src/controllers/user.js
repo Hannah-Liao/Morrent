@@ -6,6 +6,7 @@ import {
   secret,
 } from '../utils/token.utils.js';
 import UserModel from '../models/user.js';
+import { Car } from '../models/Car.js';
 
 // User Signup
 export const signup = async (req, res) => {
@@ -105,6 +106,7 @@ export const updateUser = async (req, res) => {
         message: 'User not found',
       });
     }
+
     if (userData.id === id) {
       // Find the user by ID
       const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
@@ -128,20 +130,24 @@ export const updateUser = async (req, res) => {
 };
 
 // remove delete car also, using daleteMany where userId = id
+// find a car by userId
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
   const userId = req.userId;
   try {
     const user = await UserModel.findById(id);
-
     if (!user) {
-      return res.send({ message: 'No user find' });
+      return res.send({ message: 'No user found' });
     }
 
     if (user.id === id) {
+      let deletedCars = await Car.deleteMany({ user: userId });
       const deletedUser = await UserModel.findByIdAndDelete(user.id);
-
-      return res.send({ message: 'User deleted', user });
+      return res.send({
+        message: 'User deleted',
+        deletedUser,
+        deletedCars,
+      });
     } else {
       return res
         .send(403)
@@ -168,4 +174,29 @@ export const viewUsers = async (req, res) => {
 };
 
 // for one single user profile. Get one single info(like list of cars he added. etc)
-// Use clockify
+export const userInfo = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+  try {
+    const user = await UserModel.findById(id);
+
+    if (!user) {
+      return res.send({ message: 'No user found' });
+    }
+
+    if (userId !== id) {
+      return res
+        .send(403)
+        .json({ message: 'Cars does not belong to logged in user' });
+    }
+
+    const carAddedByUser = await Car.find({ user: userId });
+    return res.send({
+      message: 'Cars Which is rented or added by users',
+      carAddedByUser,
+    });
+  } catch (error) {
+    res.status(500).json({ Error: 'some internal error' });
+  }
+  // res.send({ carRentedByUser, carAddedByUser });
+};
