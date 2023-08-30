@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import {
   Canceled,
@@ -16,7 +17,17 @@ import {
 } from './pages';
 import { NavBar, Footer } from './components';
 
-function App() {
+// const getUser = async () => {
+//   const response = await fetch('http://localhost:8004/api/user/current-user');
+//   const user = await response.json();
+//   console.log('here', user);
+// };
+
+const App = () => {
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+
   return (
     <main>
       <NavBar />
@@ -42,6 +53,6 @@ function App() {
       <Footer />
     </main>
   );
-}
+};
 
 export default App;
