@@ -4,6 +4,7 @@ export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:8004/',
+    credentials: 'include',
   }),
   endpoints: (builder) => ({
     getCarLists: builder.query({
