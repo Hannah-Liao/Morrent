@@ -1,5 +1,6 @@
 import { Car } from '../models/Car.js';
 import User from '../models/user.js';
+import rentedCar from '../models/rentedCar.js';
 
 // create new car
 export const createCar = async (req, res) => {
@@ -31,33 +32,65 @@ export const createCar = async (req, res) => {
 
 // get cars
 export const getCars = async (req, res) => {
-  const page = parseInt(req.query.page) - 1;
-  const { type, location, availabilityFrom, availabilityTo } = req.query;
-  const capacity = parseInt(req.query.capacity);
-  const price = parseInt(req.query.price);
-
   try {
-    const cars = await Car.find({
-      $and: [
-        type ? { carType: type } : {},
-        location ? { carLocation: location } : {},
-        capacity ? { capacity: { $gte: capacity } } : {},
-        price ? { price: price } : {},
-        availabilityFrom ? { rentedDateFrom: availabilityFrom } : {},
-        availabilityTo ? { rentedDateTo: availabilityTo } : {},
-      ],
-    })
+    const {
+      page = 1,
+      pageSize = 10,
+      location,
+      type,
+      availabilityFrom,
+      availabilityTo,
+    } = req.query;
+    const capacity = parseInt(req.query.capacity);
+    const price = parseInt(req.query.price);
+    const currentDate = new Date();
+
+    let query = {};
+    if (location) {
+      query.carLocation = location;
+    }
+    if (type) {
+      query.carType = type;
+    }
+    if (price) {
+      query.price = { $lte: price };
+    }
+    if (capacity) {
+      query.capacity = { $gte: capacity };
+    }
+
+    const availableCarsQuery = {
+      _id: {
+        $not: {
+          $in: await rentedCar?.distinct('carId', {
+            $or: [
+              {
+                pickUpDate: { $lte: new Date(availabilityTo || currentDate) },
+                dropOffDate: {
+                  $gte: new Date(availabilityFrom || currentDate),
+                },
+              },
+            ],
+          }),
+        },
+      },
+    };
+
+    if (availabilityFrom || availabilityTo) {
+      query = { ...query, ...availableCarsQuery };
+    }
+
+    const totalCars = await Car.countDocuments(query);
+
+    const cars = await Car.find(query)
       .sort({ createdAt: -1 })
-      .skip(page * 12)
-      .limit(12);
-    res.status(200).json({
-      success: true,
-      count: cars.length,
-      message: 'Successful get all cars model',
-      cars,
-    });
-  } catch (err) {
-    res.status(404).json({ success: false, message: 'No cars found' });
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    res.json({ cars, totalPages: Math.ceil(totalCars / pageSize) });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Error searching for cars' });
   }
 };
 
