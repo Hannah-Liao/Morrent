@@ -23,7 +23,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
     <div className='flex gap-3 mb-3'>
       {displayImages.map((image, i) => (
         <div key={i} className='relative '>
-          <img src={image} alt='' className='w-24 h-24 rounded-md' />
+          <img src={image} alt='user images' className='w-24 h-24 rounded-md' />
           <button
             className='absolute top-[-10px] right-[-8px] border-gray-500  border-2 rounded-full'
             onClick={() => {
@@ -33,7 +33,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
               setSelectedImages(selectedImages.filter((e) => e !== image));
             }}
           >
-            <img src={close} alt='' className=' p-1' />
+            <img src={close} alt='delete image icon' className='p-1' />
           </button>
         </div>
       ))}
