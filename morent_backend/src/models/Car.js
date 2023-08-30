@@ -106,6 +106,9 @@ const carSchema = new Schema(
     isRented: {
       type: Boolean,
     },
+    numberOfTimesRented: {
+      type: Number,
+    },
     user: {
       type: Schema.Types.ObjectId,
       required: true,

@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { toast } from '../ui/use-toast';
 import { addCarSchema } from './CarSchema';
 import { uploadIcon, deleteIcon } from '../../assets/icons';
 
@@ -34,15 +33,31 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof addCarSchema>) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: z.infer<typeof addCarSchema>) {
+    console.log(data);
+
+    try {
+      const res = await fetch('http://localhost:8004/api/car', {
+        method: 'POST',
+        body: JSON.stringify({
+          title: 'title12e',
+          carType: 'type233',
+          description: 'desfsecription212sdfjjfhkjsdhfjdhsdkdvxv',
+          capacity: 4,
+          carImages: [],
+          fuelTankSize: 30,
+          transmissionType: 'Automatic',
+          price: 250,
+          discountPrice: 50,
+          carLocation: 'ubud',
+        }),
+        credentials: 'include',
+      });
+      const datas = await res.json();
+      console.log(datas);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

@@ -35,6 +35,7 @@ import { cn } from '../../lib/utils';
 import { pickupLocation } from '../../constant/index';
 import getCurrentTime from '../../utils/getCurrentTime';
 import { dots, clock, calendar } from '../../assets/icons';
+import { CarDataInfo } from '../../types/carInfo';
 
 const formSchema = z.object({
   location: z.string({
@@ -53,9 +54,14 @@ const formSchema = z.object({
 interface RentNowModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<'' | 'car_info' | 'rent'>>;
+  carData: CarDataInfo;
 }
 
-const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
+const RentNowModal: React.FC<RentNowModalProps> = ({
+  open,
+  setOpen,
+  carData,
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,7 +72,31 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+      const res = await fetch(`${SERVER_URL}/checkout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          carId: carData._id,
+          price: carData.price,
+          carName: carData.title,
+          userId: carData.user,
+        }),
+      });
+      const response = await res.json();
+
+      window.location.href = response.url;
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={(open) => setOpen(open ? 'rent' : '')}>

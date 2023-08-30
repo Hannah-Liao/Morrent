@@ -1,11 +1,7 @@
 import bcrypt from 'bcrypt';
 
-import {
-  generateToken,
-  setTokenCookies,
-  secret,
-} from '../utils/token.utils.js';
 import UserModel from '../models/user.js';
+import { generateToken, sendCookie } from '../utils/token.utils.js';
 
 // User Signup
 export const signup = async (req, res) => {
@@ -29,10 +25,20 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
 
-    const accessToken = generateToken(newUser, secret, '1h');
-    const refreshToken = generateToken(newUser, secret, '7d');
+    const accessToken = generateToken({
+      payload: { email: newUser.email, id: newUser._id },
+      tokenSecret: process.env.ACCESS_TOKEN_SECRET,
+      expiresIn: '15m',
+    });
 
-    setTokenCookies(res, accessToken, refreshToken);
+    const refreshToken = generateToken({
+      payload: { email: newUser.email, id: newUser._id },
+      tokenSecret: process.env.REFRESH_TOKEN_SECRET,
+      expiresIn: '10d',
+    });
+
+    sendCookie({ res, name: 'accesstoken', token: accessToken });
+    sendCookie({ res, name: 'refreshtoken', token: refreshToken });
 
     res.status(201).json({
       message: 'User created',
@@ -65,10 +71,26 @@ export const signin = async (req, res) => {
         .status(400)
         .json({ message: 'Invalid credentials', email, success: false });
 
-    const accessToken = generateToken(oldUser, secret, '10h');
-    const refreshToken = generateToken(oldUser, secret, '7d');
+    const accessToken = generateToken({
+      payload: {
+        email: oldUser.email,
+        id: oldUser._id,
+      },
+      tokenSecret: process.env.ACCESS_TOKEN_SECRET,
+      expiresIn: '15m',
+    });
 
-    setTokenCookies(res, accessToken, refreshToken);
+    const refreshToken = generateToken({
+      payload: {
+        email: oldUser.email,
+        id: oldUser._id,
+      },
+      tokenSecret: process.env.REFRESH_TOKEN_SECRET,
+      expiresIn: '10d',
+    });
+
+    sendCookie({ res, name: 'accesstoken', token: accessToken });
+    sendCookie({ res, name: 'refreshtoken', token: refreshToken });
 
     res.status(200).json({
       message: 'Successfully logged in',
@@ -83,8 +105,6 @@ export const signin = async (req, res) => {
 // User Logout
 export const logout = (req, res) => {
   try {
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
     res.status(200).json({ message: `Successfully logged out`, success: true });
   } catch (error) {
     res

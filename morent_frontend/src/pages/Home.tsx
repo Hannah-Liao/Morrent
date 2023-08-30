@@ -108,6 +108,7 @@ const Home = () => {
       />
 
       <RentNowModal
+        carData={cardModalData as CarDataInfo}
         open={openModalName === 'rent'}
         setOpen={setOpenModalName}
       />
