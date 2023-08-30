@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button } from '../ui/button';
@@ -21,7 +21,7 @@ import {
   useUpdateCarMutation,
   useDeleteCarMutation,
 } from '../../services/api';
-import ImageDisplay from './imageDisplay';
+import ImageDisplay from './ImageDisplay';
 
 type CarFormProps = {
   isEditCarPage: boolean;
@@ -49,8 +49,30 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
     return state.authSlice;
   });
 
+  console.log('here', userID);
+
   const [images, setImages] = useState<FormData | null>(null);
-  const [existImages, setExistImages] = useState([...carData?.carImages]);
+  const [existImages, setExistImages] = useState(
+    carData ? [...carData?.carImages] : [],
+  );
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const files = Array.from(event.target.files);
+      const imageArr = files.map((file) => {
+        return URL.createObjectURL(file);
+      });
+
+      !isEditCarPage &&
+        setSelectedImages((previousImages) => previousImages.concat(imageArr));
+
+      isEditCarPage &&
+        setExistImages((previousImages) => previousImages.concat(imageArr));
+
+      setImages(event.target.files);
+    }
+  };
 
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
@@ -92,7 +114,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
     } else {
       updateCar({ car: formData, carID: carID });
     }
-    // navigate(`/profile/${userID}`);
+    navigate(`/profile/${userID}`);
   };
 
   return (
@@ -295,10 +317,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
                   </p>
                 </div>
                 <input
-                  onChange={async (e) => {
-                    const files = e.target.files!;
-                    setImages(files);
-                  }}
+                  onChange={handleImageUpload}
                   id='dropzone-file'
                   multiple
                   name='photos'
@@ -312,7 +331,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
           <ImageDisplay
             existImages={existImages}
             setExistImages={setExistImages}
+            selectedImages={selectedImages}
+            setSelectedImages={setSelectedImages}
           />
+
           <div className='flex flex-col-reverse sm:flex-row justify-end gap-5'>
             {isEditCarPage && (
               <Button
@@ -327,12 +349,19 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
                 Remove Car
               </Button>
             )}
-            <Button
-              type='submit'
-              className='btn p-bold py-4 rounded-[10px] focus:ring-4 focus:outline-none focus:ring-blue-300 w-full md:w-auto dark:focus:ring-blue-300 lg:justify-end'
-            >
-              {isEditCarPage ? 'Edit Car' : 'Submit'}
-            </Button>
+
+            {selectedImages.length > 3 || existImages.length > 3 ? (
+              <p className='text-red'>
+                You can not upload more than 3 pictures
+              </p>
+            ) : (
+              <Button
+                type='submit'
+                className='btn p-bold py-4 rounded-[10px] focus:ring-4 focus:outline-none focus:ring-blue-300 w-full md:w-auto dark:focus:ring-blue-300 lg:justify-end'
+              >
+                {isEditCarPage ? 'Edit Car' : 'Submit'}
+              </Button>
+            )}
           </div>
         </form>
       </Form>
