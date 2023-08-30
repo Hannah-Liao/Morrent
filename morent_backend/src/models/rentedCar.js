@@ -19,58 +19,62 @@ const rentedCarSchema = new Schema(
     pickUpTime: {
       type: String,
       required: [true, 'Please add a pickup time'],
-      //   validate: {
-      //     validator: function (value) {
-      //       let currentTime = new Date();
-      //       let currentHours = currentTime.getHours();
-      //       let currentMinutes = currentTime.getMinutes();
-      //       let [inputHours, inputMinutes] = value.split(':').map(Number);
-      //       const isGreaterThanNow =
-      //         inputHours > currentHours ||
-      //         (inputHours === currentHours && inputMinutes > currentMinutes);
-      //       return isGreaterThanNow;
-      //     },
-      //   },
+      validate: {
+        validator: function (value) {
+          let currentTime = Date.now();
+          let currentHours = new Date(currentTime).getHours();
+          let currentMinutes = new Date(currentTime).getMinutes();
+          let [inputHours, inputMinutes] = value.split(':').map(Number);
+
+          const isGreaterThanNow = inputHours > currentHours;
+          return (
+            isGreaterThanNow ||
+            (inputHours === currentHours && inputMinutes > currentMinutes)
+          );
+        },
+        message: 'Pick time must not be in the past.',
+      },
     },
     dropOffTime: {
       type: String,
       required: [true, 'Please add a dropoff time'],
-      //   validate: {
-      //     validator: function (value) {
-      //       let [inputHours, inputMinutes] = value.split(':').map(Number);
-      //       let [hours, minutes] = this.pickUpTime.split(':').map(Number);
-      //       const isGreaterThanPickUpTime =
-      //         inputHours > hours ||
-      //         (inputHours === hours && inputMinutes > minutes);
-      //       return isGreaterThanPickUpTime;
-      //     },
-      //   },
+      validate: {
+        validator: function (value) {
+          let [inputHours, inputMinutes] = value.split(':').map(Number);
+          let [hours, minutes] = this.pickUpTime.split(':').map(Number);
+          const isGreaterThanPickUpTime =
+            inputHours > hours ||
+            (inputHours === hours && inputMinutes > minutes);
+          return isGreaterThanPickUpTime;
+        },
+        message: 'Drop off time must be later than pickup time.',
+      },
     },
     pickUpDate: {
       type: Date,
       required: [true, 'Please add a pickup date'],
       validate: {
         validator: function (value) {
-          //   var today = new Date();
-          //   var userDate = new Date(Date.parse(value));
-          //   return userDate < today;
-          //   const today = new Date();
-          //   const todayInMs = new Date(today).getTime();
-          //   const valueInMs = new Date(value).getTime();
-          //   return valueInMs >= todayInMs;
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const userDate = new Date(value);
+          return userDate >= today;
         },
+        message: 'Pickup date must be today or later.',
       },
     },
+
     dropOffDate: {
       type: Date,
       required: [true, 'Please add dropoff date'],
-      //   validate: {
-      //     validator: function (value) {
-      //       const userInput = new Date(value).getDate();
-      //       const userPickUpDate = new Date(this.pickUpdate).getDate();
-      //       return userInput > userPickUpDate;
-      //     },
-      //   },
+      validate: {
+        validator: function (value) {
+          const userInput = new Date(value);
+          const userPickUpDate = new Date(this.pickUpDate);
+          return userInput > userPickUpDate;
+        },
+        message: 'Dropoff date must be later than pickup date.',
+      },
     },
   },
   { timestamps: true }
