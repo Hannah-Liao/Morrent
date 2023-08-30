@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import express from 'express';
 import stripe from 'stripe';
 import { authenticateUser } from '../middleware/auth.js';
@@ -9,7 +6,7 @@ const router = express.Router();
 
 const stripeInit = stripe(process.env.STRIPE_PRIVATE_KEY);
 
-router.post('/checkout', async (req, res) => {
+router.post('/checkout', authenticateUser, async (req, res) => {
   const { carName, price, userId } = req.body;
   const customer = await stripeInit.customers.create({
     metadata: {

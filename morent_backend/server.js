@@ -32,7 +32,7 @@ app.use(
 );
 
 const setCorsHeaders = (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.setHeader('Access-Control-Allow-Origin', corsAllowUrl);
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE'
@@ -59,7 +59,7 @@ app.use('/uploads', express.static('uploads'));
 // Routes
 app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
-app.use('/api/rented-car', rentedCarRouter);
+app.use('/api/rented-car', authenticateUser, rentedCarRouter);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from the server!' });
@@ -77,6 +77,7 @@ app.use('/cars', carRouter);
 app.use('/api/user', userRouter);
 app.use('/webhook', webhook);
 
+// Files upload
 app.use('/', filesUpload);
 
 // connect db

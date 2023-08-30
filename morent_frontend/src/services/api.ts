@@ -4,7 +4,7 @@ import { CarDataInfo } from '../types/carInfo';
 export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8004',
+    baseUrl: 'http://localhost:8004/',
     credentials: 'include',
   }),
   tagTypes: ['Car'],

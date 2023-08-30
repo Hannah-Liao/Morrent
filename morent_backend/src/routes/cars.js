@@ -11,6 +11,7 @@ import {
   getFavCars,
   deleteFavCarID,
   getPopularCars,
+  allCars,
 } from '../controllers/carController.js';
 
 const router = Router();
@@ -23,5 +24,6 @@ router.patch('/delete-fav-car/:userID', authenticateUser, deleteFavCarID);
 router.delete('/delete/:id', authenticateUser, deleteCar);
 router.put('/update/:id', authenticateUser, updateCar);
 router.get('/popular', getPopularCars);
+router.get('/all-cars', allCars);
 
 export default router;

@@ -30,6 +30,7 @@ router.post('/', async (req, res) => {
     }
 
     const currentCar = await Car.findById(carId);
+    console.log(currentCar);
     const rentedDateTo = new Date(currentCar.rentedDateTo).getDate();
     const userPickUpDate = new Date(pickUpDate).getDate();
 

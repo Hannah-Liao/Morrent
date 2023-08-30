@@ -235,7 +235,7 @@ const SignUpForm = () => {
                   </p>
                 )}
                 <p className='mt-4 text-xs text-center text-gray-700 dark:text-white'>
-                  {`Don't have an account?`}
+                  Don&apos;t have an account?
                   <span className='signUpLink'>
                     <NavLink to='/login' className='navLink'>
                       Signup
