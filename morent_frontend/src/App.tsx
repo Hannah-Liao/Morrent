@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Canceled,
@@ -17,17 +18,39 @@ import {
   Failed,
 } from './pages';
 import { NavBar, Footer } from './components';
-
-// const getUser = async () => {
-//   const response = await fetch('http://localhost:8004/api/user/current-user');
-//   const user = await response.json();
-//   console.log('here', user);
-// };
+import { setCurrentUser } from './slice/authSlice';
 
 const App = () => {
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
+  const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
+
+  // const { userID } = useSelector((state) => {
+  //   return state.authSlice;
+  // });
+
+  dispatch(
+    setCurrentUser({
+      userID: user,
+    }),
+  );
+
+  const getUser = async () => {
+    try {
+      const res = await fetch('http://localhost:8004/api/user/current-user', {
+        credentials: 'include',
+      });
+      const data = await res.json();
+
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+      setUser(null);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <main>

@@ -13,7 +13,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      state.userID = action.payload;
+      const { userID } = action.payload;
+      state.userID = userID;
     },
   },
 });

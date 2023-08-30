@@ -3,19 +3,19 @@ import User from '../models/user.js';
 
 // create new car
 export const createCar = async (req, res) => {
-  // if (req.files.length < 1) {
-  //   return res
-  //     .status(500)
-  //     .json({ success: false, message: 'Failed to create. Try again' });
-  // }
+  if (req.files.length < 1) {
+    return res
+      .status(500)
+      .json({ success: false, message: 'Failed to create. Try again' });
+  }
 
-  // const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
 
-  // req.body.carImages = files;
+  req.body.carImages = files;
   req.body.user = req.userId;
-  const newCar = new Car(req.body);
 
   try {
+    const newCar = new Car(req.body);
     const savedCar = await newCar.save();
     res.status(201).json({
       success: true,
@@ -63,29 +63,29 @@ export const getCars = async (req, res) => {
 
 //delete a car
 export const deleteCar = async (req, res) => {
-  // const userID = req.userId;
+  const userID = req.userId;
   const carId = req.params.id;
 
   try {
-    // const foundCar = await Car.findById(carId);
+    const foundCar = await Car.findById(carId);
 
-    // if (foundCar.user.equals(userID)) {
-    //   // delete the car in user favcars
-    //   const user = await User.findOneAndUpdate(
-    //     { _id: userID },
-    //     { $pull: { favCars: carId } },
-    //     { new: true }
-    //   );
-    // delete the car
-    await Car.findByIdAndDelete(carId);
-    res
-      .status(200)
-      .json({ success: true, message: 'Successfully deleted', data: user });
-    // } else {
-    //   res
-    //     .status(403)
-    //     .json({ success: true, message: 'This car not belongs to this user' });
-    // }
+    if (foundCar.user.equals(userID)) {
+      // delete the car in user favcars
+      const user = await User.findOneAndUpdate(
+        { _id: userID },
+        { $pull: { favCars: carId } },
+        { new: true }
+      );
+      // delete the car
+      await Car.findByIdAndDelete(carId);
+      res
+        .status(200)
+        .json({ success: true, message: 'Successfully deleted', data: user });
+    } else {
+      res
+        .status(403)
+        .json({ success: true, message: 'This car not belongs to this user' });
+    }
   } catch (err) {
     console.log(err.message);
     res
@@ -96,7 +96,7 @@ export const deleteCar = async (req, res) => {
 
 //update a car
 export const updateCar = async (req, res) => {
-  // const userID = req.userId;
+  const userID = req.userId;
   const carId = req.params.id;
 
   const extractImageUrls = (formDataString) => {
@@ -111,31 +111,31 @@ export const updateCar = async (req, res) => {
   const imagesArrayFromForm = extractImageUrls(req.body.carImages);
 
   try {
-    // const foundCar = await Car.findById(carId);
+    const foundCar = await Car.findById(carId);
     let files = [];
-    // if (foundCar.user.equals(userID)) {
-    if (req.files.length > 0) {
-      files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+    if (foundCar.user.equals(userID)) {
+      if (req.files.length > 0) {
+        files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+      }
+
+      req.body.carImages = req.body.carImages
+        ? [...imagesArrayFromForm, ...files]
+        : files;
+
+      const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
+        new: true,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: 'Successfully updated',
+        data: updatedCar,
+      });
+    } else {
+      res
+        .status(403)
+        .json({ success: true, message: 'This car not belongs to this user' });
     }
-
-    req.body.carImages = req.body.carImages
-      ? [...imagesArrayFromForm, ...files]
-      : files;
-
-    const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
-      new: true,
-    });
-
-    res.status(200).json({
-      success: true,
-      message: 'Successfully updated',
-      data: updatedCar,
-    });
-    // } else {
-    //   res
-    //     .status(403)
-    //     .json({ success: true, message: 'This car not belongs to this user' });
-    // }
   } catch (err) {
     res
       .status(500)

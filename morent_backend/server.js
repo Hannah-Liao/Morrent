@@ -18,23 +18,29 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
 
+const corsAllowUrl =
+  process.env.NODE_ENV === 'dev' ? 'http://localhost:5173' : '';
+
 // Middleware
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
+    origin: process.env.NODE_ENV,
   })
 );
 
 const setCorsHeaders = (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Origin', process.env.NODE_ENV);
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, PUT, DELETE'
+  );
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 };
-app.use(setCorsHeaders);
 
+app.use(setCorsHeaders);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

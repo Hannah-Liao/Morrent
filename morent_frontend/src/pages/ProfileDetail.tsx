@@ -1,13 +1,7 @@
 import profileImg from '../assets/images/profile.png';
 import { CarsDispalySection } from '../components';
-import { useGetCurrentUserQuery } from '../services/api';
 
 const ProfileDetail = () => {
-  // const { data, isError, isFetching } = useGetCurrentUserQuery('');
-
-  // if (isFetching) return <h1>Loading</h1>;
-  // if (isError) return <h1>error</h1>;
-  // console.log(data);
   return (
     <main>
       <section>

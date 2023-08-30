@@ -21,7 +21,7 @@ router.post('/', fileUploadMiddleware, authenticateUser, createCar);
 router.put('/add-fav-car', authenticateUser, addFavCar);
 router.get('/fav-car/:userID', authenticateUser, getFavCars);
 router.patch('/delete-fav-car/:userID', authenticateUser, deleteFavCarID);
-router.delete('/delete/:id', deleteCar);
+router.delete('/delete/:id', authenticateUser, deleteCar);
 router.put('/update/:id', fileUploadMiddleware, updateCar);
 router.get('/get-single-car/:id', getSingleCar);
 
