@@ -172,3 +172,53 @@ export const deleteFavCarID = async (req, res) => {
       .json({ success: false, message: 'Failed to detele. Try again' });
   }
 };
+
+// All cars
+export const allCars = async (req, res) => {
+  try {
+    const {
+      page = 1,
+      pageSize = 10,
+      location,
+      availabilityFrom,
+      availabilityTo,
+    } = req.query;
+    const currentDate = new Date();
+
+    let query = {};
+    if (location) {
+      query.carLocation = location;
+    }
+
+    const availableCarsQuery = {
+      _id: {
+        $not: {
+          $in: await rentedCar.distinct('carId', {
+            $or: [
+              {
+                pickUpDate: { $lte: new Date(availabilityTo || currentDate) },
+                dropOffDate: {
+                  $gte: new Date(availabilityFrom || currentDate),
+                },
+              },
+            ],
+          }),
+        },
+      },
+    };
+
+    if (availabilityFrom || availabilityTo) {
+      query = { ...query, ...availableCarsQuery };
+    }
+
+    const totalCars = await Car.countDocuments(query);
+
+    const cars = await Car.find(query)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    res.json({ cars, totalPages: Math.ceil(totalCars / pageSize) });
+  } catch (error) {
+    res.status(500).json({ error: 'Error searching for cars' });
+  }
+};

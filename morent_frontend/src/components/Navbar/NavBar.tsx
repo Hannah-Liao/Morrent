@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react';
 import { HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Logo } from '../index';
 import profileImg from '../../assets/images/profile.png';
 import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
-import { ProfileMenu } from './ProfileMenu';
+import ProfileMenu from './ProfileMenu';
+import { updateLogin } from '../../slice/loginSlice';
 
 const NavBar = () => {
-  const isLogin = true;
+  const { isLoggedIn, userId } = useSelector(
+    (state: { userInfo: { isLoggedIn: boolean; userId: string } }) => {
+      return state.userInfo;
+    },
+  );
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -45,9 +52,9 @@ const NavBar = () => {
             onClick={() => setOpen((prev) => !prev)}
           />
 
-          {isLogin && <ProfileMenu />}
+          {isLoggedIn && <ProfileMenu userId={userId} />}
 
-          {!isLogin && (
+          {!isLoggedIn && (
             <Link
               to='/login'
               className='btn min-w-[110px] h-11 p-semibold rounded hidden md:flex'
@@ -78,15 +85,23 @@ const NavBar = () => {
 
           <div className='flex flex-col gap-2.5 my-5'>
             <Link
-              to={isLogin ? '/profile/:id' : '/login'}
+              to={isLoggedIn ? '/profile/:id' : '/login'}
               className='mobileLoginBtn min-full min-h-[49px] px-9 p-semibold rounded'
+              onClick={() => {
+                dispatch(
+                  updateLogin({
+                    isLoggedIn: false,
+                    email: '',
+                  }),
+                );
+              }}
             >
               <img
                 src={profileImg}
                 alt='user profile photo'
                 className='w-5 h-5 mr-1.5 rounded-[90px]'
               />
-              {isLogin ? 'My Profile' : 'Login'}
+              {isLoggedIn ? 'My Profile' : 'Login'}
             </Link>
           </div>
         </div>

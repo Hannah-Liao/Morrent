@@ -1,5 +1,6 @@
 import { LogOut, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import {
   DropdownMenu,
@@ -11,9 +12,32 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import profileImg from '../../assets/images/profile.png';
+import { updateLogin } from '../../slice/loginSlice';
+import { useLogoutMutation } from '../../services/api';
 
-export function ProfileMenu() {
-  const useID = '123454';
+interface ProfileMenuProps {
+  userId: string;
+}
+
+const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout({});
+      dispatch(
+        updateLogin({
+          isLoggedIn: false,
+          email: '',
+        }),
+      );
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -30,15 +54,19 @@ export function ProfileMenu() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className='dropDownIcons' />
-            <Link to={`/profile/${useID}`}>Profile</Link>
+            <Link to={`/profile/${userId}`}>Profile</Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOut className='dropDownIcons' />
-          <Link to='/'>Log out</Link>
+          <Link to='/' onClick={handleLogout}>
+            Log out
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+export default ProfileMenu;

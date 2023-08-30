@@ -10,6 +10,7 @@ import ProfileDetail from './ProfileDetail';
 import EditProfile from './EditProfile';
 import EditCar from './EditCar';
 import Login from './Login';
+import SignUp from './SignUp';
 
 export {
   Home,
@@ -24,4 +25,5 @@ export {
   EditProfile,
   EditCar,
   Login,
+  SignUp,
 };
