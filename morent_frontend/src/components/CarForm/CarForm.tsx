@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Button } from '../ui/button';
 import {
@@ -20,6 +21,7 @@ import {
   useUpdateCarMutation,
   useDeleteCarMutation,
 } from '../../services/api';
+import ImageDisplay from './imageDisplay';
 
 type CarFormProps = {
   isEditCarPage: boolean;
@@ -43,7 +45,12 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const [deleteCar] = useDeleteCarMutation();
   const navigate = useNavigate();
 
+  const { userID } = useSelector((state) => {
+    return state.authSlice;
+  });
+
   const [images, setImages] = useState<FormData | null>(null);
+  const [existImages, setExistImages] = useState([...carData?.carImages]);
 
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
@@ -77,7 +84,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
     formData.append('fuelTankSize', data.fuelTankSize);
     formData.append('description', data.description);
     if (carData?.carImages?.length > 0) {
-      formData.append('carImages', carData?.carImages);
+      formData.append('carImages', existImages);
     }
 
     if (!isEditCarPage) {
@@ -85,7 +92,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
     } else {
       updateCar({ car: formData, carID: carID });
     }
-    navigate('/');
+    // navigate(`/profile/${userID}`);
   };
 
   return (
@@ -266,8 +273,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
               )}
             />
           </div>
-
-          <div className='w-full mb-[37px]'>
+          <div className='w-full mb-[20px]'>
             <label htmlFor='uploadImg' className='inputLabel'>
               Upload Image
             </label>
@@ -303,6 +309,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
             </div>
           </div>
 
+          <ImageDisplay
+            existImages={existImages}
+            setExistImages={setExistImages}
+          />
           <div className='flex flex-col-reverse sm:flex-row justify-end gap-5'>
             {isEditCarPage && (
               <Button
