@@ -64,6 +64,8 @@ const carSchema = new Schema(
       type: [String],
       validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
     },
+
+    //pick up date
     rentedDateFrom: {
       type: String,
       validate: {
@@ -82,6 +84,7 @@ const carSchema = new Schema(
       },
     },
 
+    //drop off date
     rentedDateTo: {
       type: String,
       validate: {

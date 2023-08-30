@@ -22,8 +22,6 @@ const app = express();
 const corsAllowUrl =
   process.env.NODE_ENV === 'dev' ? process.env.CLIENT_URL : '';
 
-console.log({ corsAllowUrl });
-
 // Middleware
 app.use(
   cors({

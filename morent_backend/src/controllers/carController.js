@@ -1,11 +1,22 @@
 import { Car } from '../models/Car.js';
 import User from '../models/user.js';
+import rentedCar from '../models/rentedCar.js';
 
 // create new car
 export const createCar = async (req, res) => {
-  const newCar = new Car(req.body);
+  if (req.files.length < 1) {
+    return res
+      .status(500)
+      .json({ success: false, message: 'Failed to create. Try again' });
+  }
+
+  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+
+  req.body.carImages = files;
+  req.body.user = req.userId;
 
   try {
+    const newCar = new Car(req.body);
     const savedCar = await newCar.save();
     res.status(201).json({
       success: true,
@@ -21,33 +32,58 @@ export const createCar = async (req, res) => {
 
 // get cars
 export const getCars = async (req, res) => {
-  const page = parseInt(req.query.page) - 1;
-  const { type, location, availabilityFrom, availabilityTo } = req.query;
-  const capacity = parseInt(req.query.capacity);
-  const price = parseInt(req.query.price);
-
   try {
-    const cars = await Car.find({
-      $and: [
-        type ? { carType: type } : {},
-        location ? { carLocation: location } : {},
-        capacity ? { capacity: { $gte: capacity } } : {},
-        price ? { price: price } : {},
-        availabilityFrom ? { rentedDateFrom: availabilityFrom } : {},
-        availabilityTo ? { rentedDateTo: availabilityTo } : {},
-      ],
-    })
+    const {
+      page = 1,
+      pageSize = 10,
+      location,
+      type,
+      availabilityFrom,
+      availabilityTo,
+    } = req.query;
+    const capacity = parseInt(req.query.capacity);
+    const price = parseInt(req.query.price);
+    const currentDate = new Date();
+
+    let query = {
+      ...(location && { carLocation: location }),
+      ...(type && { carType: type }),
+      ...(price && { price: { $lte: price } }),
+      ...(capacity && { capacity: { $gte: capacity } }),
+    };
+
+    const availableCarsQuery = {
+      _id: {
+        $not: {
+          $in: await rentedCar?.distinct('carId', {
+            $or: [
+              {
+                pickUpDate: { $lte: new Date(availabilityTo || currentDate) },
+                dropOffDate: {
+                  $gte: new Date(availabilityFrom || currentDate),
+                },
+              },
+            ],
+          }),
+        },
+      },
+    };
+
+    if (availabilityFrom || availabilityTo) {
+      query = { ...query, ...availableCarsQuery };
+    }
+
+    const totalCars = await Car.countDocuments(query);
+
+    const cars = await Car.find(query)
       .sort({ createdAt: -1 })
-      .skip(page * 12)
-      .limit(12);
-    res.status(200).json({
-      success: true,
-      count: cars.length,
-      message: 'Successful get all cars model',
-      cars,
-    });
-  } catch (err) {
-    res.status(404).json({ success: false, message: 'No cars found' });
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    res.json({ cars, totalPages: Math.ceil(totalCars / pageSize) });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Error searching for cars' });
   }
 };
 
@@ -77,6 +113,7 @@ export const deleteCar = async (req, res) => {
         .json({ success: true, message: 'This car not belongs to this user' });
     }
   } catch (err) {
+    console.log(err.message);
     res
       .status(500)
       .json({ success: false, message: 'Failed to deleted. Try again' });
@@ -88,10 +125,29 @@ export const updateCar = async (req, res) => {
   const userID = req.userId;
   const carId = req.params.id;
 
+  const extractImageUrls = (formDataString) => {
+    if (formDataString) {
+      const urlArray = formDataString.split(',');
+      const imageUrls = urlArray.map((url) => decodeURIComponent(url.trim()));
+      return imageUrls;
+    }
+    return [];
+  };
+
+  const imagesArrayFromForm = extractImageUrls(req.body.carImages);
+
   try {
     const foundCar = await Car.findById(carId);
-
+    let files = [];
     if (foundCar.user.equals(userID)) {
+      if (req.files.length > 0) {
+        files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+      }
+
+      req.body.carImages = req.body.carImages
+        ? [...imagesArrayFromForm, ...files]
+        : files;
+
       const updatedCar = await Car.findByIdAndUpdate(carId, req.body, {
         new: true,
       });
@@ -173,52 +229,17 @@ export const deleteFavCarID = async (req, res) => {
   }
 };
 
-// All cars
-export const allCars = async (req, res) => {
+// get a single car
+export const getSingleCar = async (req, res) => {
+  const id = req.params.id;
+
   try {
-    const {
-      page = 1,
-      pageSize = 10,
-      location,
-      availabilityFrom,
-      availabilityTo,
-    } = req.query;
-    const currentDate = new Date();
+    const car = await Car.findById(id);
 
-    let query = {};
-    if (location) {
-      query.carLocation = location;
-    }
-
-    const availableCarsQuery = {
-      _id: {
-        $not: {
-          $in: await rentedCar.distinct('carId', {
-            $or: [
-              {
-                pickUpDate: { $lte: new Date(availabilityTo || currentDate) },
-                dropOffDate: {
-                  $gte: new Date(availabilityFrom || currentDate),
-                },
-              },
-            ],
-          }),
-        },
-      },
-    };
-
-    if (availabilityFrom || availabilityTo) {
-      query = { ...query, ...availableCarsQuery };
-    }
-
-    const totalCars = await Car.countDocuments(query);
-
-    const cars = await Car.find(query)
-      .skip((page - 1) * pageSize)
-      .limit(pageSize);
-
-    res.json({ cars, totalPages: Math.ceil(totalCars / pageSize) });
-  } catch (error) {
-    res.status(500).json({ error: 'Error searching for cars' });
+    res
+      .status(200)
+      .json({ success: true, message: 'Successfully get a car', data: car });
+  } catch (err) {
+    res.status(404).json({ success: false, message: 'Not found' });
   }
 };
