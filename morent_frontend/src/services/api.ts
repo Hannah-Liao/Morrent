@@ -8,11 +8,38 @@ export const api = createApi({
     credentials: 'include',
   }),
   tagTypes: ['Car'],
+
   endpoints: (builder) => ({
     getCarList: builder.query({
       query: (page) => {
         return `/api/car?page=${page}`;
       },
+    }),
+    getCurrentUser: builder.query({
+      query: () => 'api/user/current-user',
+    }),
+    getSingleCar: builder.query({
+      query: (carID) => `api/car/get-single-car/${carID}`,
+    }),
+    addCar: builder.mutation({
+      query: (car) => ({
+        url: `api/car`,
+        method: 'POST',
+        body: car,
+      }),
+    }),
+    updateCar: builder.mutation({
+      query: ({ car, carID }) => ({
+        url: `api/car/update/${carID}`,
+        method: 'PUT',
+        body: car,
+      }),
+    }),
+    deleteCar: builder.mutation({
+      query: (carID) => ({
+        url: `api/car/delete/${carID}`,
+        method: 'DELETE',
+      }),
     }),
     getAllCars: builder.query({
       //@ts-ignore
@@ -73,6 +100,11 @@ export const api = createApi({
 export const {
   useGetCarListQuery,
   useGetPopularCarsQuery,
+  useGetSingleCarQuery,
+  useGetCurrentUserQuery,
+  useAddCarMutation,
+  useUpdateCarMutation,
+  useDeleteCarMutation,
   useSignupMutation,
   useLoginMutation,
   useGetAllCarsQuery,

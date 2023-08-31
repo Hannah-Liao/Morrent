@@ -1,25 +1,32 @@
+import { CheckIcon } from '@radix-ui/react-icons';
+import type { UseFormReturn } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '../ui/command';
+
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Button } from '../ui/button';
+import { cn } from '../../lib/utils';
 
 type LocationProps = {
-  onChange: (...event: string[]) => void;
-  placeholder: string;
+  form: UseFormReturn<{
+    location: string;
+    availabilityFrom: Date;
+    availabilityTo: Date;
+  }>;
 };
 
-export default function LocationSelect({
-  placeholder,
-  onChange,
-}: LocationProps) {
+export default function LocationSelect({ form }: LocationProps) {
   const [cities, setCities] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
 
   const fetchUserCountry = async () => {
     try {
@@ -74,22 +81,52 @@ export default function LocationSelect({
   if (error) return <p>{error}</p>;
 
   return (
-    <Select onValueChange={onChange}>
-      <SelectTrigger className='bg-white-200 transition-all duration-500 delay-500 ease dark:bg-gray-800 dark:border-none text-left focus:!ring-0 w-full truncate text-xs text-gray-400'>
-        <SelectValue placeholder={loading ? 'Loading.....' : placeholder} />
-      </SelectTrigger>
-
-      <SelectContent className='max-h-52 overflow-y-auto'>
-        {cities.length > 0 ? (
-          cities?.map((val) => (
-            <SelectItem key={val} value={val} title={val}>
-              {val}
-            </SelectItem>
-          ))
-        ) : (
-          <SelectItem value={'Loading...'}>Loading...</SelectItem>
-        )}
-      </SelectContent>
-    </Select>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger
+        asChild
+        className='bg-white-200 transition-all duration-500 delay-500 ease dark:bg-gray-800 dark:border-none text-left focus:!ring-0 !w-full truncate text-xs text-gray-400'
+      >
+        <Button
+          variant='outline'
+          role='combobox'
+          aria-expanded={open}
+          className='w-[200px] justify-between'
+        >
+          {loading
+            ? 'loading...'
+            : form.getValues('location') || 'Select your city'}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className='w-full p-0 h-[200px]'>
+        <Command className='!w-full'>
+          <CommandInput placeholder='Search your City' className='h-9' />
+          <CommandEmpty className='text-xs text-center inline-flex gap-3 flex-col'>
+            <span>No Cities Found</span>
+          </CommandEmpty>
+          <CommandGroup>
+            {cities.map((city) => (
+              <CommandItem
+                value={city}
+                key={city}
+                onSelect={(currentValue) => {
+                  form.setValue('location', currentValue);
+                  setOpen(false);
+                }}
+              >
+                {city}
+                <CheckIcon
+                  className={cn(
+                    'ml-auto h-4 w-4',
+                    form.getValues('location') === city
+                      ? 'opacity-100'
+                      : 'opacity-0',
+                  )}
+                />
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }

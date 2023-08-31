@@ -37,19 +37,42 @@ import getCurrentTime from '../../utils/getCurrentTime';
 import { dots, clock, calendar } from '../../assets/icons';
 import { CarDataInfo } from '../../types/carInfo';
 
-const formSchema = z.object({
-  location: z.string({
-    required_error: 'Location is required',
-  }),
-  pickUpDate: z
-    .date()
-    .min(new Date(), { message: 'Please select a future date' }),
-  dropOffDate: z
-    .date()
-    .min(new Date(), { message: 'Please select a future date' }),
-  pickUpTime: z.string(),
-  dropOffTime: z.string(),
-});
+const formSchema = z
+  .object({
+    location: z.string({
+      required_error: 'Location is required',
+    }),
+    pickUpDate: z
+      .date()
+      .min(new Date(), { message: 'Please select a future date' }),
+    dropOffDate: z
+      .date()
+      .min(new Date(), { message: 'Please select a future date' }),
+    pickUpTime: z.string(),
+    dropOffTime: z.z.string(),
+  })
+  .refine((data) => data.dropOffDate > data.pickUpDate, {
+    message: 'Drop off date cannot be earlier than pick up date.',
+    path: ['dropOffDate'],
+  })
+  .refine(
+    (data) => {
+      const currentTime = Date.now();
+      const currentHours = new Date(currentTime).getHours();
+      const currentMinutes = new Date(currentTime).getMinutes();
+      const [inputHours, inputMinutes] = data.pickUpTime.split(':').map(Number);
+
+      const isGreaterThanNow = inputHours > currentHours;
+      return (
+        isGreaterThanNow ||
+        (inputHours === currentHours && inputMinutes > currentMinutes)
+      );
+    },
+    {
+      message: 'Pick time must not be in the past.',
+      path: ['pickUpTime'],
+    },
+  );
 
 interface RentNowModalProps {
   open: boolean;

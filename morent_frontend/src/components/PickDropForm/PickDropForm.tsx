@@ -95,10 +95,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                   </FormLabel>
 
                   {data.key === 'location' ? (
-                    <LocationSelect
-                      onChange={field.onChange}
-                      placeholder={data.placeholder}
-                    />
+                    <LocationSelect form={searchForm} />
                   ) : (
                     <DateSelector
                       onChange={field.onChange}

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(
   '/upload',
-  authenticateUser,
+  // authenticateUser,
   fileUploadMiddleware,
   async (req, res) => {
     const files = req.files.map(

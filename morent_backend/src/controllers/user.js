@@ -147,6 +147,10 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const showCurrentUser = async (req, res) => {
+  res.status(200).json({ userID: req.userId });
+};
+
 // remove delete car also, using daleteMany where userId = id
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
