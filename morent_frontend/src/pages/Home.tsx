@@ -40,7 +40,7 @@ const Home: React.FC = () => {
 
           {/* Popular Cars Grid */}
           <div className='homePopularCarsGrid'>
-            {cars.slice(0, 4).map((car, i) => (
+            {carsData?.cars?.slice(0, 4).map((car, i) => (
               <div key={i}>
                 {/* Blur cards that are not fully in the viewport on mobile */}
                 {window.innerWidth < 500 ? (
@@ -73,12 +73,12 @@ const Home: React.FC = () => {
           <HomeViewAllHeader titleText='Recommended Cars' />
 
           {/* Recommended Cars Grid*/}
-          {carsData.cars && (
+          {carsData?.cars && (
             <div className='homeRecommendedGrid'>
               {/* Show more cars on button click*/}
               {showMoreCars
-                ? carsData.cars
-                    .slice(0, 16)
+                ? carsData?.cars
+                    ?.slice(0, 16)
                     .map((car, i) => (
                       <CarCard
                         key={i}
@@ -89,8 +89,8 @@ const Home: React.FC = () => {
                         hideButton={false}
                       />
                     ))
-                : carsData.cars
-                    .slice(0, 8)
+                : carsData?.cars
+                    ?.slice(0, 8)
                     .map((car, i) => (
                       <CarCard
                         key={i}
