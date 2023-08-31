@@ -7,9 +7,9 @@ export const api = createApi({
   }),
   endpoints: (builder) => ({
     getCarLists: builder.query({
-      query: ({ page }) => {
-        return `car-list/${page}`;
-      },
+      query: () => ({
+        url: `api/car`,
+      }),
     }),
     login: builder.mutation({
       query: (userInfo) => ({
@@ -37,6 +37,25 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    getFavCars: builder.query({
+      query: (userId) => {
+        return {
+          url: userId && `api/car/fav-car/${userId}`,
+        };
+      },
+    }),
+    addFavCar: builder.mutation({
+      query: ({ userId, carId }) => {
+        return {
+          url: 'api/car/add-fav-car',
+          method: 'PUT',
+          body: {
+            carId,
+            userId,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -45,4 +64,6 @@ export const {
   useSignupMutation,
   useLoginMutation,
   useLogoutMutation,
+  useGetFavCarsQuery,
+  useAddFavCarMutation,
 } = api;

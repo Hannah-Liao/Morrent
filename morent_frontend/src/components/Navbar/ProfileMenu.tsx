@@ -16,7 +16,7 @@ import { updateLogin } from '../../slice/loginSlice';
 import { useLogoutMutation } from '../../services/api';
 
 interface ProfileMenuProps {
-  userId: string;
+  userId: string | null;
 }
 
 const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
@@ -30,7 +30,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
       dispatch(
         updateLogin({
           isLoggedIn: false,
-          email: '',
+          userId: null,
         }),
       );
       navigate('/');

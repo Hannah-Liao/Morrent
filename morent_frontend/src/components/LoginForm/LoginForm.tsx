@@ -47,8 +47,8 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'samsmith@gmail.com',
+      password: '123456',
       rememberMe: false,
     },
   });
@@ -62,8 +62,8 @@ const LoginForm = () => {
             //store in redux
             dispatch(
               updateLogin({
-                email: userInfo.email,
                 isLoggedIn: userInfo.success,
+                userId: userInfo.userId,
               }),
             );
             navigate(`/profile/${userInfo.userId}`);

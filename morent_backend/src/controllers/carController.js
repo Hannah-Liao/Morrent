@@ -40,6 +40,7 @@ export const getCars = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(page * 12)
       .limit(12);
+
     res.status(200).json({
       success: true,
       count: cars.length,
@@ -119,7 +120,7 @@ export const addFavCar = async (req, res) => {
     const userID = req.userId;
     const user = await User.findById(userID);
 
-    user.favCars.unshift(req.body.carID);
+    user.favCars.unshift(req.body.carId); // fix typo carID => carId
     await user.save();
     res.status(200).json({ favCars: user.favCars });
   } catch (err) {

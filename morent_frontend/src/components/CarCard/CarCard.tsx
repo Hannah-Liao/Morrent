@@ -11,6 +11,9 @@ import {
   edit,
 } from '../../assets/icons/index';
 import { CarInfo } from '../../types/carInfo';
+import { useAddFavCarMutation } from '../../services/api';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 interface CarCardProps {
   data: CarInfo | null;
@@ -30,6 +33,8 @@ const CarCard: React.FC<CarCardProps> = ({
   editIcon = false,
 }) => {
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
+  const userId = useSelector((state: RootState) => state.userInfo.userId);
+  const [addFavCar] = useAddFavCarMutation();
 
   if (!data) return;
 
@@ -56,9 +61,13 @@ const CarCard: React.FC<CarCardProps> = ({
             className='isFavoritedIcon'
             alt='Red Heart Icon'
             aria-label='Red Heart Icon'
-            onClick={() =>
-              setIsFavorited((prevIsFavorited) => !prevIsFavorited)
-            }
+            onClick={() => {
+              setIsFavorited((prevIsFavorited) => !prevIsFavorited);
+              addFavCar({
+                carId: data['_id'],
+                userId,
+              });
+            }}
           />
         )}
       </header>

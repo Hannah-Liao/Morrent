@@ -9,13 +9,12 @@ import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
 import ProfileMenu from './ProfileMenu';
 import { updateLogin } from '../../slice/loginSlice';
+import { RootState } from '../../store/store';
 
 const NavBar = () => {
-  const { isLoggedIn, userId } = useSelector(
-    (state: { userInfo: { isLoggedIn: boolean; userId: string } }) => {
-      return state.userInfo;
-    },
-  );
+  const { isLoggedIn, userId } = useSelector((state: RootState) => {
+    return state.userInfo;
+  });
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -91,7 +90,7 @@ const NavBar = () => {
                 dispatch(
                   updateLogin({
                     isLoggedIn: false,
-                    email: '',
+                    userId: null,
                   }),
                 );
               }}

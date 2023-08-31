@@ -1,7 +1,18 @@
+import { useSelector } from 'react-redux';
 import profileImg from '../assets/images/profile.png';
 import { CarsDispalySection } from '../components';
+import { useGetFavCarsQuery } from '../services/api';
+import { RootState } from '../store/store';
 
 const ProfileDetail = () => {
+  const userId = useSelector((state: RootState) => state.userInfo.userId);
+  const { data: userFavCars } = useGetFavCarsQuery(userId);
+
+  console.log({
+    userId,
+    userFavCars,
+  });
+
   return (
     <main>
       <section>

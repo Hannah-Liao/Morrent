@@ -12,8 +12,10 @@ import {
 } from '../components/index';
 import { CarInfo } from '../types/carInfo';
 import { cars } from '../constant';
+import { useGetCarListsQuery } from '../services/api';
 
 const Home: React.FC = () => {
+  const { data: carsData } = useGetCarListsQuery({ page: 0 });
   const [showMoreCars, setShowMoreCars] = useState<boolean>(false);
   const [cardModalData, setCardModalData] = useState<null | CarInfo>(null);
   const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
@@ -71,34 +73,36 @@ const Home: React.FC = () => {
           <HomeViewAllHeader titleText='Recommended Cars' />
 
           {/* Recommended Cars Grid*/}
-          <div className='homeRecommendedGrid'>
-            {/* Show more cars on button click*/}
-            {showMoreCars
-              ? cars
-                  .slice(0, 16)
-                  .map((car, i) => (
-                    <CarCard
-                      key={i}
-                      data={car}
-                      setCardModalData={setCardModalData}
-                      setIsCarModalOpen={() => setOpenModalName('car_info')}
-                      shouldOpenModal={true}
-                      hideButton={false}
-                    />
-                  ))
-              : cars
-                  .slice(0, 8)
-                  .map((car, i) => (
-                    <CarCard
-                      key={i}
-                      data={car}
-                      setCardModalData={setCardModalData}
-                      setIsCarModalOpen={() => setOpenModalName('car_info')}
-                      shouldOpenModal={true}
-                      hideButton={false}
-                    />
-                  ))}
-          </div>
+          {carsData.cars && (
+            <div className='homeRecommendedGrid'>
+              {/* Show more cars on button click*/}
+              {showMoreCars
+                ? carsData.cars
+                    .slice(0, 16)
+                    .map((car, i) => (
+                      <CarCard
+                        key={i}
+                        data={car}
+                        setCardModalData={setCardModalData}
+                        setIsCarModalOpen={() => setOpenModalName('car_info')}
+                        shouldOpenModal={true}
+                        hideButton={false}
+                      />
+                    ))
+                : carsData.cars
+                    .slice(0, 8)
+                    .map((car, i) => (
+                      <CarCard
+                        key={i}
+                        data={car}
+                        setCardModalData={setCardModalData}
+                        setIsCarModalOpen={() => setOpenModalName('car_info')}
+                        shouldOpenModal={true}
+                        hideButton={false}
+                      />
+                    ))}
+            </div>
+          )}
         </>
 
         {/* Button */}
