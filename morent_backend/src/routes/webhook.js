@@ -52,10 +52,8 @@ router.post(
       case 'checkout.session.completed':
         const session = event.data.object;
 
-        res.json({
-          message: 'checkout.session.completed',
-          session,
-        });
+        console.log(session);
+
         break;
       default:
         res.json({ message: 'something went wrong' });

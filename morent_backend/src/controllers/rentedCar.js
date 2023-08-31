@@ -65,7 +65,6 @@ router.post('/', async (req, res) => {
       rentedCar: updatedCar,
     });
   } catch (error) {
-    console.log(error.name);
     if (error.name === 'ValidationError') {
       const errorMessages = Object.values(error.errors).map(
         (err) => err.message

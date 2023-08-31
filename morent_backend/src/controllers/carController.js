@@ -1,5 +1,6 @@
 import { Car } from '../models/Car.js';
 import User from '../models/user.js';
+import rentedCar from '../models/rentedCar.js';
 
 // create new car
 export const createCar = async (req, res) => {
@@ -39,8 +40,8 @@ export const getCars = async (req, res) => {
       ],
     })
       .sort({ createdAt: -1 })
-      .skip(page * 4)
-      .limit(4);
+      .skip(page * 12)
+      .limit(12);
     res.status(200).json({
       success: true,
       count: length,

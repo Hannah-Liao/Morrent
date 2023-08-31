@@ -4,6 +4,8 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
@@ -12,8 +14,6 @@ import userRouter from './src/routes/user.js';
 import rentedCarRouter from './src/routes/carRented.js';
 import { authenticateUser } from './src/middleware/auth.js';
 import filesUpload from './src/routes/fileUpload.js';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import webhook from './src/routes/webhook.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -32,7 +32,7 @@ app.use(
 );
 
 const setCorsHeaders = (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', corsAllowUrl);
+  res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE'
@@ -61,26 +61,13 @@ app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
 app.use('/api/rented-car', authenticateUser, rentedCarRouter);
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello from the server!' });
+app.get('/test', (req, res) => {
+  res.json({ message: 'Hello' }).end();
 });
-
-app.get('/api/user/protected', authenticateUser, (req, res) => {
-  return res.json({ user: { id: req.userId } });
-});
-
-// stripe
 app.use('/', checkout);
-app.use('/cars', carRouter);
-
-// User routes
-app.use('/api/user', userRouter);
 app.use('/webhook', webhook);
-
-// Files upload
 app.use('/', filesUpload);
 
-// connect db
 connectToDatabase()
   .then(() => {
     app.listen(8004, () => console.log('Server is running on port 8004'));

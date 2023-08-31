@@ -7,13 +7,15 @@ const router = express.Router();
 const stripeInit = stripe(process.env.STRIPE_PRIVATE_KEY);
 
 router.post('/checkout', authenticateUser, async (req, res) => {
-  const { carName, price, userId } = req.body;
+  const { data, carData } = req.body;
   const customer = await stripeInit.customers.create({
     metadata: {
       userId: userId,
       data: JSON.stringify({
         carName,
         price,
+        data,
+        carData,
       }),
     },
   });
