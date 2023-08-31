@@ -1,22 +1,16 @@
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 
-export const generateToken = (user, secret, expiry) => {
-  return jwt.sign({ email: user.email, id: user._id }, secret, {
-    expiresIn: expiry,
+export const generateToken = ({ payload, tokenSecret, expiresIn }) => {
+  return jwt.sign(payload, tokenSecret, {
+    expiresIn,
   });
 };
 
-export const setTokenCookies = (res, accessToken, refreshToken) => {
-  res.cookie('access_token', accessToken, {
+export const sendCookie = ({ res, name, token }) => {
+  res.cookie(name, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-  });
-  res.cookie('refresh_token', refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    secure: true,
+    sameSite: 'none',
   });
 };
-
-// JWT Key
-export const secret = crypto.randomBytes(64).toString('hex');

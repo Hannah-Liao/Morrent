@@ -1,6 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import { Button } from '../ui/button';
 import {
@@ -11,39 +13,80 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Input } from '../ui/input';
-import { toast } from '../ui/use-toast';
 import { addCarSchema } from './CarSchema';
 import { uploadIcon, deleteIcon } from '../../assets/icons';
+import {
+  useAddCarMutation,
+  useUpdateCarMutation,
+  useDeleteCarMutation,
+} from '../../services/api';
 
 type CarFormProps = {
   isEditCarPage: boolean;
+  carID: string | undefined;
+  carData: {
+    title: string;
+    carType: string;
+    price: number | null;
+    capacity: number | null;
+    transmissionType: string;
+    carLocation: string;
+    fuelTankSize: number | null;
+    description: string;
+    carImages: Array<string> | [];
+  };
 };
 
-const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
+const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
+  const [addCar] = useAddCarMutation();
+  const [updateCar] = useUpdateCarMutation();
+  const [deleteCar] = useDeleteCarMutation();
+  const navigate = useNavigate();
+
+  const [images, setImages] = useState<FormData | null>(null);
+
   const form = useForm<z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
-      carTitle: '',
-      carType: '',
-      rentPrice: '',
-      capacity: '',
-      transmission: '',
-      location: '',
-      fuelCapacity: '',
-      shortDesc: '',
+      title: carData?.title || '',
+      carType: carData?.carType || '',
+      price: carData?.price || '',
+      capacity: carData?.capacity || '',
+      transmissionType: carData?.transmissionType || '',
+      carLocation: carData?.carLocation || '',
+      fuelTankSize: carData?.fuelTankSize || '',
+      description: carData?.description || '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof addCarSchema>) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  const onSubmit = async (data: z.infer<typeof addCarSchema>) => {
+    const formData = new FormData();
+    // @ts-ignore
+    if (images) {
+      Array.from(images).forEach((file) => {
+        formData.append('photos', file);
+      });
+    }
+
+    formData.append('title', data.title);
+    formData.append('carType', data.carType);
+    formData.append('price', data.price);
+    formData.append('capacity', data.capacity);
+    formData.append('transmissionType', data.transmissionType);
+    formData.append('carLocation', data.carLocation);
+    formData.append('fuelTankSize', data.fuelTankSize);
+    formData.append('description', data.description);
+    if (carData?.carImages?.length > 0) {
+      formData.append('carImages', carData?.carImages);
+    }
+
+    if (!isEditCarPage) {
+      addCar(formData);
+    } else {
+      updateCar({ car: formData, carID: carID });
+    }
+    navigate('/');
+  };
 
   return (
     <div className='w-full max-w-[852px] p-[24px] mx-auto dark:bg-gray-850 bg-white borderRadius-lg'>
@@ -62,10 +105,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
           <div className='grid gap-6 mb-6 md:grid-cols-2 pb-[45px]'>
             <FormField
               control={form.control}
-              name='carTitle'
+              name='title'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='carTitle' className='inputLabel'>
+                  <label htmlFor='title' className='inputLabel'>
                     Car Title
                   </label>
                   <FormControl>
@@ -102,10 +145,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='rentPrice'
+              name='price'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='rentPrice' className='inputLabel'>
+                  <label htmlFor='price' className='inputLabel'>
                     Rent Price
                   </label>
                   <FormControl>
@@ -144,16 +187,16 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='transmission'
+              name='transmissionType'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='transmission' className='inputLabel'>
+                  <label htmlFor='transmissionType' className='inputLabel'>
                     Transmission
                   </label>
                   <FormControl>
                     <Input
                       className='inputField'
-                      placeholder='Car type'
+                      placeholder='transmission type'
                       {...field}
                     />
                   </FormControl>
@@ -164,10 +207,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='location'
+              name='carLocation'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='location' className='inputLabel'>
+                  <label htmlFor='carLocation' className='inputLabel'>
                     Location
                   </label>
                   <FormControl>
@@ -184,10 +227,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='fuelCapacity'
+              name='fuelTankSize'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='fuelCapacity' className='inputLabel'>
+                  <label htmlFor='fuelTankSize' className='inputLabel'>
                     Fuel Capacity
                   </label>
                   <FormControl>
@@ -205,10 +248,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
 
             <FormField
               control={form.control}
-              name='shortDesc'
+              name='description'
               render={({ field }) => (
                 <FormItem>
-                  <label htmlFor='shortDesc' className='inputLabel'>
+                  <label htmlFor='description' className='inputLabel'>
                     Short Description
                   </label>
                   <FormControl>
@@ -245,7 +288,17 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
                     High resolution images (png, jpg, gif)
                   </p>
                 </div>
-                <input id='dropzone-file' type='file' className='hidden' />
+                <input
+                  onChange={async (e) => {
+                    const files = e.target.files!;
+                    setImages(files);
+                  }}
+                  id='dropzone-file'
+                  multiple
+                  name='photos'
+                  type='file'
+                  className='hidden'
+                />
               </label>
             </div>
           </div>
@@ -253,8 +306,12 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
           <div className='flex flex-col-reverse sm:flex-row justify-end gap-5'>
             {isEditCarPage && (
               <Button
-                type='submit'
+                type='button'
                 className='gap-2 removeBtn p-bold py-4 rounded-[10px] focus:ring-4 focus:outline-none w-full md:w-auto'
+                onClick={() => {
+                  deleteCar(carID);
+                  navigate('/');
+                }}
               >
                 <img src={deleteIcon} alt='deleteIcon' />
                 Remove Car

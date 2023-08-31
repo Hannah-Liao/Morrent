@@ -64,17 +64,11 @@ const carSchema = new Schema(
       type: [String],
       validate: (v) => Array.isArray(v) && v.length > 0 && v.length < 4,
     },
+
+    //pick up date
     rentedDateFrom: {
       type: String,
       validate: {
-        // validator: function (value) {
-        //   const startDate = new Date();
-        //   const endDate = new Date(startDate);
-        //   endDate.setMonth(endDate.getMonth() + 1);
-        //   return value >= startDate && value <= endDate;
-        // },
-        // message: 'The date must be between today and one month from today.',
-
         validator: function (value) {
           // Get the current date
           const now = new Date();
@@ -90,6 +84,7 @@ const carSchema = new Schema(
       },
     },
 
+    //drop off date
     rentedDateTo: {
       type: String,
       validate: {
@@ -103,8 +98,8 @@ const carSchema = new Schema(
         message: 'The date must be between today and one month from today.',
       },
     },
-    isRented: {
-      type: Boolean,
+    numberOfTimesRented: {
+      type: Number,
     },
     user: {
       type: Schema.Types.ObjectId,
