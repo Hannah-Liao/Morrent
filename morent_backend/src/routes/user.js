@@ -23,6 +23,5 @@ router.get('/userinfo/:id', authenticateUser, userInfo);
 
 // router.post('/protected', protectedRoute);
 // router.post('/', authenticateUser, addCar);
-// router.post('/update-user', authenticateUser, updateUser);
 
 export default router;

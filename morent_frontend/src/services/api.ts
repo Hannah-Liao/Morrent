@@ -37,6 +37,16 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    updateUser: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `api/user/updateuser/${id}`,
+        method: 'PATCH',
+        body: data,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }),
+    }),
   }),
 });
 
@@ -45,4 +55,5 @@ export const {
   useSignupMutation,
   useLoginMutation,
   useLogoutMutation,
+  useUpdateUserMutation,
 } = api;

@@ -12,32 +12,56 @@ import {
 } from '../components/ui/form';
 import { Input } from '../components/ui/input';
 import { uploadIcon } from '../assets/icons';
+import { useUpdateUserMutation } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const formSchema = z.object({
-  firstName: z.string({
-    required_error: 'name is required',
-  }),
-  lastName: z.string({
-    required_error: 'name is required',
-  }),
-  role: z.string({
-    required_error: 'role is required',
-  }),
-  email: z.string({
-    required_error: 'email is required',
-  }),
-  phonenumber: z.number({
-    required_error: 'phone number is required',
-  }),
-  address: z.string(),
+  firstName: z.string().min(1, { message: 'Not a valid first name' }),
+  lastName: z.string().min(1, { message: 'Not a valid last name' }),
+  email: z.string().email({ message: 'Invalid email format' }),
+  role: z.string().min(1, { message: 'Not a valid role' }),
+  phonenumber: z.coerce.number().min(8, { message: 'Minimum 8 chars' }),
+  address: z.string().min(3, { message: 'Not a valid address' }),
 });
 
 const EditProfile = () => {
+  const navigate = useNavigate();
+
+  const [updateUser, { isLoading, error }] = useUpdateUserMutation();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      role: '',
+      email: '',
+      phonenumber: 123456789,
+      address: '',
+    },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    console.log(data);
+    try {
+      await updateUser({ data })
+        .unwrap()
+        .then((res) => {
+          if (res.success) {
+            navigate('/');
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (error) {
+    console.log('Error', error);
+  }
+  if (isLoading) {
+    return <h1>Loading....</h1>;
+  }
 
   return (
     <div className='w-full max-w-[600px] p-6 mx-auto dark:bg-gray-850 bg-white borderRadius-lg rounded-lg'>
