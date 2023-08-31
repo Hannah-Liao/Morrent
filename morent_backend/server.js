@@ -57,16 +57,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'Hello from the server!' });
 });
 
-app.get('/api/user/protected', authenticateUser, (req, res) => {
-  return res.json({ user: { id: req.userId } });
-});
-
 // stripe
 app.use('/', checkout);
-app.use('/cars', carRouter);
-
-// User routes
-app.use('/user', userRouter);
 
 // Files upload
 app.use('/', filesUpload);
