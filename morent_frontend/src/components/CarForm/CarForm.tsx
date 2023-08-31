@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button } from '../ui/button';
@@ -24,6 +24,8 @@ import {
 import ImageDisplay from './ImageDisplay';
 
 type CarFormProps = {
+  // existImages: Array<{ url: string; file: File }> | [];
+  // setExistImages: Dispatch<SetStateAction<{ url: string; file: File }>>;
   isEditCarPage: boolean;
   carID: string | undefined;
   carData: {
@@ -39,7 +41,13 @@ type CarFormProps = {
   };
 };
 
-const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
+const CarForm: React.FC<CarFormProps> = ({
+  isEditCarPage,
+  carID,
+  carData,
+  // existImages,
+  // setExistImages,
+}) => {
   const [addCar] = useAddCarMutation();
   const [updateCar] = useUpdateCarMutation();
   const [deleteCar] = useDeleteCarMutation();
@@ -51,11 +59,17 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
 
   console.log('here', userID);
 
-  const [images, setImages] = useState<FormData | null>(null);
-  const [existImages, setExistImages] = useState(
-    carData ? [...carData?.carImages] : [],
-  );
-  const [selectedImages, setSelectedImages] = useState([]);
+  // images to send to the database
+  const [images, setImages] = useState([]);
+
+  const [existImages, setExistImages] = useState<
+    Array<{ url: string; file: File | null }>
+  >([]);
+
+  // preview images in add car page
+  const [selectedImages, setSelectedImages] = useState<
+    Array<{ url: string; file: File | null }>
+  >([]);
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -65,16 +79,20 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
       });
 
       !isEditCarPage &&
-        setSelectedImages((previousImages) => previousImages.concat(imageArr));
+        setSelectedImages((previousImages) =>
+          previousImages.concat([{ url: imageArr, file: files }]),
+        );
 
       isEditCarPage &&
-        setExistImages((previousImages) => previousImages.concat(imageArr));
+        setExistImages((previousImages) =>
+          previousImages.concat([{ url: imageArr, file: files }]),
+        );
 
-      setImages(event.target.files);
+      setImages((prev) => [...prev, ...event.target.files]);
     }
   };
 
-  const form = useForm<z.infer<typeof addCarSchema>>({
+  const form = useForm<z.z.infer<typeof addCarSchema>>({
     resolver: zodResolver(addCarSchema),
     defaultValues: {
       title: carData?.title || '',
@@ -333,6 +351,8 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
             setExistImages={setExistImages}
             selectedImages={selectedImages}
             setSelectedImages={setSelectedImages}
+            images={images}
+            setImages={setImages}
           />
 
           <div className='flex flex-col-reverse sm:flex-row justify-end gap-5'>

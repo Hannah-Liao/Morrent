@@ -3,10 +3,12 @@ import { Dispatch, SetStateAction } from 'react';
 import { close } from '../../assets/icons';
 
 type ImageDisplayProps = {
-  existImages: Array<string> | [];
-  setExistImages: Dispatch<SetStateAction<Array<string>>>;
-  selectedImages: Array<string> | [];
-  setSelectedImages: Dispatch<SetStateAction<Array<string>>>;
+  existImages: Array<{ url: string; file: File }> | [];
+  setExistImages: Dispatch<SetStateAction<{ url: string; file: File }>>;
+  selectedImages: Array<{ url: string; file: File }> | [];
+  setSelectedImages: Dispatch<SetStateAction<{ url: string; file: File }>>;
+  images: Array<File> | [];
+  setImages: Dispatch<SetStateAction<Array<File>>>;
 };
 
 const ImageDisplay: React.FC<ImageDisplayProps> = ({
@@ -14,8 +16,10 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
   setExistImages,
   selectedImages,
   setSelectedImages,
+  images,
+  setImages,
 }) => {
-  const editedImages = [...existImages];
+  // const editedImages = [...existImages];
   const displayImages =
     selectedImages.length > 0 ? selectedImages : existImages;
 
@@ -23,14 +27,23 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
     <div className='flex gap-3 mb-3'>
       {displayImages.map((image, i) => (
         <div key={i} className='relative '>
-          <img src={image} alt='user images' className='w-24 h-24 rounded-md' />
+          <img
+            src={image.url}
+            alt='user images'
+            className='w-24 h-24 rounded-md'
+          />
           <button
             className='absolute top-[-5px] right-[-5px] border-white-200  border-2 rounded-full bg-white-100'
             onClick={() => {
-              const index = editedImages.indexOf(image);
-              editedImages.splice(index, 1);
-              setExistImages([...editedImages]);
-              setSelectedImages(selectedImages.filter((e) => e !== image));
+              // const index = editedImages.indexOf(image.url);
+              // editedImages.splice(index, 1);
+              // setExistImages([...editedImages]);
+              // setExistImages(existImages.filter((e) => e.url !== image.url));
+              // existImages.map((e) => console.log('ohhhh', e));
+              setSelectedImages(
+                selectedImages.filter((e) => e.url !== image.url),
+              );
+              setImages(images.filter((e) => e.name !== image.file[0].name));
             }}
           >
             <img src={close} alt='delete image icon' className='p-[2px]' />
