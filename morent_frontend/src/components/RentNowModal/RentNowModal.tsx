@@ -82,10 +82,8 @@ const RentNowModal: React.FC<RentNowModalProps> = ({
         },
         credentials: 'include',
         body: JSON.stringify({
-          carId: carData._id,
-          price: carData.price,
-          carName: carData.title,
-          userId: carData.user,
+          carData,
+          data,
         }),
       });
       const response = await res.json();

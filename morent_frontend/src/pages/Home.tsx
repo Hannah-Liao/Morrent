@@ -11,7 +11,7 @@ import {
   RentNowModal,
 } from '../components/index';
 import { CarDataInfo } from '../types/carInfo';
-import { useGetCarListQuery, useGetPopularCarsQuery } from '../services/api';
+import { useGetAllCarsQuery, useGetPopularCarsQuery } from '../services/api';
 import Pagination from '../components/Pagination/Pagination';
 
 const Home = () => {
@@ -21,7 +21,7 @@ const Home = () => {
   );
   const [page, setPage] = useState<number>(1);
 
-  const { data, isError, isLoading } = useGetCarListQuery(page, {
+  const { data, isError, isLoading } = useGetAllCarsQuery(page, {
     refetchOnMountOrArgChange: true,
   });
   const {
@@ -33,8 +33,6 @@ const Home = () => {
   if (isLoading || popularCarLoading) return <p>Loading....</p>;
 
   if (isError || popularCarError) return <p>Error....</p>;
-
-  console.log(data);
 
   return (
     <>
@@ -93,7 +91,7 @@ const Home = () => {
 
         <div className='mx-auto text-center py-[64px]'>
           <Pagination
-            allData={data.count}
+            totalPages={data.totalPages}
             page={page}
             currentLength={data.cars.length}
             setPage={setPage}

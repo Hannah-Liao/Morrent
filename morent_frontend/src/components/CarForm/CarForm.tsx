@@ -34,8 +34,6 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage }) => {
   });
 
   async function onSubmit(data: z.infer<typeof addCarSchema>) {
-    console.log(data);
-
     try {
       const res = await fetch('http://localhost:8004/api/car', {
         method: 'POST',

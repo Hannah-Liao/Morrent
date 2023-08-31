@@ -4,7 +4,7 @@ import { CarDataInfo } from '../types/carInfo';
 export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8004/',
+    baseUrl: 'http://localhost:8004',
     credentials: 'include',
   }),
   tagTypes: ['Car'],
@@ -12,6 +12,26 @@ export const api = createApi({
     getCarList: builder.query({
       query: (page) => {
         return `/api/car?page=${page}`;
+      },
+    }),
+    getAllCars: builder.query({
+      //@ts-ignore
+      query: (
+        page = 1,
+        location: string = '',
+        availabilityFrom: string = '',
+        availabilityTo: string = '',
+      ) => {
+        // validate location,page, availibilityFrom and availabilityTo if exists
+        const queryString = new URLSearchParams({
+          page: page && String(page),
+          location: location && location,
+          availabilityFrom: availabilityFrom && availabilityFrom,
+          availabilityTo: availabilityTo && availabilityTo,
+        }).toString();
+        console.log(queryString);
+
+        return `/api/car/all-cars?${queryString}`;
       },
     }),
 
@@ -55,5 +75,6 @@ export const {
   useGetPopularCarsQuery,
   useSignupMutation,
   useLoginMutation,
+  useGetAllCarsQuery,
   useLogoutMutation,
 } = api;
