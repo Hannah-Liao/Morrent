@@ -15,15 +15,15 @@ export default function CarFilterOptions({
   const handleCapacityChange = (value: string) => dispatch(setCapacity(value));
 
   return (
-    <ul className='flex flex-col gap-2 md:gap-4'>
-      <h2 className=' pt-3 md:pt-5'>
+    <ul className='flex flex-col gap-2 md:gap-3'>
+      <h2 className=' pt-3 md:pt-4'>
         <span className='filter-title'>{title}</span>
       </h2>
       {options.map((item) => (
         <li key={item.key} className='flex items-center gap-2 '>
           <Checkbox
-            className={item.key === value ? '!bg-blue-500' : ''}
-            checked={item.key === value}
+            className={value.includes(item.key) ? '!bg-blue-500' : ''}
+            checked={value.includes(item.key)}
             onCheckedChange={() => {
               title === 'Type'
                 ? handleTypeChange(item.key)

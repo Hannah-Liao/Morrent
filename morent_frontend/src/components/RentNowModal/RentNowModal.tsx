@@ -105,7 +105,11 @@ const RentNowModal: React.FC<RentNowModalProps> = ({
         },
         credentials: 'include',
         body: JSON.stringify({
-          carData,
+          carName: carData.title,
+          price: carData.price,
+          id: carData._id,
+          type: carData.carType,
+          userId: carData.user,
           data,
         }),
       });

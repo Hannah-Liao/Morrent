@@ -12,8 +12,8 @@ import {
   getFavCars,
   deleteFavCarID,
   getPopularCars,
-  allCars,
   getSingleCar,
+  getCarsByUser,
 } from '../controllers/carController.js';
 
 const router = Router();
@@ -26,8 +26,8 @@ router.patch('/delete-fav-car/:userID', authenticateUser, deleteFavCarID);
 router.delete('/delete/:id', authenticateUser, deleteCar);
 router.put('/update/:id', authenticateUser, updateCar);
 router.get('/popular', getPopularCars);
-router.get('/all-cars', allCars);
 router.put('/update/:id', fileUploadMiddleware, authenticateUser, updateCar);
 router.get('/get-single-car/:id', getSingleCar);
+router.get('/cars-by-user/', authenticateUser, getCarsByUser);
 
 export default router;

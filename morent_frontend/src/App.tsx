@@ -37,7 +37,7 @@ const App = () => {
       });
       const data = await res.json();
 
-      setUser(data.userID);
+      setUser(await data);
     } catch (error) {
       console.log(error);
       setUser(null);
@@ -54,10 +54,9 @@ const App = () => {
       <div className='w-full bg-white-200 dark:bg-gray-900'>
         <div className='w-full max-container p-[2.5%]'>
           <Routes>
-            <Route index path='/' element={<Home />} />
-            <Route path='/signup' element={<SignUp />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route index element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='add-car' element={<AddCar />} />
             <Route path='/edit-car/:id' element={<EditCar />} />
@@ -66,7 +65,7 @@ const App = () => {
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
             <Route path='/edit-profile' element={<EditProfile />} />
-            <Route path='/profile/:id' element={<ProfileDetail />} />
+            <Route path='/profile' element={<ProfileDetail />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </div>

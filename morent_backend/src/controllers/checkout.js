@@ -7,6 +7,7 @@ const stripeInit = stripe(process.env.STRIPE_PRIVATE_KEY);
 export const checkout = async (req, res) => {
   try {
     const { carName, price } = req.body;
+    console.log(req.body);
 
     const session = await stripeInit.checkout.sessions.create({
       line_items: [

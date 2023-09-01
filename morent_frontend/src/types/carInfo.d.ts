@@ -28,5 +28,5 @@ export type CarData = {
 export type CarFilterOptionsProps = {
   title: string;
   options: CarData[];
-  value: string;
+  value: string[];
 };

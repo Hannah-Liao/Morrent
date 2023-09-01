@@ -15,11 +15,7 @@ import profileImg from '../../assets/images/profile.png';
 import { updateLogin } from '../../slice/loginSlice';
 import { useLogoutMutation } from '../../services/api';
 
-interface ProfileMenuProps {
-  userId: string;
-}
-
-const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
+const ProfileMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
@@ -54,7 +50,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className='dropDownIcons' />
-            <Link to={`/profile/${userId}`}>Profile</Link>
+            <Link to={`/profile`}>Profile</Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

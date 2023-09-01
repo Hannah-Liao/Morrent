@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import {
   CarCard,
@@ -9,24 +8,28 @@ import {
   PickDropForm,
 } from '../components';
 import { CarDataInfo } from '../types/carInfo';
-import { useGetAllCarsQuery } from '../services/api';
+import { useGetCarListQuery } from '../services/api';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 export default function Search() {
-  const [cardModalData, setCardModalData] = useState<null | CarDataInfo>(null);
-  const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
-    '',
+  const [, setCardModalData] = useState<null | CarDataInfo>(null);
+  const [, setOpenModalName] = useState<'car_info' | 'rent' | ''>('');
+  const [title, setTitle] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { cars } = useSelector(
+    ({ CarSearchResults }: RootState) => CarSearchResults,
   );
 
-  const [page, setPage] = useState<number>(1);
-  // const { state } = useLocation();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const { data, isError, isLoading } = useGetAllCarsQuery(page, {
+  const { data, isError, isLoading } = useGetCarListQuery(page, {
     refetchOnMountOrArgChange: true,
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error...</p>;
+
+  const results = data.cars.length > 1 ? data.cars : cars;
 
   return (
     <div className='flex min-h-screen flex-col md:flex-row gap-5 p-2 md:p-0 w-full'>
@@ -35,15 +38,15 @@ export default function Search() {
           isOpen ? 'left-0' : '-left-full'
         }`}
       >
-        <Filter setIsOpen={setIsOpen} />
+        <Filter setIsOpen={setIsOpen} setTitle={setTitle} title={title} />
       </section>
       <div className='w-full'>
         <div className='md:hidden'>
-          <SearchInput setIsOpen={setIsOpen} />
+          <SearchInput setIsOpen={setIsOpen} setTitle={setTitle} />
         </div>
         <PickDropForm isShow={false} />
         <section className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 1xl:grid-cols-2 xl:grid-cols-3   gap-8 justify-center pt-9'>
-          {data?.cars?.map((car: CarDataInfo) => (
+          {results?.map((car: CarDataInfo) => (
             <div key={car.price} className=' w-full sm:max-w-xs md:max-w-full'>
               <CarCard
                 data={car}

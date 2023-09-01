@@ -9,6 +9,7 @@ import {
   showCurrentUser,
   deleteUser,
   viewUsers,
+  getUserById,
 } from '../controllers/user.js';
 
 const router = express.Router();
@@ -20,6 +21,7 @@ router.post('/logout', authenticateUser, logout);
 router.patch('/updateuser/:id', authenticateUser, updateUser);
 router.delete('/deleteuser/:id', authenticateUser, deleteUser);
 router.get('/viewusers', authenticateUser, viewUsers);
+router.get('/profile', authenticateUser, getUserById);
 router.get('/show', authenticateUser, async (req, res) => {
   try {
     res.status(200).json({ user: req.userID });

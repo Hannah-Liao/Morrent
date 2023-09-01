@@ -9,9 +9,9 @@ import {
   CarInfoModal,
   PickDropForm,
   RentNowModal,
-} from '../components/index';
+} from '../components';
 import { CarDataInfo } from '../types/carInfo';
-import { useGetAllCarsQuery, useGetPopularCarsQuery } from '../services/api';
+import { useGetPopularCarsQuery, useGetCarListQuery } from '../services/api';
 import Pagination from '../components/Pagination/Pagination';
 
 const Home = () => {
@@ -21,7 +21,7 @@ const Home = () => {
   );
   const [page, setPage] = useState<number>(1);
 
-  const { data, isError, isLoading } = useGetAllCarsQuery(page, {
+  const { data, isError, isLoading } = useGetCarListQuery(page, {
     refetchOnMountOrArgChange: true,
   });
   const {

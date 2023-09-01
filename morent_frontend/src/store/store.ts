@@ -4,6 +4,7 @@ import { api } from '../services/api';
 import carFilter from '../slice/carFilterSlice';
 import authSlice from '../slice/authSlice';
 import loginSlice from '../slice/loginSlice';
+import CarSearchResults from '../slice/filterResults';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     carFilter,
     authSlice,
     userInfo: loginSlice,
+    CarSearchResults,
   },
 
   middleware: (getDefaultMiddleware) =>

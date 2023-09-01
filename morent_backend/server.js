@@ -56,14 +56,9 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'uploads')));
 app.use('/uploads', express.static('uploads'));
 
-// Routes
 app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
 app.use('/api/rented-car', authenticateUser, rentedCarRouter);
-
-app.get('/test', (req, res) => {
-  res.json({ message: 'Hello' }).end();
-});
 app.use('/', checkout);
 app.use('/webhook', webhook);
 app.use('/', filesUpload);

@@ -1,57 +1,44 @@
 import express from 'express';
-process.env.TZ = 'UTC';
+
 import RentedCarModel from '../models/rentedCar.js';
 import { Car } from '../models/Car.js';
+import { authenticateUser } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateUser, async (req, res) => {
   try {
-    const {
-      location,
-      pickUpDate,
-      pickUpTime,
-      dropOffDate,
-      dropOffTime,
-      carId,
-      userId,
-    } = req.body;
-    if (
-      !location ||
-      !pickUpDate ||
-      !pickUpTime ||
-      !dropOffDate ||
-      !dropOffTime ||
-      !carId ||
-      !userId
-    ) {
+    const { location, pickUpDateTime, dropOffDateTime, carId, userId } =
+      req.body;
+
+    if (!location || !pickUpDateTime || !dropOffDateTime || !carId || !userId) {
       return res.json({ error: true, message: 'All fields required' });
     }
-    const currentCars = await Car.findById(carId);
-    const rentedDateTo = new Date(currentCars.rentedDateTo).getDate();
-    const currentDate = new Date().getDate();
 
-    if (rentedDateTo > currentDate) {
+    const currentCar = await Car.findById(carId);
+    const rentedDateTo = new Date(currentCar.rentedDateTo).getDate();
+    const userPickUpDate = new Date(pickUpDateTime).getDate();
+
+    if (rentedDateTo > userPickUpDate) {
       return res.json({
         error: true,
-        message: 'This car is not available for rent in current date',
+        message: 'This car is not available for rent',
       });
     }
-    await RentedCarModel.create({
+
+    const newRentedCar = await RentedCarModel.create({
       location,
-      pickUpTime,
-      dropOffTime,
-      pickUpDate,
-      dropOffDate,
+      pickUpDateTime,
+      dropOffDateTime,
       carId,
       userId,
     });
 
-    const updatedCar = await Car.findByIdAndUpdate(
+    const updatedCar = await currentCar.updateOne(
       carId,
       {
-        rentedDateFrom: pickUpDate,
-        rentedDateTo: dropOffDate,
+        rentedDateFrom: pickUpDateTime,
+        rentedDateTo: dropOffDateTime,
         $inc: { numberOfTimesRented: 1 },
       },
       {
@@ -59,10 +46,11 @@ router.post('/', async (req, res) => {
       }
     );
 
-    return res.status(201).json({
+    res.status(201).json({
       message: 'Rented Car Created',
       success: true,
-      rentedCar: updatedCar,
+      rentedCar: newRentedCar,
+      updatedCar,
     });
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -70,10 +58,9 @@ router.post('/', async (req, res) => {
         (err) => err.message
       );
       const errorMessage = errorMessages.join(', ');
-      console.log({ errorMessage });
-      return res.json({ error: true, message: errorMessage });
+      res.json({ error: true, message: errorMessage });
     } else {
-      return res.json({ error: true, message: error.message });
+      res.json({ error: true, message: error.message });
     }
   }
 });

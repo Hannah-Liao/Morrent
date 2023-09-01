@@ -1,7 +1,20 @@
 import profileImg from '../assets/images/profile.png';
 import { CarsDispalySection } from '../components';
+import { useGetCarsByUserQuery, useGetUserByIdQuery } from '../services/api';
+import { useEffect } from 'react';
 
 const ProfileDetail = () => {
+  const { data, isLoading, isError } = useGetUserByIdQuery('');
+  const {
+    data: cars,
+    isError: carError,
+    isLoading: carLoading,
+  } = useGetCarsByUserQuery('');
+
+  if (isLoading || carLoading) return <p>Loading...</p>;
+  if (isError || carError) return <p>Error...</p>;
+  console.log(cars);
+
   return (
     <main>
       <section>
@@ -27,7 +40,7 @@ const ProfileDetail = () => {
 
             <div className='ml-3.5 sm:ml-[152px] mt-[10px] sm:mt-0 '>
               <p className='base-bold text-gray-900 dark:text-white'>
-                Jane Daniel
+                {data.name}
               </p>
               <p className='body-regular text-opacity-50 text-gray-900 dark:text-blue-100'>
                 Agent
@@ -46,12 +59,22 @@ const ProfileDetail = () => {
 
       <section className='pt-10'>
         <h1 className='subtitle'>Rented Cars</h1>
-        <CarsDispalySection />
+        <CarsDispalySection
+          cars={data.rentedCars}
+          sliceNumber={4}
+          key='rented-car'
+        />
       </section>
 
       <section className='pt-10'>
         <h1 className='subtitle'>My Cars for Rent</h1>
-        <CarsDispalySection hideButton={true} editIcon={true} />
+        <CarsDispalySection
+          sliceNumber={4}
+          hideButton={true}
+          editIcon={true}
+          cars={cars?.data}
+          key='car-for-rent'
+        />
       </section>
 
       <a

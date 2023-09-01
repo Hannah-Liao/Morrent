@@ -7,16 +7,10 @@ const router = express.Router();
 const stripeInit = stripe(process.env.STRIPE_PRIVATE_KEY);
 
 router.post('/checkout', authenticateUser, async (req, res) => {
-  const { data, carData } = req.body;
+  const { data: rentData, userId, carName, price, id } = req.body;
   const customer = await stripeInit.customers.create({
     metadata: {
-      userId: userId,
-      data: JSON.stringify({
-        carName,
-        price,
-        data,
-        carData,
-      }),
+      data: JSON.stringify({ rentData, userId: req.userId, price, carId: id }),
     },
   });
 
@@ -34,6 +28,7 @@ router.post('/checkout', authenticateUser, async (req, res) => {
       },
     ],
     customer: customer.id,
+    metadata: customer.metadata,
     mode: 'payment',
     success_url: `${process.env.CLIENT_URL}/success`,
     cancel_url: `${process.env.CLIENT_URL}/cancel`,

@@ -66,7 +66,7 @@ const LoginForm = () => {
                 isLoggedIn: userInfo.success,
               }),
             );
-            navigate(`/profile/${userInfo.userId}`);
+            navigate(`/profile`);
           }
         });
     } catch (err) {

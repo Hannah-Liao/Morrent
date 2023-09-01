@@ -11,8 +11,21 @@ export const api = createApi({
 
   endpoints: (builder) => ({
     getCarList: builder.query({
-      query: (page) => {
-        return `/api/car?page=${page}`;
+      query: (
+        page = 1,
+        location: string = '',
+        availabilityFrom: string = '',
+        availabilityTo: string = '',
+      ) => {
+        // validate location,page, availibilityFrom and availabilityTo if exists
+        const queryString = new URLSearchParams({
+          page: page && String(page),
+          location: location && location,
+          availabilityFrom: availabilityFrom && availabilityFrom,
+          availabilityTo: availabilityTo && availabilityTo,
+        }).toString();
+
+        return `/api/car?${queryString}`;
       },
     }),
     getCurrentUser: builder.query({
@@ -41,27 +54,6 @@ export const api = createApi({
         method: 'DELETE',
       }),
     }),
-    getAllCars: builder.query({
-      //@ts-ignore
-      query: (
-        page = 1,
-        location: string = '',
-        availabilityFrom: string = '',
-        availabilityTo: string = '',
-      ) => {
-        // validate location,page, availibilityFrom and availabilityTo if exists
-        const queryString = new URLSearchParams({
-          page: page && String(page),
-          location: location && location,
-          availabilityFrom: availabilityFrom && availabilityFrom,
-          availabilityTo: availabilityTo && availabilityTo,
-        }).toString();
-        console.log(queryString);
-
-        return `/api/car/all-cars?${queryString}`;
-      },
-    }),
-
     getPopularCars: builder.query({
       query: () => {
         return `/api/car/popular`;
@@ -94,6 +86,12 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    getUserById: builder.query({
+      query: () => 'api/user/profile',
+    }),
+    getCarsByUser: builder.query({
+      query: () => 'api/car/cars-by-user',
+    }),
   }),
 });
 
@@ -107,6 +105,7 @@ export const {
   useDeleteCarMutation,
   useSignupMutation,
   useLoginMutation,
-  useGetAllCarsQuery,
   useLogoutMutation,
+  useGetUserByIdQuery,
+  useGetCarsByUserQuery,
 } = api;

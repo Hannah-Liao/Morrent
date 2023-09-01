@@ -2,6 +2,7 @@ import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { FormField, FormItem, FormLabel, Form, FormMessage } from '../ui/form';
 import { formData } from '../../constant';
@@ -9,6 +10,7 @@ import SubmitButton from './SubmitButton';
 import LocationSelect from './Location';
 import DateSelector from './DateSelector';
 import { useToast } from '../ui/use-toast';
+import { setCarSearchResults } from '../../slice/filterResults';
 
 export const formSchema = z.object({
   location: z.string(),
@@ -23,6 +25,7 @@ type PickDropFormProps = {
 export default function PickDropForm({ isShow }: PickDropFormProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const dispatch = useDispatch();
 
   const searchForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -31,18 +34,24 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       const res = await fetch(
-        `http://localhost:8004/api/car/all-cars?page=1&pageSize=10&location=${data.location}&availabilityFrom=${data.availabilityFrom}&availabilityTo=${data.availabilityTo}`,
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/api/car?page=1&pageSize=10&location=${
+          data.location
+        }&availabilityFrom=${data.availabilityFrom}&availabilityTo=${
+          data.availabilityTo
+        }`,
       );
       const datas = await res.json();
-      // redirect user directly and show toast later
-      if (datas.cars.length < 1)
-        return toast({
-          className: 'text-black dark:text-white-100',
-          title: 'Not found',
-          description: 'We can not find a car that you are looking for',
+      if (datas.cars.length < 1) {
+        toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: 'We can not find cars that you are looking for',
         });
-
-      navigate('/search', { state: { datas } });
+      }
+      dispatch(setCarSearchResults(datas));
+      navigate('/search');
     } catch (error) {
       if (error instanceof Error) {
         toast({

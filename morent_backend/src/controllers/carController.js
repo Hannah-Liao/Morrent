@@ -40,16 +40,19 @@ export const getCars = async (req, res) => {
       type,
       availabilityFrom,
       availabilityTo,
+      title,
     } = req.query;
+
     const capacity = parseInt(req.query.capacity);
     const price = parseInt(req.query.price);
     const currentDate = new Date();
 
     let query = {
+      ...(title && { title }),
       ...(location && { carLocation: location }),
-      ...(type && { carType: type }),
+      ...(type && { carType: { $in: type } }),
       ...(price && { price: { $lte: price } }),
-      ...(capacity && { capacity: { $gte: capacity } }),
+      ...(capacity && { capacity: { $in: capacity } }),
     };
 
     const availableCarsQuery = {
@@ -73,6 +76,7 @@ export const getCars = async (req, res) => {
       query = { ...query, ...availableCarsQuery };
     }
 
+    console.log(query);
     const totalCars = await Car.countDocuments(query);
 
     const cars = await Car.find(query)
@@ -82,7 +86,6 @@ export const getCars = async (req, res) => {
 
     res.json({ cars, totalPages: Math.ceil(totalCars / pageSize) });
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({ error: 'Error searching for cars' });
   }
 };
@@ -257,5 +260,22 @@ export const getSingleCar = async (req, res) => {
       .json({ success: true, message: 'Successfully get a car', data: car });
   } catch (err) {
     res.status(404).json({ success: false, message: 'Not found' });
+  }
+};
+
+export const getCarsByUser = async (req, res) => {
+  try {
+    if (!req.userId) {
+      return res.status(403).message('unAuthorized');
+    }
+
+    const cars = await Car.find().where('user', req.userId);
+
+    return res.json({ error: false, message: 'Success', data: cars });
+  } catch (error) {
+    return res.json({
+      error: true,
+      message: 'Something went wrong when fetch data',
+    });
   }
 };
