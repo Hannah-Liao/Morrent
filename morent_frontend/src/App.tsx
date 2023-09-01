@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import {
   Canceled,
@@ -24,10 +24,6 @@ const App = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
 
-  // const { userID } = useSelector((state) => {
-  //   return state.authSlice;
-  // });
-
   dispatch(
     setCurrentUser({
       userID: user,
@@ -41,7 +37,7 @@ const App = () => {
       });
       const data = await res.json();
 
-      setUser(data);
+      setUser(data.userID);
     } catch (error) {
       console.log(error);
       setUser(null);
