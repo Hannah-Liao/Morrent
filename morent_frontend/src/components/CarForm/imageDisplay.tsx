@@ -3,10 +3,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { close } from '../../assets/icons';
 
 type ImageDisplayProps = {
-  existImages: Array<{ url: string; file: File }> | [];
-  setExistImages: Dispatch<SetStateAction<{ url: string; file: File }>>;
-  selectedImages: Array<{ url: string; file: File }> | [];
-  setSelectedImages: Dispatch<SetStateAction<{ url: string; file: File }>>;
+  existImages: Array<[{ url: string; file: File }]> | [];
+  setExistImages: Dispatch<SetStateAction<[{ url: string; file: File }]>>;
+  selectedImages: Array<[{ url: string; file: File }]> | [];
+  setSelectedImages: Dispatch<SetStateAction<[{ url: string; file: File }]>>;
   images: Array<File> | [];
   setImages: Dispatch<SetStateAction<Array<File>>>;
 };
@@ -38,8 +38,8 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
               setSelectedImages(
                 selectedImages.filter((e) => e.url !== image.url),
               );
-              selectedImages.length > 0 &&
-                setImages(images.filter((e) => e.name !== image.file[0].name));
+
+              setImages(images.filter((e) => e.name !== image.file.name));
             }}
           >
             <img src={close} alt='delete image icon' className='p-[2px]' />

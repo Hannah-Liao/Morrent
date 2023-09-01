@@ -54,7 +54,9 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const [selectedImages, setSelectedImages] = useState<
     Array<{ url: string; file: File | null }>
   >([]);
-
+  console.log('new', images);
+  console.log(existImages);
+  console.log('data', imgFormData);
   const [addCar] = useAddCarMutation();
   const [updateCar] = useUpdateCarMutation();
   const [deleteCar] = useDeleteCarMutation();
@@ -68,24 +70,26 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
     const url2: Array<{ url: string; file: File | null }> = [];
     carData?.carImages?.map((Iurl: string) => url2.push({ url: Iurl }));
     setExistImages(url2);
-  }, [carData]);
+  }, []);
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const files = Array.from(event.target.files);
-      const imageArr = files.map((file) => {
-        return URL.createObjectURL(file);
+
+      files.forEach((file) => {
+        !isEditCarPage &&
+          setSelectedImages((previousImages) =>
+            previousImages.concat([
+              { url: URL.createObjectURL(file), file: file },
+            ]),
+          );
+        isEditCarPage &&
+          setExistImages((previousImages) =>
+            previousImages.concat([
+              { url: URL.createObjectURL(file), file: file },
+            ]),
+          );
       });
-
-      !isEditCarPage &&
-        setSelectedImages((previousImages) =>
-          previousImages.concat([{ url: imageArr, file: files }]),
-        );
-
-      isEditCarPage &&
-        setExistImages((previousImages) =>
-          previousImages.concat([{ url: imageArr }]),
-        );
 
       setImages((prev) => [...prev, ...event.target.files]);
     }
