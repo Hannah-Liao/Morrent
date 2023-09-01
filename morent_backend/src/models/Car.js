@@ -41,7 +41,6 @@ const carSchema = new Schema(
         message: 'The field must be a whole number without decimals.',
       },
       min: 10,
-      max: 3000,
       required: [true, 'Please add price'],
     },
     discountPrice: {

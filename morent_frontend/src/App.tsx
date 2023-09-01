@@ -54,7 +54,7 @@ const App = () => {
       });
       const data = await res.json();
 
-      setUser(data);
+      setUser(data.userID);
     } catch (error) {
       // console.log(error);
       setUser(null);
