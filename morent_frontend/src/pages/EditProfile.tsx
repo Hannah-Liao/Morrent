@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 const formSchema = z.object({
   firstName: z.string().min(1, { message: 'Not a valid first name' }),
   lastName: z.string().min(1, { message: 'Not a valid last name' }),
-  email: z.string().email({ message: 'Invalid email format' }),
+  // email: z.string().email({ message: 'Invalid email format' }),
   role: z.string().min(1, { message: 'Not a valid role' }),
   phonenumber: z.coerce.number().min(8, { message: 'Minimum 8 chars' }),
   address: z.string().min(3, { message: 'Not a valid address' }),
@@ -35,7 +35,7 @@ const EditProfile = () => {
       firstName: '',
       lastName: '',
       role: '',
-      email: '',
+
       phonenumber: 123456789,
       address: '',
     },
@@ -44,7 +44,7 @@ const EditProfile = () => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     console.log(data);
     try {
-      await updateUser({ data })
+      await updateUser({ id, data })
         .unwrap()
         .then((res) => {
           if (res.success) {
@@ -138,7 +138,7 @@ const EditProfile = () => {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name='email'
               render={({ field }) => (
@@ -157,7 +157,7 @@ const EditProfile = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
