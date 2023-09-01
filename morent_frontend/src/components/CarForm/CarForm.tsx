@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button } from '../ui/button';
@@ -24,8 +24,6 @@ import {
 import ImageDisplay from './ImageDisplay';
 
 type CarFormProps = {
-  // existImages: Array<{ url: string; file: File }> | [];
-  // setExistImages: Dispatch<SetStateAction<{ url: string; file: File }>>;
   isEditCarPage: boolean;
   carID: string | undefined;
   carData: {
@@ -41,35 +39,36 @@ type CarFormProps = {
   };
 };
 
-const CarForm: React.FC<CarFormProps> = ({
-  isEditCarPage,
-  carID,
-  carData,
-  // existImages,
-  // setExistImages,
-}) => {
-  const [addCar] = useAddCarMutation();
-  const [updateCar] = useUpdateCarMutation();
-  const [deleteCar] = useDeleteCarMutation();
+const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const navigate = useNavigate();
-
-  const { userID } = useSelector((state) => {
-    return state.authSlice;
-  });
-
-  console.log('here', userID);
 
   // images to send to the database
   const [images, setImages] = useState([]);
 
-  const [existImages, setExistImages] = useState<
-    Array<{ url: string; file: File | null }>
-  >([]);
+  // preview images in edit car page
+  const [existImages, setExistImages] = useState<Array<{ url: string }>>([]);
+  const fillterImages = existImages.filter((item) => item.url[0][0] !== 'b');
+  const imgFormData = fillterImages.map((item) => item.url);
 
   // preview images in add car page
   const [selectedImages, setSelectedImages] = useState<
     Array<{ url: string; file: File | null }>
   >([]);
+
+  const [addCar] = useAddCarMutation();
+  const [updateCar] = useUpdateCarMutation();
+  const [deleteCar] = useDeleteCarMutation();
+
+  const { userID } = useSelector((state) => {
+    return state.authSlice;
+  });
+  console.log('here', userID);
+
+  useEffect(() => {
+    const url2: Array<{ url: string; file: File | null }> = [];
+    carData?.carImages?.map((Iurl: string) => url2.push({ url: Iurl }));
+    setExistImages(url2);
+  }, [carData]);
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -85,7 +84,7 @@ const CarForm: React.FC<CarFormProps> = ({
 
       isEditCarPage &&
         setExistImages((previousImages) =>
-          previousImages.concat([{ url: imageArr, file: files }]),
+          previousImages.concat([{ url: imageArr }]),
         );
 
       setImages((prev) => [...prev, ...event.target.files]);
@@ -124,7 +123,7 @@ const CarForm: React.FC<CarFormProps> = ({
     formData.append('fuelTankSize', data.fuelTankSize);
     formData.append('description', data.description);
     if (carData?.carImages?.length > 0) {
-      formData.append('carImages', existImages);
+      formData.append('carImages', imgFormData);
     }
 
     if (!isEditCarPage) {

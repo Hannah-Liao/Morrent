@@ -19,7 +19,6 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
   images,
   setImages,
 }) => {
-  // const editedImages = [...existImages];
   const displayImages =
     selectedImages.length > 0 ? selectedImages : existImages;
 
@@ -35,15 +34,12 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
           <button
             className='absolute top-[-5px] right-[-5px] border-white-200  border-2 rounded-full bg-white-100'
             onClick={() => {
-              // const index = editedImages.indexOf(image.url);
-              // editedImages.splice(index, 1);
-              // setExistImages([...editedImages]);
-              // setExistImages(existImages.filter((e) => e.url !== image.url));
-              // existImages.map((e) => console.log('ohhhh', e));
+              setExistImages(existImages.filter((e) => e.url !== image.url));
               setSelectedImages(
                 selectedImages.filter((e) => e.url !== image.url),
               );
-              setImages(images.filter((e) => e.name !== image.file[0].name));
+              selectedImages.length > 0 &&
+                setImages(images.filter((e) => e.name !== image.file[0].name));
             }}
           >
             <img src={close} alt='delete image icon' className='p-[2px]' />
