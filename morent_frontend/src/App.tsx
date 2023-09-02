@@ -21,6 +21,7 @@ import { NavBar, Footer, CarInfoModal, RentNowModal } from './components';
 import { useLazyGetCurrentUserQuery } from './services/api';
 import { updateLogin } from './slice/loginSlice';
 import { RootState } from './store/store';
+import { CarDataInfo } from './types/carInfo';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const App = () => {
       {/* Car Info Modal */}
       <CarInfoModal
         open={modalInfo.activeModalName === 'car_info'}
-        data={modalInfo.modalData}
+        data={modalInfo.modalData as CarDataInfo}
       />
 
       {/* Rent Now Modal */}
