@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import profileImg from '../assets/images/profile.png';
-import { CarsDispalySection } from '../components';
+import { CarsDispalySection, Loader } from '../components';
 import {
   useGetCarsByUserQuery,
   useGetUserByIdQuery,
@@ -26,7 +26,7 @@ const ProfileDetail = () => {
       refetchOnMountOrArgChange: true,
     },
   );
-  if (isLoading || carLoading) return <p>Loading...</p>;
+  if (isLoading || carLoading) return <Loader />;
   if (isError || carError) return <p>Error...</p>;
 
   const finalCarsData = userFavCars?.favCars?.map((car: CarDataInfo) => {
@@ -35,6 +35,8 @@ const ProfileDetail = () => {
       isFavorited: true,
     };
   });
+
+  console.log(cars.data);
 
   return (
     <main>
@@ -91,8 +93,7 @@ const ProfileDetail = () => {
         <CarsDispalySection
           hideButton={true}
           editIcon={true}
-          cars={cars?.data}
-          key='car-for-rent'
+          carsData={cars.data}
         />
       </section>
 

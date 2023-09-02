@@ -89,7 +89,7 @@ const NavBar = () => {
 
           <div className='flex flex-col gap-2.5 my-5'>
             <Link
-              to={isLoggedIn ? '/profile/:id' : '/login'}
+              to={isLoggedIn ? '/profile' : '/login'}
               className='mobileLoginBtn min-full min-h-[49px] px-9 p-semibold rounded'
               onClick={() => {
                 dispatch(

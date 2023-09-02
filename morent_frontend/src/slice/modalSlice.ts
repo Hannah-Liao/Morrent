@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { CarDataInfo } from '../types/carInfo';
 
 export type ModalInfo = {
   activeModalName: 'car_info' | 'rent' | null;
-  modalData?: any | null;
+  modalData?: CarDataInfo | null;
 };
 
 const initialState: ModalInfo = {

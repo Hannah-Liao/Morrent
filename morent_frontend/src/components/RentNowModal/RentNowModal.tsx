@@ -1,5 +1,6 @@
-import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import TimePicker from 'react-time-picker';
@@ -19,11 +20,10 @@ import { Calendar } from '../ui/calendar';
 import { cn } from '../../lib/utils';
 import getCurrentTime from '../../utils/getCurrentTime';
 import { dots, clock, calendar } from '../../assets/icons';
-import { CarDataInfo } from '../../types/carInfo';
 import { toast } from '../ui/use-toast';
 import LocationSelect from '../PickDropForm/Location';
-import { useDispatch } from 'react-redux';
 import { openModal } from '../../slice/modalSlice';
+import { RootState } from '../../store/store';
 
 const formSchema = z
   .object({
@@ -83,12 +83,12 @@ const formSchema = z
 
 interface RentNowModalProps {
   open: boolean;
-  carData: CarDataInfo;
 }
 
-const RentNowModal: React.FC<RentNowModalProps> = ({ open, carData }) => {
+const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
   const dispatch = useDispatch();
   const today = new Date().toUTCString();
+  const { modalData } = useSelector(({ modalInfo }: RootState) => modalInfo);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -101,6 +101,8 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, carData }) => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
+      console.log(modalData);
+
       const SERVER_URL = import.meta.env.VITE_SERVER_URL;
       const res = await fetch(`${SERVER_URL}/checkout`, {
         method: 'POST',
@@ -109,11 +111,11 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, carData }) => {
         },
         credentials: 'include',
         body: JSON.stringify({
-          carName: carData.title,
-          price: carData.price,
-          id: carData._id,
-          type: carData.carType,
-          userId: carData.user,
+          carName: modalData?.title,
+          price: modalData?.price,
+          id: modalData?._id,
+          type: modalData?.carType,
+          userId: modalData?.user,
           data,
         }),
       });
@@ -298,7 +300,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, carData }) => {
             </div>
 
             <Button
-              disabled={carData.rentedDateTo > today}
+              disabled={modalData ? modalData?.rentedDateTo > today : false}
               type='submit'
               className='btn rounded-[10px] w-full h-[56px] p-bold  mb-[18px]'
             >

@@ -3,13 +3,13 @@ import { Dialog, DialogContent } from '../ui/dialog';
 
 import { blueBackground } from '../../assets/images/index';
 import { starFilled, starNoFill } from '../../assets/icons';
-import { CarInfo } from '../../types/carInfo';
 import { openModal } from '../../slice/modalSlice';
 import { useDispatch } from 'react-redux';
+import { CarDataInfo } from '../../types/carInfo';
 
 interface CarInfoModalProps {
   open: boolean;
-  data: CarInfo | null;
+  data: CarDataInfo | null;
 }
 
 const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, data }) => {
@@ -48,9 +48,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, data }) => {
           id='carInfoModal'
           className=' mx-auto flex flex-col justify-between sm:flex-row gap-2 md:gap-6 p-2'
         >
-          {/* Column 1 */}
           <div className='flex-1 basis-1/2 flex flex-col justify-between p-2 md:p-4 gap-2 md:gap-6'>
-            {/* {Big Image} */}
             <div className='flex-1 basis-3/4 max-h-[232px] md:max-h-[360px]'>
               <img
                 src={selectLargeImage(activeImageIndex)}
@@ -65,7 +63,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, data }) => {
             <ul className='flex-1 basis-1/4 flex justify-between gap-1 lg:gap-6'>
               {data.carImages.map((image, i) => (
                 <li
-                  key={image[i]}
+                  key={image}
                   className={`max-h-[128px] flex-1 basis-1/3 rounded-[10px] ${
                     activeImageIndex === i + 1
                       ? `p-2 border-2 border-blue-500 ease-out duration-150`
@@ -96,14 +94,11 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, data }) => {
             </ul>
           </div>
 
-          {/* Column 2 */}
           <div className='flex-2 basis-1/2 p-4 md:p-6'>
-            {/* Column 2 Header */}
             <header className='flex justify-between'>
               <div className='flex-3 basis-3/4 overflow-hidden '>
                 <h3 className='carInfoModalTitle'>{data.title}</h3>
 
-                {/* Stars/Reviews */}
                 <div className='flex justify-start items-center'>
                   <div className='flex justify-start items-center'>
                     {[1, 2, 3, 4, 5].map((noOfStars) => (
@@ -194,6 +189,7 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, data }) => {
                     dispatch(
                       openModal({
                         activeModalName: 'rent',
+                        modalData: data,
                       }),
                     )
                   }

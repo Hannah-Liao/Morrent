@@ -29,4 +29,6 @@ export type CarDataInfo = {
   isFavorited?: boolean;
   rentedDateFrom: string;
   rentedDateTo: string;
+  rating: number;
+  reviews: number;
 };
