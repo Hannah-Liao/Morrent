@@ -18,3 +18,4 @@ export { default as CarForm } from './CarForm/CarForm';
 export { default as LoginForm } from './LoginForm/LoginForm';
 export { default as SignUpForm } from './SignUpForm/SignUpForm';
 export { default as ButtonWithSpinner } from './ButtonWithSpinner/ButtonWithSpinner';
+export { default as EditProfileForm } from './EditProfileForm/EditProfileForm';

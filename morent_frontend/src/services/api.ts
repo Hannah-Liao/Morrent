@@ -8,6 +8,9 @@ export const api = createApi({
   }),
 
   endpoints: (builder) => ({
+    getUserById: builder.query({
+      query: () => 'api/user/profile',
+    }),
     getCurrentUser: builder.query({
       query: () => 'api/user/current-user',
     }),
@@ -60,6 +63,13 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    updateUser: builder.mutation({
+      query: (user) => ({
+        url: 'api/user/update-user',
+        method: 'PUT',
+        body: user,
+      }),
+    }),
   }),
 });
 
@@ -72,4 +82,6 @@ export const {
   useSignupMutation,
   useLoginMutation,
   useLogoutMutation,
+  useUpdateUserMutation,
+  useGetUserByIdQuery,
 } = api;
