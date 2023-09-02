@@ -8,6 +8,8 @@ import {
   HomeHeader,
   HomeViewAllHeader,
   PickDropForm,
+  Loader,
+  ServerError,
 } from '../components';
 import { CarDataInfo } from '../types/carInfo';
 import {
@@ -17,7 +19,6 @@ import {
 } from '../services/api';
 import { Pagination } from '../components/index';
 import { RootState } from '../store/store';
-import Loader from '../components/Loader/Loader';
 
 const Home: React.FC = () => {
   const [page, setPage] = useState<number>(1);
@@ -50,7 +51,7 @@ const Home: React.FC = () => {
 
   if (isLoading || popularCarLoading) return <Loader />;
 
-  if (isError || popularCarError) return <p>Error....</p>;
+  if (isError || popularCarError) return <ServerError />;
 
   const addIsFavToCars = (cars?: CarDataInfo[], favCars?: CarDataInfo[]) => {
     if (!userId) return cars;
@@ -91,7 +92,7 @@ const Home: React.FC = () => {
           <HomeViewAllHeader titleText='Popular Cars' />
 
           {/* Popular Cars Grid */}
-          {isLoading && <p>Loading ....</p>}
+          {isLoading && <Loader />}
 
           {isSuccess && (
             <div className='homePopularCarsGrid'>
