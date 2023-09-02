@@ -50,7 +50,7 @@ const formSchema = z
     pickUpTime: z.string(),
     dropOffTime: z.z.string(),
   })
-  .refine((data) => data.dropOffDate > data.pickUpDate, {
+  .refine((data) => data.dropOffDate >= data.pickUpDate, {
     message: 'Drop off date cannot be earlier than pick up date.',
     path: ['dropOffDate'],
   })
@@ -68,8 +68,27 @@ const formSchema = z
       );
     },
     {
-      message: 'Pick time must not be in the past.',
+      message: 'Pick up time must not be in the past.',
       path: ['pickUpTime'],
+    },
+  )
+  .refine(
+    (data) => {
+      const [pickUpHours, pickUpMinutes] = data.pickUpTime
+        .split(':')
+        .map(Number);
+      const [dropOffHours, dropOffMinutes] = data.dropOffTime
+        .split(':')
+        .map(Number);
+
+      const isGreater =
+        dropOffHours > pickUpHours ||
+        (dropOffHours === pickUpHours && dropOffMinutes > pickUpMinutes);
+      return data.dropOffDate > data.pickUpDate ? true : isGreater;
+    },
+    {
+      message: 'Drop Off Time must not be earlier than pick up time.',
+      path: ['dropOffTime'],
     },
   );
 
