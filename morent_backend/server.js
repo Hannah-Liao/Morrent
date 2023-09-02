@@ -11,8 +11,6 @@ import checkout from './src/routes/checkout.js';
 import connectToDatabase from './src/configs/db.js';
 import carRouter from './src/routes/cars.js';
 import userRouter from './src/routes/user.js';
-import rentedCarRouter from './src/routes/carRented.js';
-import { authenticateUser } from './src/middleware/auth.js';
 import filesUpload from './src/routes/fileUpload.js';
 import webhook from './src/routes/webhook.js';
 
@@ -57,9 +55,17 @@ app.use('/uploads', express.static('uploads'));
 
 app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
-app.use('/api/rented-car', authenticateUser, rentedCarRouter);
 app.use('/', checkout);
 app.use('/webhook', webhook);
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from the server!' });
+});
+
+// stripe
+app.use('/', checkout);
+
+// Files upload
 app.use('/', filesUpload);
 
 connectToDatabase()

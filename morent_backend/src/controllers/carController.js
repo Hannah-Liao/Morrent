@@ -181,7 +181,10 @@ export const addFavCar = async (req, res) => {
     const userID = req.userId;
     const user = await User.findById(userID);
 
-    user.favCars.unshift(req.body.carID);
+    const carId = req.body.carId;
+    if (!user.favCars.includes(carId)) {
+      user.favCars.unshift(carId);
+    }
     await user.save();
     res.status(200).json({ favCars: user.favCars });
   } catch (err) {
@@ -218,8 +221,8 @@ export const getFavCars = async (req, res) => {
 export const deleteFavCarID = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
-      { _id: req.params.userID },
-      { $pull: { favCars: req.body.carID } },
+      { _id: req.params.userId },
+      { $pull: { favCars: req.body.carId } },
       { new: true }
     );
 
@@ -235,6 +238,7 @@ export const deleteFavCarID = async (req, res) => {
   }
 };
 
+// get popular cars
 export const getPopularCars = async (req, res) => {
   try {
     const cars = await Car.find().sort({ rentedHistory: -1 }).limit(4);

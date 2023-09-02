@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import profileImg from '../assets/images/profile.png';
 import { CarsDispalySection } from '../components';
-import { useGetCarsByUserQuery, useGetUserByIdQuery } from '../services/api';
+import {
+  useGetCarsByUserQuery,
+  useGetUserByIdQuery,
+  useGetFavCarsQuery,
+} from '../services/api';
+import { RootState } from '../store/store';
+import { CarDataInfo } from '../types/carInfo';
 
 const ProfileDetail = () => {
   const { data, isLoading, isError } = useGetUserByIdQuery('');
@@ -11,8 +19,22 @@ const ProfileDetail = () => {
     isLoading: carLoading,
   } = useGetCarsByUserQuery('');
 
+  const userId = useSelector((state: RootState) => state.userInfo.userId);
+  const { data: userFavCars, refetch: refetchUserFavCars } = useGetFavCarsQuery(
+    userId,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
   if (isLoading || carLoading) return <p>Loading...</p>;
   if (isError || carError) return <p>Error...</p>;
+
+  const finalCarsData = userFavCars?.favCars?.map((car: CarDataInfo) => {
+    return {
+      ...car,
+      isFavorited: true,
+    };
+  });
 
   return (
     <main>
@@ -57,22 +79,28 @@ const ProfileDetail = () => {
       </section>
 
       <section className='pt-10'>
-        <h1 className='subtitle'>Rented Cars</h1>
+        <h2 className='subtitle'>Favorite Cars</h2>
         <CarsDispalySection
-          cars={data.rentedCars}
-          sliceNumber={4}
-          key='rented-car'
+          carsData={finalCarsData?.length > 0 && finalCarsData}
+          afterFavClick={refetchUserFavCars}
         />
       </section>
 
       <section className='pt-10'>
         <h1 className='subtitle'>My Cars for Rent</h1>
         <CarsDispalySection
-          sliceNumber={4}
           hideButton={true}
           editIcon={true}
           cars={cars?.data}
           key='car-for-rent'
+        />
+      </section>
+
+      <section className='pt-10'>
+        <h1 className='subtitle'>Favorite Cars</h1>
+        <CarsDispalySection
+          carsData={finalCarsData?.length > 0 && finalCarsData}
+          afterFavClick={refetchUserFavCars}
         />
       </section>
 

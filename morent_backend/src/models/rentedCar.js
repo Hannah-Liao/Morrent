@@ -22,7 +22,6 @@ const rentedCarSchema = new Schema(
       validate: {
         validator: function (value) {
           const now = new Date();
-
           return value >= now;
         },
         message: 'Pickup date and time must not be in the past.',

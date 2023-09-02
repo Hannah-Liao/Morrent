@@ -1,49 +1,38 @@
-import { FC, useState } from 'react';
-import { CarCard, CarInfoModal, RentNowModal } from '../components';
+import { FC } from 'react';
+import { CarCard } from '../components';
 import { CarDataInfo } from '../types/carInfo';
 
 type props = {
   editIcon?: boolean;
   hideButton?: boolean;
-  cars: CarDataInfo[];
-  sliceNumber: number;
+  carsData?: CarDataInfo[];
+  afterFavClick?: () => void;
 };
 
 const CarsDispalySection: FC<props> = ({
   editIcon,
   hideButton,
-  cars,
-  sliceNumber,
+  carsData,
+  afterFavClick,
 }) => {
-  const [cardModalData, setCardModalData] = useState<null | CarDataInfo>(null);
-  const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
-    '',
-  );
-
   return (
     <div className='grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0'>
-      {cars.map((car) => (
-        <CarCard
-          key={car.title}
-          data={car}
-          setCardModalData={setCardModalData}
-          setIsCarModalOpen={() => setOpenModalName('car_info')}
-          editIcon={editIcon}
-          shouldOpenModal={true}
-          hideButton={hideButton}
-        />
-      ))}
-      {/* Car Info Modal */}
-      <CarInfoModal
-        open={openModalName === 'car_info'}
-        setOpen={setOpenModalName}
-        data={cardModalData}
-      />
-      {/* Rent Now Modal */}
-      <RentNowModal
-        open={openModalName === 'rent'}
-        setOpen={setOpenModalName}
-      />
+      {carsData ? (
+        carsData
+          .slice(0, 4)
+          .map((car) => (
+            <CarCard
+              key={car.title}
+              data={car}
+              editIcon={editIcon}
+              shouldOpenModal={true}
+              hideButton={hideButton}
+              afterFavClick={afterFavClick}
+            />
+          ))
+      ) : (
+        <p className='text-xs'>No cars to show</p>
+      )}
     </div>
   );
 };

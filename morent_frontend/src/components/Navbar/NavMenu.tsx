@@ -10,6 +10,9 @@ type Props = {
 };
 
 const NavMenu: FC<Props> = ({ isHidden, isMobile, setOpen }) => {
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <nav className={isHidden}>
       <ul
@@ -17,7 +20,11 @@ const NavMenu: FC<Props> = ({ isHidden, isMobile, setOpen }) => {
       >
         {navlinks.map(({ label, icon, path }) => (
           <li key={label} onClick={() => setOpen(false)}>
-            <NavLink to={path} className='flex gap-1.5 p-3 md:p-0'>
+            <NavLink
+              to={path}
+              className='flex gap-1.5 p-3 md:p-0'
+              onClick={goToTop}
+            >
               {isMobile && (
                 <img
                   src={icon}

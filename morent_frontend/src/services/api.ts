@@ -91,14 +91,46 @@ export const api = createApi({
     getCarsByUser: builder.query({
       query: () => 'api/car/cars-by-user',
     }),
+    getFavCars: builder.query({
+      query: (userId) => {
+        return {
+          url: userId && `api/car/fav-car/${userId}`,
+        };
+      },
+    }),
+    addFavCar: builder.mutation({
+      query: ({ userId, carId }) => {
+        return {
+          url: 'api/car/add-fav-car',
+          method: 'PUT',
+          body: {
+            carId,
+            userId,
+          },
+        };
+      },
+    }),
+    deleteFavCar: builder.mutation({
+      query: ({ userId, carId }) => {
+        return {
+          url: `api/car/delete-fav-car/${userId}`,
+          method: 'PATCH',
+          body: {
+            carId,
+            userId,
+          },
+        };
+      },
+    }),
   }),
 });
 
 export const {
-  useGetCarListQuery,
   useGetPopularCarsQuery,
+  useGetCarListQuery,
   useGetSingleCarQuery,
   useGetCurrentUserQuery,
+  useLazyGetCurrentUserQuery,
   useAddCarMutation,
   useUpdateCarMutation,
   useDeleteCarMutation,
@@ -107,4 +139,7 @@ export const {
   useLogoutMutation,
   useGetUserByIdQuery,
   useGetCarsByUserQuery,
+  useGetFavCarsQuery,
+  useAddFavCarMutation,
+  useDeleteFavCarMutation,
 } = api;

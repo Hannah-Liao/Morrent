@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { carShadow } from '../../assets/images/index';
 import {
   gasStation,
@@ -9,44 +8,64 @@ import {
   transmission,
 } from '../../assets/icons/index';
 import { CarDataInfo } from '../../types/carInfo';
+import { openModal } from '../../slice/modalSlice';
+import { RootState } from '../../store/store';
+import {
+  useAddFavCarMutation,
+  useDeleteFavCarMutation,
+} from '../../services/api';
 
 interface CarCardProps {
   data: CarDataInfo | null;
   isHidden?: boolean;
-  setCardModalData: Dispatch<SetStateAction<CarDataInfo | null>>;
-  setIsCarModalOpen: Dispatch<SetStateAction<boolean>>;
   shouldOpenModal: boolean;
+  afterFavClick?: () => void;
 }
 
 const PopularCarsMobile: React.FC<CarCardProps> = ({
   data,
   isHidden,
-  setCardModalData,
-  setIsCarModalOpen,
   shouldOpenModal = false,
+  afterFavClick,
 }) => {
-  const [isFavorited, setIsFavorited] = useState<boolean>(false);
+  const [addFavCar] = useAddFavCarMutation();
+  const [deleteFavCar] = useDeleteFavCarMutation();
+  const { userId, isLoggedIn } = useSelector(
+    (state: RootState) => state.userInfo,
+  );
+  const dispatch = useDispatch();
 
   if (!data) return;
 
   return (
     <div className={`popular-card  ${isHidden ? 'blur-xs' : ''}`}>
-      {/* Car Title Section */}
       <header className='flex justify-between p-[16px] sm:p-[24px]'>
         <div className='flex-3 w-[90%] overflow-hidden'>
           <h3 className='cardTitle'>{data?.title}</h3>
           <h4 className='cardSubtitle'>{data?.carType}</h4>
         </div>
+
         <div className='flex-1'>
-          <img
-            src={isFavorited ? heartFilled : heartNoFill}
-            className='isFavoritedIcon'
-            alt='Red Heart Icon'
-            aria-label='Red Heart Icon'
-            onClick={() =>
-              setIsFavorited((prevIsFavorited) => !prevIsFavorited)
-            }
-          />
+          {isLoggedIn && (
+            <img
+              src={data.isFavorited ? heartFilled : heartNoFill}
+              className='isFavoritedIcon'
+              alt='Red Heart Icon'
+              aria-label='Red Heart Icon'
+              onClick={() => {
+                const fn = data.isFavorited ? deleteFavCar : addFavCar;
+
+                fn({
+                  carId: data['_id'],
+                  userId,
+                }).then(() => {
+                  if (afterFavClick) {
+                    afterFavClick();
+                  }
+                });
+              }}
+            />
+          )}
         </div>
       </header>
 
@@ -132,8 +151,12 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
             className='cardButton lg:text-[14px]'
             onClick={() => {
               if (shouldOpenModal) {
-                setIsCarModalOpen(true);
-                setCardModalData(data);
+                dispatch(
+                  openModal({
+                    activeModalName: 'car_info',
+                    modalData: data,
+                  }),
+                );
               }
             }}
           >

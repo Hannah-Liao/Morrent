@@ -9,16 +9,19 @@ import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
 import ProfileMenu from './ProfileMenu';
 import { updateLogin } from '../../slice/loginSlice';
+import { RootState } from '../../store/store';
 
 const NavBar = () => {
-  const { isLoggedIn, userId } = useSelector(
-    (state: { userInfo: { isLoggedIn: boolean; userId: string } }) => {
-      return state.userInfo;
-    },
-  );
+  const { isLoggedIn, userId } = useSelector((state: RootState) => {
+    return state.userInfo;
+  });
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') {
@@ -58,6 +61,7 @@ const NavBar = () => {
             <Link
               to='/login'
               className='btn min-w-[110px] h-11 p-semibold rounded hidden md:flex'
+              onClick={goToTop}
             >
               Login
             </Link>
@@ -91,7 +95,7 @@ const NavBar = () => {
                 dispatch(
                   updateLogin({
                     isLoggedIn: false,
-                    email: '',
+                    userId: null,
                   }),
                 );
               }}
