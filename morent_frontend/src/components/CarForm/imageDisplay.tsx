@@ -32,6 +32,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
             className='w-24 h-24 rounded-md'
           />
           <button
+            type='button'
             className='absolute top-[-5px] right-[-5px] border-white-200  border-2 rounded-full bg-white-100'
             onClick={() => {
               setExistImages(existImages.filter((e) => e.url !== image.url));
