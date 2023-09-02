@@ -20,3 +20,5 @@ export { default as SignUpForm } from './SignUpForm/SignUpForm';
 export { default as ButtonWithSpinner } from './ButtonWithSpinner/ButtonWithSpinner';
 export { default as Pagination } from './Pagination/Pagination';
 export { default as Loader } from './Loader/Loader';
+export { default as NotFound } from './NotFound/NotFound';
+export { default as ServerError } from './ServerError/ServerError';

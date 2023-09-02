@@ -8,6 +8,7 @@ import {
   Filter,
   PickDropForm,
   Loader,
+  ServerError,
 } from '../components';
 import { useGetCarListQuery, useGetFavCarsQuery } from '../services/api';
 import { RootState } from '../store/store';
@@ -54,7 +55,7 @@ export default function Search() {
   };
 
   if (isLoading) return <Loader />;
-  if (isError) return <p>Error...</p>;
+  if (isError) return <ServerError />;
 
   const carsWithFav = addIsFavToCars(cars?.cars, userFavCars?.favCars);
   const dataWithFav = addIsFavToCars(data?.cars, userFavCars?.favCars);

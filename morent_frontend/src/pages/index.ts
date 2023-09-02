@@ -1,5 +1,5 @@
 import Home from './Home';
-import NotFound from './NotFound';
+import NotFoundPage from './NotFoundPage';
 import Checkout from './Checkout';
 import AddCar from './AddCar';
 import Search from './Search';
@@ -14,7 +14,7 @@ import SignUp from './SignUp';
 
 export {
   Home,
-  NotFound,
+  NotFoundPage,
   AddCar,
   Checkout,
   Search,

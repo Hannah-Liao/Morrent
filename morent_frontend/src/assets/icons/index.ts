@@ -26,6 +26,7 @@ import plus from './Plus.svg';
 import home from './Home.svg';
 import deleteIcon from './delete.svg';
 import spinner from './spinner.svg';
+import serverErrorIcon from './serverError.svg';
 
 export {
   visa,
@@ -56,4 +57,5 @@ export {
   home,
   deleteIcon,
   spinner,
+  serverErrorIcon,
 };
