@@ -103,7 +103,7 @@ export default function LocationSelect({ form }: LocationProps) {
           <CommandEmpty className='text-xs text-center inline-flex gap-3 flex-col'>
             <span>No Cities Found</span>
           </CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className='w-full h-full overflow-y-auto'>
             {cities.map((city) => (
               <CommandItem
                 value={city}

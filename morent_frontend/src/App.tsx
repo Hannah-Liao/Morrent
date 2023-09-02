@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -22,13 +22,6 @@ import { setCurrentUser } from './slice/authSlice';
 
 const App = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
-
-  dispatch(
-    setCurrentUser({
-      userID: user,
-    }),
-  );
 
   const getUser = async () => {
     try {
@@ -37,10 +30,13 @@ const App = () => {
       });
       const data = await res.json();
 
-      setUser(data.userID);
+      dispatch(
+        setCurrentUser({
+          userID: data.userID,
+        }),
+      );
     } catch (error) {
       console.log(error);
-      setUser(null);
     }
   };
 
