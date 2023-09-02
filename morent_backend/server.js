@@ -10,7 +10,6 @@ import connectToDatabase from './src/configs/db.js';
 import carRouter from './src/routes/cars.js';
 import userRouter from './src/routes/user.js';
 import rentedCarRouter from './src/routes/rentedCar.js';
-import { authenticateUser } from './src/middleware/auth.js';
 import filesUpload from './src/routes/fileUpload.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -51,7 +50,7 @@ app.use('/uploads', express.static('uploads'));
 // Routes
 app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
-app.use('/api/rented-car', authenticateUser, rentedCarRouter);
+app.use('/api/rented-car', rentedCarRouter);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Hello from the server!' });

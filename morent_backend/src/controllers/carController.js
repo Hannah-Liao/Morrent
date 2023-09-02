@@ -40,16 +40,20 @@ export const getCars = async (req, res) => {
       type,
       availabilityFrom,
       availabilityTo,
+      title,
     } = req.query;
+
     const capacity = parseInt(req.query.capacity);
     const price = parseInt(req.query.price);
     const currentDate = new Date();
+    const regex = new RegExp(title, 'i');
 
     let query = {
+      ...(title && { title: regex }),
       ...(location && { carLocation: location }),
-      ...(type && { carType: type }),
+      ...(type && { carType: { $in: type } }),
       ...(price && { price: { $lte: price } }),
-      ...(capacity && { capacity: { $gte: capacity } }),
+      ...(capacity && { capacity: { $in: capacity } }),
     };
 
     const availableCarsQuery = {
@@ -82,7 +86,6 @@ export const getCars = async (req, res) => {
 
     res.json({ cars, totalPages: Math.ceil(totalCars / pageSize) });
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({ error: 'Error searching for cars' });
   }
 };
@@ -175,7 +178,10 @@ export const addFavCar = async (req, res) => {
     const userID = req.userId;
     const user = await User.findById(userID);
 
-    user.favCars.unshift(req.body.carID);
+    const carId = req.body.carId;
+    if (!user.favCars.includes(carId)) {
+      user.favCars.unshift(carId);
+    }
     await user.save();
     res.status(200).json({ favCars: user.favCars });
   } catch (err) {
@@ -212,8 +218,8 @@ export const getFavCars = async (req, res) => {
 export const deleteFavCarID = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
-      { _id: req.params.userID },
-      { $pull: { favCars: req.body.carID } },
+      { _id: req.params.userId },
+      { $pull: { favCars: req.body.carId } },
       { new: true }
     );
 
@@ -226,6 +232,23 @@ export const deleteFavCarID = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: 'Failed to detele. Try again' });
+  }
+};
+
+// get popular cars
+export const getPopularCars = async (req, res) => {
+  try {
+    const cars = await Car.find().sort({ rentedHistory: -1 }).limit(4);
+    return res.json({
+      error: false,
+      message: 'Popular car data retrieved successfully.',
+      data: cars,
+    });
+  } catch (error) {
+    return res.json({
+      error: true,
+      message: 'Something went wrong, please try again later',
+    });
   }
 };
 

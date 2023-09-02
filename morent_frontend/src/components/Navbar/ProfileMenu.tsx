@@ -16,7 +16,7 @@ import { updateLogin } from '../../slice/loginSlice';
 import { useLogoutMutation } from '../../services/api';
 
 interface ProfileMenuProps {
-  userId: string;
+  userId: string | null;
 }
 
 const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
@@ -24,13 +24,17 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleLogout = async () => {
     try {
       await logout({});
       dispatch(
         updateLogin({
           isLoggedIn: false,
-          email: '',
+          userId: null,
         }),
       );
       navigate('/');
@@ -54,7 +58,9 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className='dropDownIcons' />
-            <Link to={`/profile/${userId}`}>Profile</Link>
+            <Link to={`/profile/${userId}`} onClick={goToTop}>
+              Profile
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

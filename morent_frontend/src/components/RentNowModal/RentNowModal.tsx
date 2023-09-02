@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,6 +34,8 @@ import { cn } from '../../lib/utils';
 import { pickupLocation } from '../../constant/index';
 import getCurrentTime from '../../utils/getCurrentTime';
 import { dots, clock, calendar } from '../../assets/icons';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../slice/modalSlice';
 
 const formSchema = z
   .object({
@@ -94,10 +95,9 @@ const formSchema = z
 
 interface RentNowModalProps {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<'' | 'car_info' | 'rent'>>;
 }
 
-const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
+const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -109,9 +109,19 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open, setOpen }) => {
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
+  const dispatch = useDispatch();
 
   return (
-    <Dialog open={open} onOpenChange={(open) => setOpen(open ? 'rent' : '')}>
+    <Dialog
+      open={open}
+      onOpenChange={(open) =>
+        dispatch(
+          openModal({
+            activeModalName: open ? 'car_info' : null,
+          }),
+        )
+      }
+    >
       <DialogContent className='max-w-[500px] shrink-0 rounded-[10px] px-[16px] sm:px-[50px] py-[40px] sm:py-[50px] bg-white dark:bg-gray-850 '>
         <DialogHeader className='flex flex-col gap-2.5 mb-7 sm:mb-10'>
           <DialogTitle className='base-bold text-gray-900 dark:text-white'>

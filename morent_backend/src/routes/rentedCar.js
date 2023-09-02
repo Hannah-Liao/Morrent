@@ -2,37 +2,22 @@ import express from 'express';
 
 import RentedCarModel from '../models/rentedCar.js';
 import { Car } from '../models/Car.js';
+import { authenticateUser } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateUser, async (req, res) => {
   try {
-    const {
-      location,
-      pickUpDate,
-      pickUpTime,
-      dropOffDate,
-      dropOffTime,
-      carId,
-      userId,
-    } = req.body;
+    const { location, pickUpDateTime, dropOffDateTime, carId, userId } =
+      req.body;
 
-    if (
-      !location ||
-      !pickUpDate ||
-      !pickUpTime ||
-      !dropOffDate ||
-      !dropOffTime ||
-      !carId ||
-      !userId
-    ) {
+    if (!location || !pickUpDateTime || !dropOffDateTime || !carId || !userId) {
       return res.json({ error: true, message: 'All fields required' });
     }
 
     const currentCar = await Car.findById(carId);
-    console.log(currentCar);
     const rentedDateTo = new Date(currentCar.rentedDateTo).getDate();
-    const userPickUpDate = new Date(pickUpDate).getDate();
+    const userPickUpDate = new Date(pickUpDateTime).getDate();
 
     if (rentedDateTo > userPickUpDate) {
       return res.json({
@@ -43,10 +28,8 @@ router.post('/', async (req, res) => {
 
     const newRentedCar = await RentedCarModel.create({
       location,
-      pickUpTime,
-      dropOffTime,
-      pickUpDate,
-      dropOffDate,
+      pickUpDateTime,
+      dropOffDateTime,
       carId,
       userId,
     });
@@ -54,8 +37,8 @@ router.post('/', async (req, res) => {
     const updatedCar = await currentCar.updateOne(
       carId,
       {
-        rentedDateFrom: pickUpDate,
-        rentedDateTo: dropOffDate,
+        rentedDateFrom: pickUpDateTime,
+        rentedDateTo: dropOffDateTime,
         $inc: { numberOfTimesRented: 1 },
       },
       {

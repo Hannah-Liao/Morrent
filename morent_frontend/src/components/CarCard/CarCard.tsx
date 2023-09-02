@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { carShadow } from '../../assets/images/index';
 import {
@@ -10,28 +10,41 @@ import {
   transmission,
   edit,
 } from '../../assets/icons/index';
-import { CarInfo } from '../../types/carInfo';
+import { CarDataInfo } from '../../types/carInfo';
+import {
+  useAddFavCarMutation,
+  useDeleteFavCarMutation,
+} from '../../services/api';
+import { RootState } from '../../store/store';
+import { openModal } from '../../slice/modalSlice';
 
 interface CarCardProps {
-  data: CarInfo | null;
-  setCardModalData: Dispatch<SetStateAction<CarInfo | null>>;
-  setIsCarModalOpen: Dispatch<SetStateAction<boolean>>;
+  data: CarDataInfo | null;
   shouldOpenModal: boolean;
   hideButton?: boolean;
   editIcon?: boolean;
+  afterFavClick?: () => void;
 }
 
 const CarCard: React.FC<CarCardProps> = ({
   data,
-  setCardModalData,
-  setIsCarModalOpen,
   shouldOpenModal = false,
   hideButton = false,
   editIcon = false,
+  afterFavClick,
 }) => {
-  const [isFavorited, setIsFavorited] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const { userId, isLoggedIn } = useSelector(
+    (state: RootState) => state.userInfo,
+  );
+  const [addFavCar] = useAddFavCarMutation();
+  const [deleteFavCar] = useDeleteFavCarMutation();
 
   if (!data) return;
+
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className='cardContainer'>
@@ -41,25 +54,39 @@ const CarCard: React.FC<CarCardProps> = ({
           <h3 className='cardTitle'>{data.title}</h3>
           <h4 className='cardSubtitle'>{data.carType}</h4>
         </div>
-        {editIcon ? (
-          <NavLink to='/edit-car'>
-            <img
-              src={edit}
-              className='isFavoritedIcon'
-              alt='Edit Icon'
-              aria-label='Edit Icon'
-            />
-          </NavLink>
-        ) : (
-          <img
-            src={isFavorited ? heartFilled : heartNoFill}
-            className='isFavoritedIcon'
-            alt='Red Heart Icon'
-            aria-label='Red Heart Icon'
-            onClick={() =>
-              setIsFavorited((prevIsFavorited) => !prevIsFavorited)
-            }
-          />
+        {isLoggedIn && (
+          <>
+            {editIcon ? (
+              <NavLink to={`/edit-car/${userId}`}>
+                <img
+                  src={edit}
+                  className='isFavoritedIcon'
+                  alt='Edit Icon'
+                  aria-label='Edit Icon'
+                  onClick={goToTop}
+                />
+              </NavLink>
+            ) : (
+              <img
+                src={data.isFavorited ? heartFilled : heartNoFill}
+                className='isFavoritedIcon'
+                alt='Red Heart Icon'
+                aria-label='Red Heart Icon'
+                onClick={() => {
+                  const fn = data.isFavorited ? deleteFavCar : addFavCar;
+
+                  fn({
+                    carId: data['_id'],
+                    userId,
+                  }).then(() => {
+                    if (afterFavClick) {
+                      afterFavClick();
+                    }
+                  });
+                }}
+              />
+            )}
+          </>
         )}
       </header>
 
@@ -138,12 +165,16 @@ const CarCard: React.FC<CarCardProps> = ({
               className='cardButton'
               onClick={() => {
                 if (shouldOpenModal) {
-                  setIsCarModalOpen(true);
-                  setCardModalData(data);
+                  dispatch(
+                    openModal({
+                      activeModalName: 'car_info',
+                      modalData: data,
+                    }),
+                  );
                 }
               }}
             >
-              {data.buttonText}
+              More Info
             </button>
           </div>
         )}

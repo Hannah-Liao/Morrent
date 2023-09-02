@@ -62,8 +62,8 @@ const LoginForm = () => {
             //store in redux
             dispatch(
               updateLogin({
-                email: userInfo.email,
                 isLoggedIn: userInfo.success,
+                userId: userInfo.userId,
               }),
             );
             navigate(`/profile/${userInfo.userId}`);
