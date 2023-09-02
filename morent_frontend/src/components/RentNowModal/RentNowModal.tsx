@@ -6,22 +6,8 @@ import { format } from 'date-fns';
 import TimePicker from 'react-time-picker';
 
 import { Button } from '../ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import {
   Dialog,
@@ -32,10 +18,11 @@ import {
 } from '../ui/dialog';
 import { Calendar } from '../ui/calendar';
 import { cn } from '../../lib/utils';
-import { pickupLocation } from '../../constant/index';
 import getCurrentTime from '../../utils/getCurrentTime';
 import { dots, clock, calendar } from '../../assets/icons';
 import { CarDataInfo } from '../../types/carInfo';
+import { toast } from '../ui/use-toast';
+import LocationSelect from '../PickDropForm/Location';
 
 const formSchema = z
   .object({
@@ -51,7 +38,7 @@ const formSchema = z
     pickUpTime: z.string(),
     dropOffTime: z.z.string(),
   })
-  .refine((data) => data.dropOffDate > data.pickUpDate, {
+  .refine((data) => data.dropOffDate >= data.pickUpDate, {
     message: 'Drop off date cannot be earlier than pick up date.',
     path: ['dropOffDate'],
   })
@@ -69,8 +56,27 @@ const formSchema = z
       );
     },
     {
-      message: 'Pick time must not be in the past.',
+      message: 'Pick up time must not be in the past.',
       path: ['pickUpTime'],
+    },
+  )
+  .refine(
+    (data) => {
+      const [pickUpHours, pickUpMinutes] = data.pickUpTime
+        .split(':')
+        .map(Number);
+      const [dropOffHours, dropOffMinutes] = data.dropOffTime
+        .split(':')
+        .map(Number);
+
+      const isGreater =
+        dropOffHours > pickUpHours ||
+        (dropOffHours === pickUpHours && dropOffMinutes > pickUpMinutes);
+      return data.dropOffDate > data.pickUpDate ? true : isGreater;
+    },
+    {
+      message: 'Drop Off Time must not be earlier than pick up time.',
+      path: ['dropOffTime'],
     },
   );
 
@@ -94,6 +100,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({
       dropOffTime: getCurrentTime(),
     },
   });
+  const today = new Date().toUTCString();
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
@@ -115,10 +122,13 @@ const RentNowModal: React.FC<RentNowModalProps> = ({
       });
       const response = await res.json();
 
-      window.location.href = response.url;
+      window.location.href = await response.url;
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        toast({
+          variant: 'destructive',
+          title: error.message,
+        });
       }
     }
   };
@@ -140,7 +150,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({
             <FormField
               control={form.control}
               name='location'
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel className='formTitle leading-[120%]'>
                     <img
@@ -150,25 +160,8 @@ const RentNowModal: React.FC<RentNowModalProps> = ({
                     />
                     Pickup Location
                   </FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger className='min-h-[46px] sm:min-h-[56px] inputArea'>
-                        <SelectValue placeholder='Location Address' />
-                      </SelectTrigger>
-                      <SelectContent className='bg-white-200 dark:bg-gray-800 capitalize'>
-                        <SelectGroup>
-                          {pickupLocation.map((location, i) => (
-                            <SelectItem value={location} key={i}>
-                              {location}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                  {/* @ts-ignore */}
+                  <LocationSelect form={form} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -299,6 +292,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({
             </div>
 
             <Button
+              disabled={carData.rentedDateTo > today}
               type='submit'
               className='btn rounded-[10px] w-full h-[56px] p-bold  mb-[18px]'
             >

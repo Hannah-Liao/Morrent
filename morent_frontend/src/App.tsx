@@ -52,7 +52,7 @@ const App = () => {
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2.5%]'>
+        <div className='w-full max-container p-[2%]'>
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />

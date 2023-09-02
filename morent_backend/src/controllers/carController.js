@@ -9,8 +9,11 @@ export const createCar = async (req, res) => {
       .status(500)
       .json({ success: false, message: 'Failed to create. Try again' });
   }
-
-  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+  const files = req.files.map((file) => {
+    const path = file.path.replaceAll('\\', '/');
+    const imagePath = `${process.env.BASE_URL}/${path}`;
+    return imagePath;
+  });
 
   req.body.carImages = files;
   req.body.user = req.userId;
@@ -46,9 +49,10 @@ export const getCars = async (req, res) => {
     const capacity = parseInt(req.query.capacity);
     const price = parseInt(req.query.price);
     const currentDate = new Date();
+    const regex = new RegExp(title, 'i');
 
     let query = {
-      ...(title && { title }),
+      ...(title && { title: regex }),
       ...(location && { carLocation: location }),
       ...(type && { carType: { $in: type } }),
       ...(price && { price: { $lte: price } }),
@@ -76,7 +80,6 @@ export const getCars = async (req, res) => {
       query = { ...query, ...availableCarsQuery };
     }
 
-    console.log(query);
     const totalCars = await Car.countDocuments(query);
 
     const cars = await Car.find(query)
@@ -265,9 +268,7 @@ export const getSingleCar = async (req, res) => {
 
 export const getCarsByUser = async (req, res) => {
   try {
-    if (!req.userId) {
-      return res.status(403).message('unAuthorized');
-    }
+    if (!req.userId) return res.status(403).message('unauthorized');
 
     const cars = await Car.find().where('user', req.userId);
 

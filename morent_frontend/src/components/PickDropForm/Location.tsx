@@ -14,15 +14,27 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { cn } from '../../lib/utils';
 
-type LocationProps = {
-  form: UseFormReturn<{
+type RentNowModalProps = UseFormReturn<
+  {
     location: string;
-    availabilityFrom: Date;
-    availabilityTo: Date;
-  }>;
-};
+    pickUpDate: Date;
+    dropOffDate: Date;
+    pickUpTime: string;
+    dropOffTime: string;
+  },
+  unknown,
+  undefined
+>;
 
-export default function LocationSelect({ form }: LocationProps) {
+type LocationSelectProps = UseFormReturn<{
+  location: string;
+  availabilityFrom: Date;
+  availabilityTo: Date;
+}>;
+
+export default function LocationSelect<
+  T extends LocationSelectProps & RentNowModalProps,
+>({ form }: { form: T }) {
   const [cities, setCities] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +53,7 @@ export default function LocationSelect({ form }: LocationProps) {
         locationData?.region,
       );
     } catch (error) {
-      setError('Something went wrong when fetching country data');
+      setError('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -117,6 +129,7 @@ export default function LocationSelect({ form }: LocationProps) {
                 <CheckIcon
                   className={cn(
                     'ml-auto h-4 w-4',
+
                     form.getValues('location') === city
                       ? 'opacity-100'
                       : 'opacity-0',

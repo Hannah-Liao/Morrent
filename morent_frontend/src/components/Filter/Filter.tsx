@@ -34,8 +34,6 @@ export default function Filter({ setIsOpen, setTitle, title }: Props) {
         }/api/car?title=${title}&price=${selectedPrice}&type=${type}&capacity=${capacity}`,
       );
       const datas = await res.json();
-      console.log(datas);
-
       if (datas.cars.length < 1) {
         toast({
           variant: 'destructive',

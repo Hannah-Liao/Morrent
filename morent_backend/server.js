@@ -30,6 +30,13 @@ app.use(
     origin: corsAllowUrl,
   })
 );
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 
 const setCorsHeaders = (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
@@ -41,14 +48,6 @@ const setCorsHeaders = (req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   next();
 };
-
-app.use(
-  express.json({
-    verify: (req, res, buf) => {
-      req.rawBody = buf;
-    },
-  })
-);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(setCorsHeaders);

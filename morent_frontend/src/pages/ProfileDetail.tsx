@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom';
 import profileImg from '../assets/images/profile.png';
 import { CarsDispalySection } from '../components';
 import { useGetCarsByUserQuery, useGetUserByIdQuery } from '../services/api';
-import { useEffect } from 'react';
 
 const ProfileDetail = () => {
   const { data, isLoading, isError } = useGetUserByIdQuery('');
@@ -13,7 +13,6 @@ const ProfileDetail = () => {
 
   if (isLoading || carLoading) return <p>Loading...</p>;
   if (isError || carError) return <p>Error...</p>;
-  console.log(cars);
 
   return (
     <main>
@@ -77,12 +76,12 @@ const ProfileDetail = () => {
         />
       </section>
 
-      <a
-        href='/add-car'
+      <Link
+        to='/add-car'
         className='btn rounded sm:rounded-[10px] min-h-[37px] sm:min-h-[56px] w-fit small-semibold sm:p-bold mx-auto my-12'
       >
         Add More Cars for Rent
-      </a>
+      </Link>
     </main>
   );
 };

@@ -17,7 +17,6 @@ export const api = createApi({
         availabilityFrom: string = '',
         availabilityTo: string = '',
       ) => {
-        // validate location,page, availibilityFrom and availabilityTo if exists
         const queryString = new URLSearchParams({
           page: page && String(page),
           location: location && location,

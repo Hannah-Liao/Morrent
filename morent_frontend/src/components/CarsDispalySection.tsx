@@ -22,7 +22,7 @@ const CarsDispalySection: FC<props> = ({
 
   return (
     <div className='grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0'>
-      {cars.slice(0, sliceNumber).map((car) => (
+      {cars.map((car) => (
         <CarCard
           key={car.title}
           data={car}

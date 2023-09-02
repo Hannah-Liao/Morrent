@@ -18,6 +18,8 @@ type CarDataInfo = {
   updatedAt: string;
   transmissionType: string;
   user: string;
+  rentedDateFrom: string;
+  rentedDateTo: string;
 };
 
 export type CarData = {

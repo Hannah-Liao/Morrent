@@ -18,7 +18,7 @@ import {
 
 const router = Router();
 
-router.get('/', getCars);
+router.get('/', authenticateUser, getCars);
 router.post('/', fileUploadMiddleware, authenticateUser, createCar);
 router.put('/add-fav-car', authenticateUser, addFavCar);
 router.get('/fav-car/:userID', authenticateUser, getFavCars);
