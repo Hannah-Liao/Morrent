@@ -18,3 +18,5 @@ export { default as SearchInput } from './SearchInput/SearchInput';
 export { default as PaymentStatus } from './PaymentStatus/PaymentStatus';
 export { default as PickDropForm } from './PickDropForm/PickDropForm';
 export { default as Loader } from './Loader/Loader';
+export { default as NotFound } from './NotFound/NotFound';
+export { default as ServerError } from './ServerError/ServerError';

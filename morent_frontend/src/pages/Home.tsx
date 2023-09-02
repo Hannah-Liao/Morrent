@@ -13,6 +13,7 @@ import {
   PickDropForm,
   Pagination,
   Loader,
+  ServerError,
 } from '../components';
 
 import {
@@ -52,7 +53,7 @@ const Home = () => {
 
   if (isLoading || popularCarLoading) return <Loader />;
 
-  if (isError || popularCarError) return <p>Error....</p>;
+  if (isError || popularCarError) return <ServerError />;
 
   const addIsFavToCars = (cars?: CarDataInfo[], favCars?: CarDataInfo[]) => {
     if (!userId) return cars;
