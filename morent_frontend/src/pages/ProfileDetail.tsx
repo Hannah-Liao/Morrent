@@ -1,7 +1,43 @@
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import profileImg from '../assets/images/profile.png';
-import { CarsDispalySection } from '../components';
+import { CarsDispalySection, Loader } from '../components';
+import {
+  useGetCarsByUserQuery,
+  useGetUserByIdQuery,
+  useGetFavCarsQuery,
+} from '../services/api';
+import { RootState } from '../store/store';
+import { CarDataInfo } from '../types/carInfo';
 
 const ProfileDetail = () => {
+  const { data, isLoading, isError } = useGetUserByIdQuery('');
+  const {
+    data: cars,
+    isError: carError,
+    isLoading: carLoading,
+  } = useGetCarsByUserQuery('');
+
+  const userId = useSelector((state: RootState) => state.userInfo.userId);
+  const { data: userFavCars, refetch: refetchUserFavCars } = useGetFavCarsQuery(
+    userId,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+  if (isLoading || carLoading) return <Loader />;
+  if (isError || carError) return <p>Error...</p>;
+
+  const finalCarsData = userFavCars?.favCars?.map((car: CarDataInfo) => {
+    return {
+      ...car,
+      isFavorited: true,
+    };
+  });
+
+  console.log(cars.data);
+
   return (
     <main>
       <section>
@@ -27,7 +63,7 @@ const ProfileDetail = () => {
 
             <div className='ml-3.5 sm:ml-[152px] mt-[10px] sm:mt-0 '>
               <p className='base-bold text-gray-900 dark:text-white'>
-                Jane Daniel
+                {data.name}
               </p>
               <p className='body-regular text-opacity-50 text-gray-900 dark:text-blue-100'>
                 Agent
@@ -45,21 +81,36 @@ const ProfileDetail = () => {
       </section>
 
       <section className='pt-10'>
-        <h1 className='subtitle'>Rented Cars</h1>
-        <CarsDispalySection />
+        <h2 className='subtitle'>Favorite Cars</h2>
+        <CarsDispalySection
+          carsData={finalCarsData?.length > 0 && finalCarsData}
+          afterFavClick={refetchUserFavCars}
+        />
       </section>
 
       <section className='pt-10'>
         <h1 className='subtitle'>My Cars for Rent</h1>
-        <CarsDispalySection hideButton={true} editIcon={true} />
+        <CarsDispalySection
+          hideButton={true}
+          editIcon={true}
+          carsData={cars.data}
+        />
       </section>
 
-      <a
-        href='/add-car'
+      <section className='pt-10'>
+        <h1 className='subtitle'>Favorite Cars</h1>
+        <CarsDispalySection
+          carsData={finalCarsData?.length > 0 && finalCarsData}
+          afterFavClick={refetchUserFavCars}
+        />
+      </section>
+
+      <Link
+        to='/add-car'
         className='btn rounded sm:rounded-[10px] min-h-[37px] sm:min-h-[56px] w-fit small-semibold sm:p-bold mx-auto my-12'
       >
         Add More Cars for Rent
-      </a>
+      </Link>
     </main>
   );
 };

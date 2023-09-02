@@ -1,9 +1,3 @@
-import PickDropForm from './PickDropForm/PickDropForm';
-import SearchInput from './SearchInput/SearchInput';
-import Filter from './Filter/Filter';
-import PaymentStatus from './PaymentStatus/PaymentStatus';
-
-export { PickDropForm, SearchInput, Filter, PaymentStatus };
 export { default as NavBar } from './Navbar/NavBar';
 export { default as Footer } from './Footer';
 export { default as Logo } from './Logo';
@@ -19,3 +13,11 @@ export { default as LoginForm } from './LoginForm/LoginForm';
 export { default as SignUpForm } from './SignUpForm/SignUpForm';
 export { default as ButtonWithSpinner } from './ButtonWithSpinner/ButtonWithSpinner';
 export { default as EditProfileForm } from './EditProfileForm/EditProfileForm';
+export { default as Pagination } from './Pagination/Pagination';
+export { default as Filter } from './Filter/Filter';
+export { default as SearchInput } from './SearchInput/SearchInput';
+export { default as PaymentStatus } from './PaymentStatus/PaymentStatus';
+export { default as PickDropForm } from './PickDropForm/PickDropForm';
+export { default as Loader } from './Loader/Loader';
+export { default as NotFound } from './NotFound/NotFound';
+export { default as ServerError } from './ServerError/ServerError';

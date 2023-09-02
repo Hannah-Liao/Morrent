@@ -14,3 +14,12 @@ export const sendCookie = ({ res, name, token }) => {
     sameSite: 'none',
   });
 };
+
+// To remove cookies, we need to have the same options as res.cookie https://expressjs.com/en/4x/api.html#res.clearCookie
+export const deleteCookie = ({ res, name }) => {
+  res.clearCookie(name, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+  });
+};

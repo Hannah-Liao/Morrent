@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { carShadow } from '../../assets/images/index';
 import {
   gasStation,
@@ -8,67 +7,83 @@ import {
   heartFilled,
   transmission,
 } from '../../assets/icons/index';
-import { CarInfo } from '../../types/carInfo';
+import { CarDataInfo } from '../../types/carInfo';
+import { openModal } from '../../slice/modalSlice';
+import { RootState } from '../../store/store';
+import {
+  useAddFavCarMutation,
+  useDeleteFavCarMutation,
+} from '../../services/api';
 
 interface CarCardProps {
-  data: CarInfo | null;
+  data: CarDataInfo | null;
   isHidden?: boolean;
-  setCardModalData: Dispatch<SetStateAction<CarInfo | null>>;
-  setIsCarModalOpen: Dispatch<SetStateAction<boolean>>;
   shouldOpenModal: boolean;
+  afterFavClick?: () => void;
 }
 
 const PopularCarsMobile: React.FC<CarCardProps> = ({
   data,
   isHidden,
-  setCardModalData,
-  setIsCarModalOpen,
   shouldOpenModal = false,
+  afterFavClick,
 }) => {
-  const [isFavorited, setIsFavorited] = useState<boolean>(false);
+  const [addFavCar] = useAddFavCarMutation();
+  const [deleteFavCar] = useDeleteFavCarMutation();
+  const { userId, isLoggedIn } = useSelector(
+    (state: RootState) => state.userInfo,
+  );
+  const dispatch = useDispatch();
 
   if (!data) return;
 
   return (
-    <div className={`cardContainer ${isHidden ? 'blur-xs' : ''}`}>
-      {/* Car Title Section */}
+    <div className={`popular-card  ${isHidden ? 'blur-xs' : ''}`}>
       <header className='flex justify-between p-[16px] sm:p-[24px]'>
         <div className='flex-3 w-[90%] overflow-hidden'>
           <h3 className='cardTitle'>{data?.title}</h3>
           <h4 className='cardSubtitle'>{data?.carType}</h4>
         </div>
+
         <div className='flex-1'>
-          <img
-            src={isFavorited ? heartFilled : heartNoFill}
-            className='isFavoritedIcon'
-            alt='Red Heart Icon'
-            aria-label='Red Heart Icon'
-            onClick={() =>
-              setIsFavorited((prevIsFavorited) => !prevIsFavorited)
-            }
-          />
+          {isLoggedIn && (
+            <img
+              src={data.isFavorited ? heartFilled : heartNoFill}
+              className='isFavoritedIcon'
+              alt='Red Heart Icon'
+              aria-label='Red Heart Icon'
+              onClick={() => {
+                const fn = data.isFavorited ? deleteFavCar : addFavCar;
+
+                fn({
+                  carId: data['_id'],
+                  userId,
+                }).then(() => {
+                  if (afterFavClick) {
+                    afterFavClick();
+                  }
+                });
+              }}
+            />
+          )}
         </div>
       </header>
 
-      {/* Car Image and Stats Section */}
       <div className='flex justify-between items-center flex-col'>
-        {/* Car Image with Shadow*/}
-        <div className='w-full lg:w-full mx-auto py-[20px] lg:py-[32px]'>
+        <div className='w-full lg:w-full mx-auto relative'>
           <div
             style={{ backgroundImage: `url(${data.carImages[0]})` }}
             className='cardImage'
           >
-            <div className='mt-10 dark:opacity-0'>
-              <img
-                className='h-[64px] w-full opacity:90'
-                src={carShadow}
-                alt='Shadow overlay'
-              />
-            </div>
+            <img
+              className='h-[64px] w-full opacity:90 mt-10 dark:opacity-0 absolute bottom-0 left-0 right-0'
+              src={carShadow}
+              alt='Shadow overlay'
+            />
           </div>
         </div>
         {/* Stats*/}
-        <ul className='cardIconContainer flex-row w-full mb-2 body-medium px-[16px] sm:px-[24px]'>
+        <ul className='cardIconContainer flex-row w-full mb-2 mt-5 body-medium px-4 sm:px-6'>
           <li className='cardIconItem'>
             <img
               src={gasStation}
@@ -136,12 +151,16 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
             className='cardButton lg:text-[14px]'
             onClick={() => {
               if (shouldOpenModal) {
-                setIsCarModalOpen(true);
-                setCardModalData(data);
+                dispatch(
+                  openModal({
+                    activeModalName: 'car_info',
+                    modalData: data,
+                  }),
+                );
               }
             }}
           >
-            {data.buttonText}
+            More Info
           </button>
         </div>
       </div>

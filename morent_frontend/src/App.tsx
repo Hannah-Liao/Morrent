@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Canceled,
   Checkout,
   Home,
-  NotFound,
+  NotFoundPage,
   Search,
   Success,
   ProfileDetail,
@@ -17,43 +17,42 @@ import {
   Login,
   Failed,
 } from './pages';
-import { NavBar, Footer } from './components';
-import { setCurrentUser } from './slice/authSlice';
+import { NavBar, Footer, CarInfoModal, RentNowModal } from './components';
+import { useLazyGetCurrentUserQuery } from './services/api';
+import { updateLogin } from './slice/loginSlice';
+import { RootState } from './store/store';
+import { CarDataInfo } from './types/carInfo';
 
 const App = () => {
   const dispatch = useDispatch();
+  const modalInfo = useSelector((state: RootState) => state.modalInfo);
 
-  const getUser = async () => {
-    try {
-      const res = await fetch('http://localhost:8004/api/user/current-user', {
-        credentials: 'include',
-      });
-      const data = await res.json();
-
-      dispatch(
-        setCurrentUser({
-          userID: data.userID,
-        }),
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [getCurrentUser] = useLazyGetCurrentUserQuery({});
 
   useEffect(() => {
-    getUser();
+    async function validateCurrentUser() {
+      const currentUser = await getCurrentUser({});
+      if (currentUser?.data?.userId) {
+        dispatch(
+          updateLogin({
+            userId: currentUser.data.userId,
+            isLoggedIn: true,
+          }),
+        );
+      }
+    }
+    validateCurrentUser();
   }, []);
 
   return (
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2.5%] pt-[124px] md:pt-[132px]'>
+        <div className='w-full max-container p-[2%]'>
           <Routes>
-            <Route index path='/' element={<Home />} />
-            <Route path='/signup' element={<SignUp />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route index element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='add-car' element={<AddCar />} />
             <Route path='/edit-car/:id' element={<EditCar />} />
@@ -63,11 +62,20 @@ const App = () => {
             <Route path='/error' element={<Failed />} />
             <Route path='/edit-profile' element={<EditProfile />} />
             <Route path='/profile' element={<ProfileDetail />} />
-            <Route path='*' element={<NotFound />} />
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </div>
       </div>
       <Footer />
+
+      {/* Car Info Modal */}
+      <CarInfoModal
+        open={modalInfo.activeModalName === 'car_info'}
+        data={modalInfo.modalData as CarDataInfo}
+      />
+
+      {/* Rent Now Modal */}
+      <RentNowModal open={modalInfo.activeModalName === 'rent'} />
     </main>
   );
 };

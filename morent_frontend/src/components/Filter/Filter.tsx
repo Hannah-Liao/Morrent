@@ -1,32 +1,58 @@
 import { useState, type Dispatch, type SetStateAction } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Button } from '../ui/button';
 import { close } from '../../assets/icons';
 import { Slider } from '../ui/slider';
-import { SearchInput } from '..';
+import { Button } from '../ui/button';
 import { RootState } from '../../store/store';
-import CarFilterOptions from './CarFilterOptions';
+import { SearchInput } from '..';
 import { carFilterOptions } from '../../constant';
+import CarFilterOptions from './CarFilterOptions';
+import { setCarSearchResults } from '../../slice/filterResults';
+import { useToast } from '../ui/use-toast';
 
 type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setTitle: Dispatch<SetStateAction<string>>;
+  title: string;
 };
 
-export default function Filter({ setIsOpen }: Props) {
+export default function Filter({ setIsOpen, setTitle, title }: Props) {
   const { capacity, type } = useSelector(
-    ({ carFilter: { value } }: RootState) => value,
+    ({ carFilter }: RootState) => carFilter.value,
   );
+  const { toast } = useToast();
   const [selectedPrice, setSelectedPrice] = useState([100]);
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsOpen(false);
+    try {
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/api/car?title=${title}&price=${selectedPrice}&type=${type}&capacity=${capacity}`,
+      );
+      const datas = await res.json();
+      if (datas.cars.length < 1) {
+        toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: 'We can not find cars that you are looking for',
+        });
+      }
+      dispatch(setCarSearchResults(datas));
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
+    }
   };
 
   return (
-    <aside className='w-full  flex flex-col md:pr-3'>
+    <aside className='w-full  flex flex-col md:pr-3 overflow-y-auto h-screen'>
       <div className='hidden md:block'>
-        <SearchInput setIsOpen={setIsOpen} />
+        <SearchInput setIsOpen={setIsOpen} setTitle={setTitle} />
       </div>
       <Button
         title='close'

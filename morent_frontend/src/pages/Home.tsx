@@ -1,130 +1,154 @@
 import { useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../store/store';
+import { CarDataInfo } from '../types/carInfo';
 
 import {
   CarCard,
   PopularCarsMobile,
   HomeHeader,
   HomeViewAllHeader,
-  CarInfoModal,
   PickDropForm,
-  RentNowModal,
-} from '../components/index';
-import { CarInfo } from '../types/carInfo';
-import { cars } from '../constant';
+  Pagination,
+  Loader,
+  ServerError,
+} from '../components';
 
-const Home: React.FC = () => {
-  const [showMoreCars, setShowMoreCars] = useState<boolean>(false);
-  const [cardModalData, setCardModalData] = useState<null | CarInfo>(null);
-  const [openModalName, setOpenModalName] = useState<'car_info' | 'rent' | ''>(
-    '',
-  );
+import {
+  useGetPopularCarsQuery,
+  useGetCarListQuery,
+  useGetFavCarsQuery,
+} from '../services/api';
+
+const Home = () => {
+  const [page, setPage] = useState<number>(1);
+
+  const userId = useSelector((state: RootState) => state.userInfo.userId);
+
+  const {
+    data: userFavCars,
+    isSuccess: isFavCarsSuccess,
+    refetch: refetchFavCars,
+  } = useGetFavCarsQuery(userId, {
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+  });
+
+  const {
+    data: carLists,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useGetCarListQuery(page, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const {
+    data: popularCars,
+    isError: popularCarError,
+    isLoading: popularCarLoading,
+  } = useGetPopularCarsQuery('');
+
+  if (isLoading || popularCarLoading) return <Loader />;
+
+  if (isError || popularCarError) return <ServerError />;
+
+  const addIsFavToCars = (cars?: CarDataInfo[], favCars?: CarDataInfo[]) => {
+    if (!userId) return cars;
+    if (!favCars && !isFavCarsSuccess) return cars;
+
+    return cars?.map((car) => {
+      if (favCars?.map((c) => c['_id']).includes(car['_id'])) {
+        return {
+          ...car,
+          isFavorited: true,
+        };
+      } else {
+        return {
+          ...car,
+          isFavorited: false,
+        };
+      }
+    });
+  };
+
+  const popularCarWithFav = addIsFavToCars(popularCars, userFavCars?.favCars);
+  const carListsWithFav = addIsFavToCars(carLists?.cars, userFavCars?.favCars);
 
   return (
-    <>
-      <section className='homeContainer'>
-        {/* Big Header Cards */}
-        <HomeHeader />
+    <section className='homeContainer'>
+      <HomeHeader />
+      <div className='mt-[32px] mb-[36px]'>
+        <PickDropForm isShow={true} />
+      </div>
 
-        {/* Search Bar */}
+      <HomeViewAllHeader titleText='Popular Cars' />
 
-        <div className='mt-[32px] mb-[36px]'>
-          <PickDropForm isShow={true} />
-        </div>
+      {isLoading && <Loader />}
 
-        <>
-          {/* Popular Cars Header */}
-          <HomeViewAllHeader titleText='Popular Cars' />
-
-          {/* Popular Cars Grid */}
-          <div className='homePopularCarsGrid'>
-            {cars.slice(0, 4).map((car, i) => (
-              <div key={i}>
-                {/* Blur cards that are not fully in the viewport on mobile */}
-                {window.innerWidth < 500 ? (
-                  <VisibilitySensor>
-                    {({ isVisible }: { isVisible: boolean }) => (
-                      <PopularCarsMobile
-                        data={car}
-                        isHidden={!isVisible}
-                        setCardModalData={setCardModalData}
-                        setIsCarModalOpen={() => setOpenModalName('car_info')}
-                        shouldOpenModal={true}
-                      />
-                    )}
-                  </VisibilitySensor>
-                ) : (
-                  <PopularCarsMobile
-                    data={car}
-                    setCardModalData={setCardModalData}
-                    setIsCarModalOpen={() => setOpenModalName('car_info')}
-                    shouldOpenModal={true}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </>
-
-        <>
-          {/* Recommended Cars Header*/}
-          <HomeViewAllHeader titleText='Recommended Cars' />
-
-          {/* Recommended Cars Grid*/}
-          <div className='homeRecommendedGrid'>
-            {/* Show more cars on button click*/}
-            {showMoreCars
-              ? cars
-                  .slice(0, 16)
-                  .map((car, i) => (
-                    <CarCard
-                      key={i}
+      {isSuccess && (
+        <div className='homePopularCarsGrid'>
+          {popularCarWithFav?.map((car) => (
+            <div key={car._id}>
+              {window.innerWidth < 500 ? (
+                <VisibilitySensor>
+                  {({ isVisible }: { isVisible: boolean }) => (
+                    <PopularCarsMobile
                       data={car}
-                      setCardModalData={setCardModalData}
-                      setIsCarModalOpen={() => setOpenModalName('car_info')}
+                      isHidden={!isVisible}
                       shouldOpenModal={true}
-                      hideButton={false}
+                      afterFavClick={refetchFavCars}
                     />
-                  ))
-              : cars
-                  .slice(0, 8)
-                  .map((car, i) => (
-                    <CarCard
-                      key={i}
-                      data={car}
-                      setCardModalData={setCardModalData}
-                      setIsCarModalOpen={() => setOpenModalName('car_info')}
-                      shouldOpenModal={true}
-                      hideButton={false}
-                    />
-                  ))}
-          </div>
-        </>
-
-        {/* Button */}
-        <div className='mx-auto text-center py-[64px]'>
-          <button
-            className='cardButton px-[50px] min-h-[55px]'
-            onClick={() => setShowMoreCars((prevCars) => !prevCars)}
-          >
-            {showMoreCars ? 'Hide cars' : 'Show more cars'}
-          </button>
+                  )}
+                </VisibilitySensor>
+              ) : (
+                <PopularCarsMobile
+                  data={car}
+                  shouldOpenModal={true}
+                  afterFavClick={refetchFavCars}
+                />
+              )}
+            </div>
+          ))}
         </div>
-      </section>
+      )}
+      <HomeViewAllHeader titleText='Recommended Cars' />
 
-      {/* Car Info Modal */}
-      <CarInfoModal
-        open={openModalName === 'car_info'}
-        setOpen={setOpenModalName}
-        data={cardModalData}
-      />
-
-      {/* Rent Now Modal */}
-      <RentNowModal
-        open={openModalName === 'rent'}
-        setOpen={setOpenModalName}
-      />
-    </>
+      {isLoading && <Loader />}
+      {isSuccess && (
+        <div className='homeRecommendedGrid'>
+          {isFavCarsSuccess
+            ? carListsWithFav?.map((car) => (
+                <CarCard
+                  key={car._id}
+                  data={car}
+                  shouldOpenModal={true}
+                  hideButton={false}
+                  afterFavClick={refetchFavCars}
+                />
+              ))
+            : carListsWithFav?.map((car) => (
+                <CarCard
+                  key={car._id}
+                  data={car}
+                  shouldOpenModal={true}
+                  hideButton={false}
+                  afterFavClick={refetchFavCars}
+                />
+              ))}
+        </div>
+      )}
+      <div className='mx-auto text-center py-[64px]'>
+        <Pagination
+          totalPages={carLists.totalPages}
+          page={page}
+          currentLength={carLists.cars.length}
+          setPage={setPage}
+        />
+      </div>
+    </section>
   );
 };
 

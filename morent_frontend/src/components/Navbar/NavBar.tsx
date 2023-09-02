@@ -9,16 +9,19 @@ import NavMenu from './NavMenu';
 import { ModeDropdown } from './ModeDropdown';
 import ProfileMenu from './ProfileMenu';
 import { updateLogin } from '../../slice/loginSlice';
+import { RootState } from '../../store/store';
 
 const NavBar = () => {
-  const { isLoggedIn, userId } = useSelector(
-    (state: { userInfo: { isLoggedIn: boolean; userId: string } }) => {
-      return state.userInfo;
-    },
-  );
+  const { isLoggedIn, userId } = useSelector((state: RootState) => {
+    return state.userInfo;
+  });
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const controlNavbar = () => {
     if (typeof window !== 'undefined') {
@@ -41,7 +44,7 @@ const NavBar = () => {
   }, [lastScrollY]);
 
   return (
-    <header className='fixed w-full z-50 md:border-b md:border-[#C3D4E966] bg-white dark:bg-gray-900 min-h-[92px] md:min-h-[100px]'>
+    <header className=' w-full sticky z-10 top-0 md:border-b md:border-[#C3D4E966] bg-white dark:bg-gray-900 min-h-[92px] md:min-h-[100px]'>
       <div className='max-container flex justify-between items-start px-[20px] md:px-[60px] py-[32px] md:py-[28px] '>
         <Logo />
         <div className='flex-center flex-row-reverse md:flex-row gap-6'>
@@ -58,6 +61,7 @@ const NavBar = () => {
             <Link
               to='/login'
               className='btn min-w-[110px] h-11 p-semibold rounded hidden md:flex'
+              onClick={goToTop}
             >
               Login
             </Link>
@@ -85,13 +89,13 @@ const NavBar = () => {
 
           <div className='flex flex-col gap-2.5 my-5'>
             <Link
-              to={isLoggedIn ? '/profile/:id' : '/login'}
+              to={isLoggedIn ? '/profile' : '/login'}
               className='mobileLoginBtn min-full min-h-[49px] px-9 p-semibold rounded'
               onClick={() => {
                 dispatch(
                   updateLogin({
                     isLoggedIn: false,
-                    email: '',
+                    userId: null,
                   }),
                 );
               }}
