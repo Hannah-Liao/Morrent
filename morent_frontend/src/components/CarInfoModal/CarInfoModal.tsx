@@ -1,18 +1,20 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Dialog, DialogContent } from '../ui/dialog';
 
 import { blueBackground } from '../../assets/images/index';
 import { starFilled, starNoFill } from '../../assets/icons';
 import { CarInfo } from '../../types/carInfo';
+import { openModal } from '../../slice/modalSlice';
+import { useDispatch } from 'react-redux';
 
 interface CarInfoModalProps {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<'' | 'car_info' | 'rent'>>;
   data: CarInfo | null;
 }
 
-const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
+const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, data }) => {
   const [activeImageIndex, setActiveImageIndex] = useState<null | number>(1);
+  const dispatch = useDispatch();
 
   function selectLargeImage(activeImageIndex: number | null) {
     switch (activeImageIndex) {
@@ -32,7 +34,14 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
   return (
     <Dialog
       open={open}
-      onOpenChange={(open) => setOpen(open ? 'car_info' : '')}
+      onOpenChange={(open) =>
+        dispatch(
+          openModal({
+            activeModalName: open ? 'car_info' : null,
+            modalData: data,
+          }),
+        )
+      }
     >
       <DialogContent className='dialogContent'>
         <section
@@ -181,7 +190,13 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, setOpen, data }) => {
                 <button
                   type='button'
                   className='cardButton text-[14px] font-bold md:text-[16px] w-full md:min-w-[140px]'
-                  onClick={() => setOpen('rent')}
+                  onClick={() =>
+                    dispatch(
+                      openModal({
+                        activeModalName: 'rent',
+                      }),
+                    )
+                  }
                 >
                   Rent Now
                 </button>

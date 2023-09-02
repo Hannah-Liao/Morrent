@@ -19,6 +19,10 @@ const NavBar = () => {
   const [open, setOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const controlNavbar = () => {
     if (typeof window !== 'undefined') {
       if (window.scrollY > lastScrollY) {
@@ -57,6 +61,7 @@ const NavBar = () => {
             <Link
               to='/login'
               className='btn min-w-[110px] h-11 p-semibold rounded hidden md:flex'
+              onClick={goToTop}
             >
               Login
             </Link>

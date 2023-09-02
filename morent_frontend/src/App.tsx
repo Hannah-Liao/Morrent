@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Canceled,
@@ -17,35 +17,30 @@ import {
   Login,
   Failed,
 } from './pages';
-import { NavBar, Footer } from './components';
-import { setCurrentUser } from './slice/authSlice';
+import { NavBar, Footer, CarInfoModal, RentNowModal } from './components';
+import { useLazyGetCurrentUserQuery } from './services/api';
+import { updateLogin } from './slice/loginSlice';
+import { RootState } from './store/store';
 
 const App = () => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
+  const modalInfo = useSelector((state: RootState) => state.modalInfo);
 
-  dispatch(
-    setCurrentUser({
-      userID: user,
-    }),
-  );
-
-  const getUser = async () => {
-    try {
-      const res = await fetch('http://localhost:8004/api/user/current-user', {
-        credentials: 'include',
-      });
-      const data = await res.json();
-
-      setUser(data.userID);
-    } catch (error) {
-      console.log(error);
-      setUser(null);
-    }
-  };
+  const [getCurrentUser] = useLazyGetCurrentUserQuery({});
 
   useEffect(() => {
-    getUser();
+    async function validateCurrentUser() {
+      const currentUser = await getCurrentUser({});
+      if (currentUser?.data?.userId) {
+        dispatch(
+          updateLogin({
+            userId: currentUser.data.userId,
+            isLoggedIn: true,
+          }),
+        );
+      }
+    }
+    validateCurrentUser();
   }, []);
 
   return (
@@ -72,6 +67,15 @@ const App = () => {
         </div>
       </div>
       <Footer />
+
+      {/* Car Info Modal */}
+      <CarInfoModal
+        open={modalInfo.activeModalName === 'car_info'}
+        data={modalInfo.modalData}
+      />
+
+      {/* Rent Now Modal */}
+      <RentNowModal open={modalInfo.activeModalName === 'rent'} />
     </main>
   );
 };

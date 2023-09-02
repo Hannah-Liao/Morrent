@@ -1,7 +1,14 @@
 import bcrypt from 'bcrypt';
 
 import UserModel from '../models/user.js';
-import { generateToken, sendCookie } from '../utils/token.utils.js';
+import {
+  deleteCookie,
+  generateToken,
+  sendCookie,
+} from '../utils/token.utils.js';
+
+const ACCESS_TOKEN_KEY = 'accesstoken';
+const REFRESH_TOKEN_KEY = 'refreshtoken';
 
 // User Signup
 export const signup = async (req, res) => {
@@ -37,8 +44,8 @@ export const signup = async (req, res) => {
       expiresIn: '10d',
     });
 
-    sendCookie({ res, name: 'accesstoken', token: accessToken });
-    sendCookie({ res, name: 'refreshtoken', token: refreshToken });
+    sendCookie({ res, name: ACCESS_TOKEN_KEY, token: accessToken });
+    sendCookie({ res, name: REFRESH_TOKEN_KEY, token: refreshToken });
 
     res.status(201).json({
       message: 'User created',
@@ -87,8 +94,8 @@ export const signin = async (req, res) => {
       expiresIn: '10d',
     });
 
-    sendCookie({ res, name: 'accesstoken', token: accessToken });
-    sendCookie({ res, name: 'refreshtoken', token: refreshToken });
+    sendCookie({ res, name: ACCESS_TOKEN_KEY, token: accessToken });
+    sendCookie({ res, name: REFRESH_TOKEN_KEY, token: refreshToken });
 
     res.status(200).json({
       message: 'Successfully logged in',
@@ -103,8 +110,8 @@ export const signin = async (req, res) => {
 // User Logout
 export const logout = (req, res) => {
   try {
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
+    deleteCookie({ res, name: ACCESS_TOKEN_KEY });
+    deleteCookie({ res, name: REFRESH_TOKEN_KEY });
     res.status(200).json({ message: `Successfully logged out`, success: true });
   } catch (error) {
     res
@@ -150,7 +157,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const showCurrentUser = async (req, res) => {
-  res.status(200).json({ userID: req.userId });
+  res.status(200).json({ userId: req.userId });
 };
 
 // remove delete car also, using daleteMany where userId = id

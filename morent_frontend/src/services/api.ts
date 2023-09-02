@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { CarDataInfo } from '../types/carInfo';
 
 export const api = createApi({
   reducerPath: 'CarApi',
@@ -6,11 +7,29 @@ export const api = createApi({
     baseUrl: 'http://localhost:8004/',
     credentials: 'include',
   }),
-
   endpoints: (builder) => ({
-    getCarLists: builder.query({
-      query: () => ({
-        url: `api/car`,
+    getCarList: builder.query({
+      query: (
+        page = 1,
+        location: string = '',
+        availabilityFrom: string = '',
+        availabilityTo: string = '',
+      ) => {
+        const queryString = new URLSearchParams({
+          page: page && String(page),
+          location: location && location,
+          availabilityFrom: availabilityFrom && availabilityFrom,
+          availabilityTo: availabilityTo && availabilityTo,
+        }).toString();
+
+        return `/api/car?${queryString}`;
+      },
+    }),
+    getCars: builder.query({
+      query: (params) => ({
+        url: 'api/car',
+        method: 'GET',
+        params,
       }),
     }),
     getCurrentUser: builder.query({
@@ -38,6 +57,12 @@ export const api = createApi({
         url: `api/car/delete/${carID}`,
         method: 'DELETE',
       }),
+    }),
+    getPopularCars: builder.query({
+      query: () => {
+        return `/api/car/popular`;
+      },
+      transformResponse: ({ data }) => data as CarDataInfo[],
     }),
     login: builder.mutation({
       query: (userInfo) => ({
@@ -84,13 +109,28 @@ export const api = createApi({
         };
       },
     }),
+    deleteFavCar: builder.mutation({
+      query: ({ userId, carId }) => {
+        return {
+          url: `api/car/delete-fav-car/${userId}`,
+          method: 'PATCH',
+          body: {
+            carId,
+            userId,
+          },
+        };
+      },
+    }),
   }),
 });
 
 export const {
-  useGetCarListsQuery,
+  useGetPopularCarsQuery,
+  useGetCarListQuery,
+  useGetCarsQuery,
   useGetSingleCarQuery,
   useGetCurrentUserQuery,
+  useLazyGetCurrentUserQuery,
   useAddCarMutation,
   useUpdateCarMutation,
   useDeleteCarMutation,
@@ -99,4 +139,5 @@ export const {
   useLogoutMutation,
   useGetFavCarsQuery,
   useAddFavCarMutation,
+  useDeleteFavCarMutation,
 } = api;

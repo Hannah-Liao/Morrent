@@ -3,14 +3,22 @@ import profileImg from '../assets/images/profile.png';
 import { CarsDispalySection } from '../components';
 import { useGetFavCarsQuery } from '../services/api';
 import { RootState } from '../store/store';
+import { CarDataInfo } from '../types/carInfo';
 
 const ProfileDetail = () => {
   const userId = useSelector((state: RootState) => state.userInfo.userId);
-  const { data: userFavCars } = useGetFavCarsQuery(userId);
-
-  console.log({
+  const { data: userFavCars, refetch: refetchUserFavCars } = useGetFavCarsQuery(
     userId,
-    userFavCars,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
+
+  const finalCarsData = userFavCars?.favCars?.map((car: CarDataInfo) => {
+    return {
+      ...car,
+      isFavorited: true,
+    };
   });
 
   return (
@@ -63,6 +71,14 @@ const ProfileDetail = () => {
       <section className='pt-10'>
         <h1 className='subtitle'>My Cars for Rent</h1>
         <CarsDispalySection hideButton={true} editIcon={true} />
+      </section>
+
+      <section className='pt-10'>
+        <h1 className='subtitle'>Favorite Cars</h1>
+        <CarsDispalySection
+          carsData={finalCarsData?.length > 0 && finalCarsData}
+          afterFavClick={refetchUserFavCars}
+        />
       </section>
 
       <a

@@ -24,6 +24,10 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleLogout = async () => {
     try {
       await logout({});
@@ -54,7 +58,9 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className='dropDownIcons' />
-            <Link to={`/profile/${userId}`}>Profile</Link>
+            <Link to={`/profile/${userId}`} onClick={goToTop}>
+              Profile
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

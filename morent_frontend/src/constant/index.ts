@@ -70,6 +70,7 @@ export const cars = [
     buttonText: 'More Info',
     reviews: 440,
     rating: 4,
+    isFavorited: false,
   },
   {
     title: 'Koenigsegg',
