@@ -1,26 +1,13 @@
-import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import TimePicker from 'react-time-picker';
 
 import { Button } from '../ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import {
   Dialog,
@@ -31,11 +18,12 @@ import {
 } from '../ui/dialog';
 import { Calendar } from '../ui/calendar';
 import { cn } from '../../lib/utils';
-import { pickupLocation } from '../../constant/index';
 import getCurrentTime from '../../utils/getCurrentTime';
 import { dots, clock, calendar } from '../../assets/icons';
-import { useDispatch } from 'react-redux';
+import { toast } from '../ui/use-toast';
+import LocationSelect from '../PickDropForm/Location';
 import { openModal } from '../../slice/modalSlice';
+import { RootState } from '../../store/store';
 
 const formSchema = z
   .object({
@@ -98,6 +86,9 @@ interface RentNowModalProps {
 }
 
 const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
+  const dispatch = useDispatch();
+  const today = new Date().toUTCString();
+  const { modalData } = useSelector(({ modalInfo }: RootState) => modalInfo);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -108,8 +99,38 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
-  const dispatch = useDispatch();
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      console.log(modalData);
+
+      const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+      const res = await fetch(`${SERVER_URL}/checkout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          carName: modalData?.title,
+          price: modalData?.price,
+          id: modalData?._id,
+          type: modalData?.carType,
+          userId: modalData?.user,
+          data,
+        }),
+      });
+      const response = await res.json();
+
+      window.location.href = await response.url;
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          variant: 'destructive',
+          title: error.message,
+        });
+      }
+    }
+  };
 
   return (
     <Dialog
@@ -137,7 +158,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
             <FormField
               control={form.control}
               name='location'
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel className='formTitle leading-[120%]'>
                     <img
@@ -147,25 +168,8 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
                     />
                     Pickup Location
                   </FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger className='min-h-[46px] sm:min-h-[56px] inputArea'>
-                        <SelectValue placeholder='Location Address' />
-                      </SelectTrigger>
-                      <SelectContent className='bg-white-200 dark:bg-gray-800 capitalize'>
-                        <SelectGroup>
-                          {pickupLocation.map((location, i) => (
-                            <SelectItem value={location} key={i}>
-                              {location}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                  {/* @ts-ignore */}
+                  <LocationSelect form={form} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -296,6 +300,7 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
             </div>
 
             <Button
+              disabled={modalData ? modalData?.rentedDateTo > today : false}
               type='submit'
               className='btn rounded-[10px] w-full h-[56px] p-bold  mb-[18px]'
             >

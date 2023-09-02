@@ -10,8 +10,8 @@ import {
   Loader,
   ServerError,
 } from '../components';
-import { useGetCarListQuery, useGetFavCarsQuery } from '../services/api';
 import { RootState } from '../store/store';
+import { useGetCarListQuery, useGetFavCarsQuery } from '../services/api';
 import { CarDataInfo } from '../types/carInfo';
 
 export default function Search() {
@@ -20,6 +20,9 @@ export default function Search() {
   const { data, isError, isLoading } = useGetCarListQuery(page, {
     refetchOnMountOrArgChange: true,
   });
+  const { cars } = useSelector(
+    ({ CarSearchResults }: RootState) => CarSearchResults,
+  );
   const {
     data: userFavCars,
     isSuccess: isFavCarsSuccess,
@@ -28,12 +31,11 @@ export default function Search() {
     refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
   });
-  const { cars } = useSelector(
-    ({ CarSearchResults }: RootState) => CarSearchResults,
-  );
-
   const [title, setTitle] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  if (isLoading) return <Loader />;
+  if (isError) return <p>Error...</p>;
 
   const addIsFavToCars = (cars?: CarDataInfo[], favCars?: CarDataInfo[]) => {
     if (!userId) return cars;

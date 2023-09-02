@@ -14,15 +14,27 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { cn } from '../../lib/utils';
 
-type LocationProps = {
-  form: UseFormReturn<{
+type RentNowModalProps = UseFormReturn<
+  {
     location: string;
-    availabilityFrom: Date;
-    availabilityTo: Date;
-  }>;
-};
+    pickUpDate: Date;
+    dropOffDate: Date;
+    pickUpTime: string;
+    dropOffTime: string;
+  },
+  unknown,
+  undefined
+>;
 
-export default function LocationSelect({ form }: LocationProps) {
+type LocationSelectProps = UseFormReturn<{
+  location: string;
+  availabilityFrom: Date;
+  availabilityTo: Date;
+}>;
+
+export default function LocationSelect<
+  T extends LocationSelectProps & RentNowModalProps,
+>({ form }: { form: T }) {
   const [cities, setCities] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +53,7 @@ export default function LocationSelect({ form }: LocationProps) {
         locationData?.region,
       );
     } catch (error) {
-      setError('Something went wrong when fetching country data');
+      setError('Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -84,7 +96,7 @@ export default function LocationSelect({ form }: LocationProps) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         asChild
-        className='bg-white-200 transition-all duration-500 delay-500 ease dark:bg-gray-800 dark:border-none text-left focus:!ring-0 !w-full truncate text-xs text-gray-400'
+        className='bg-white-200 transition-all duration-500 delay-500 ease dark:bg-gray-800 dark:border-none text-left focus:!ring-0 !w-full truncate text-xs text-gray-400 '
       >
         <Button
           variant='outline'
@@ -97,13 +109,13 @@ export default function LocationSelect({ form }: LocationProps) {
             : form.getValues('location') || 'Select your city'}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-full p-0 h-[200px]'>
-        <Command className='!w-full'>
+      <PopoverContent className='w-full p-0 h-[200px] '>
+        <Command className='!w-full '>
           <CommandInput placeholder='Search your City' className='h-9' />
           <CommandEmpty className='text-xs text-center inline-flex gap-3 flex-col'>
             <span>No Cities Found</span>
           </CommandEmpty>
-          <CommandGroup className='w-full h-full overflow-y-auto'>
+          <CommandGroup className=' overflow-y-auto flex justify-start'>
             {cities.map((city) => (
               <CommandItem
                 value={city}
@@ -117,6 +129,7 @@ export default function LocationSelect({ form }: LocationProps) {
                 <CheckIcon
                   className={cn(
                     'ml-auto h-4 w-4',
+
                     form.getValues('location') === city
                       ? 'opacity-100'
                       : 'opacity-0',

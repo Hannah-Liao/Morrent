@@ -4,8 +4,8 @@ import { api } from '../services/api';
 import carFilter from '../slice/carFilterSlice';
 import authSlice from '../slice/authSlice';
 import loginSlice from '../slice/loginSlice';
+import CarSearchResults from '../slice/filterResults';
 import modalSlice from '../slice/modalSlice';
-import CarSearchResults from '../slice/carSearchResults';
 
 export const store = configureStore({
   reducer: {

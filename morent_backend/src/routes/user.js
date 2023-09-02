@@ -9,6 +9,7 @@ import {
   showCurrentUser,
   deleteUser,
   viewUsers,
+  getUserById,
 } from '../controllers/user.js';
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.post('/logout', authenticateUser, logout);
 router.patch('/updateuser/:id', authenticateUser, updateUser);
 router.delete('/deleteuser/:id', authenticateUser, deleteUser);
 router.get('/viewusers', authenticateUser, viewUsers);
+router.get('/profile', authenticateUser, getUserById);
 
 export default router;

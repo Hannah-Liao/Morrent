@@ -201,5 +201,24 @@ export const viewUsers = async (req, res) => {
   }
 };
 
-// for one single user profile. Get one single info(like list of cars he added. etc)
-// Use clockify
+export const getUserById = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId).populate('rentedCars');
+
+    if (!user)
+      return res.json({
+        error: true,
+        message: 'We can not find that user!',
+      });
+
+    const toObj = user.toObject();
+    const { password, ...rest } = toObj;
+
+    return res.json(rest);
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};

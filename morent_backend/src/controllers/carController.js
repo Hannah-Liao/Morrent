@@ -9,8 +9,11 @@ export const createCar = async (req, res) => {
       .status(500)
       .json({ success: false, message: 'Failed to create. Try again' });
   }
-
-  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+  const files = req.files.map((file) => {
+    const path = file.path.replaceAll('\\', '/');
+    const imagePath = `${process.env.BASE_URL}/${path}`;
+    return imagePath;
+  });
 
   req.body.carImages = files;
   req.body.user = req.userId;
@@ -264,5 +267,20 @@ export const getSingleCar = async (req, res) => {
       .json({ success: true, message: 'Successfully get a car', data: car });
   } catch (err) {
     res.status(404).json({ success: false, message: 'Not found' });
+  }
+};
+
+export const getCarsByUser = async (req, res) => {
+  try {
+    if (!req.userId) return res.status(403).message('unauthorized');
+
+    const cars = await Car.find().where('user', req.userId);
+
+    return res.json({ error: false, message: 'Success', data: cars });
+  } catch (error) {
+    return res.json({
+      error: true,
+      message: 'Something went wrong when fetch data',
+    });
   }
 };

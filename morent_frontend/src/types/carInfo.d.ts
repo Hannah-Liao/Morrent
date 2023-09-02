@@ -1,7 +1,3 @@
-import { cars } from '../constant';
-
-export type CarInfo = (typeof cars)[0];
-
 export type CarData = {
   label: string;
   key: string;
@@ -10,6 +6,7 @@ export type CarData = {
 export type CarFilterOptionsProps = {
   title: string;
   options: CarData[];
+  value: string[];
   value: string;
 };
 
@@ -30,4 +27,8 @@ export type CarDataInfo = {
   transmissionType: string;
   user: string;
   isFavorited?: boolean;
+  rentedDateFrom: string;
+  rentedDateTo: string;
+  rating: number;
+  reviews: number;
 };

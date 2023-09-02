@@ -30,16 +30,11 @@ const rentedCarSchema = new Schema(
     dropOffDateTime: {
       type: Date,
       required: [true, 'Please add a dropoff date and time'],
-      validate: {
-        validator: function (value) {
-          return value > this.pickUpDateTime;
-        },
-        message:
-          'Drop off date and time must be later than pickup date and time.',
-      },
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export default model('RentedCar', rentedCarSchema);
