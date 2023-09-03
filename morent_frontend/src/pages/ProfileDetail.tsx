@@ -86,7 +86,9 @@ const ProfileDetail = () => {
 
       <section className='pt-10'>
         <h1 className='subtitle'>Rented Cars</h1>
-        <CarsDispalySection carsData={data.rentedCars} />
+        <CarsDispalySection
+          carsData={data.rentedCars.length > 0 && data.rentedCars}
+        />
       </section>
 
       <section className='pt-10'>
@@ -94,7 +96,7 @@ const ProfileDetail = () => {
         <CarsDispalySection
           hideButton={true}
           editIcon={true}
-          carsData={cars?.data}
+          carsData={cars?.data.length > 0 && cars.data}
         />
       </section>
       <section className='pt-10'>
