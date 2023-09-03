@@ -58,7 +58,7 @@ const ProfileDetail = () => {
 
           <div className='relative pt-[31px] pb-[38px]'>
             <img
-              src={profileImg}
+              src={data.profileImage ? data.profileImage : profileImg}
               alt='user profile photo'
               className='w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] absolute left-[13px] sm:left-[31px] top-[-30px] sm:top-[-50px] rounded-[70px]'
             />
