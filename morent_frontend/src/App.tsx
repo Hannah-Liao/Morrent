@@ -87,8 +87,6 @@ const App = () => {
                 </ProtectedRoutes>
               }
             />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<SignUp />} />
 
             <Route
               path='/search'
@@ -132,6 +130,8 @@ const App = () => {
               }
             />
             <Route path='*' element={<NotFoundPage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
           </Routes>
         </div>
       </div>
