@@ -235,10 +235,10 @@ const SignUpForm = () => {
                   </p>
                 )}
                 <p className='mt-4 text-xs text-center text-gray-700 dark:text-white'>
-                  Don&apos;t have an account?
+                  Already have an account?
                   <span className='signUpLink'>
                     <NavLink to='/login' className='navLink'>
-                      Signup
+                      Login
                     </NavLink>
                   </span>
                 </p>
