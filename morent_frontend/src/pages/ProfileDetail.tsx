@@ -19,6 +19,10 @@ const ProfileDetail = () => {
     isLoading: carLoading,
   } = useGetCarsByUserQuery('');
 
+  function lowerCase(str: string) {
+    return str.toLowerCase();
+  }
+
   const userId = useSelector((state: RootState) => state.userInfo.userId);
   const { data: userFavCars, refetch: refetchUserFavCars } = useGetFavCarsQuery(
     userId,
@@ -62,8 +66,8 @@ const ProfileDetail = () => {
             />
 
             <div className='ml-3.5 sm:ml-[152px] mt-[10px] sm:mt-0 '>
-              <p className='base-bold text-gray-900 dark:text-white'>
-                {data.name}
+              <p className='base-bold text-gray-900 dark:text-white capitalize'>
+                {lowerCase(data.name)}
               </p>
               <p className='body-regular text-opacity-50 text-gray-900 dark:text-blue-100'>
                 Agent
@@ -81,20 +85,13 @@ const ProfileDetail = () => {
       </section>
 
       <section className='pt-10'>
-        <h2 className='subtitle'>Favorite Cars</h2>
-        <CarsDispalySection
-          carsData={finalCarsData?.length > 0 && finalCarsData}
-          afterFavClick={refetchUserFavCars}
-        />
+        <h1 className='subtitle'>Rented Cars</h1>
+        <CarsDispalySection />
       </section>
 
       <section className='pt-10'>
         <h1 className='subtitle'>My Cars for Rent</h1>
-        <CarsDispalySection
-          hideButton={true}
-          editIcon={true}
-          carsData={cars.data}
-        />
+        <CarsDispalySection hideButton={true} editIcon={true} />
       </section>
 
       <section className='pt-10'>
