@@ -165,20 +165,24 @@ export const showCurrentUser = async (req, res) => {
 };
 
 // remove delete car also, using daleteMany where userId = id
+// find a car by userId
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
   const userId = req.userId;
   try {
     const user = await UserModel.findById(id);
-
     if (!user) {
-      return res.send({ message: 'No user find' });
+      return res.send({ message: 'No user found' });
     }
 
     if (user.id === id) {
+      let deletedCars = await Car.deleteMany({ user: userId });
       const deletedUser = await UserModel.findByIdAndDelete(user.id);
-
-      return res.send({ message: 'User deleted', user });
+      return res.send({
+        message: 'User deleted',
+        deletedUser,
+        deletedCars,
+      });
     } else {
       return res
         .send(403)

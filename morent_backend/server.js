@@ -23,6 +23,7 @@ const corsAllowUrl =
     ? process.env.CLIENT_URL
     : 'https://cohort5-code-fam-car-rent.vercel.app';
 
+console.log(corsAllowUrl);
 // Middleware
 app.use(
   cors({
