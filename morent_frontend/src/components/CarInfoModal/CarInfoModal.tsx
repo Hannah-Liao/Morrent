@@ -60,38 +60,40 @@ const CarInfoModal: React.FC<CarInfoModalProps> = ({ open, data }) => {
             </div>
 
             {/* Small Images */}
-            <ul className='flex-1 basis-1/4 flex justify-between gap-1 lg:gap-6'>
-              {data.carImages.map((image, i) => (
-                <li
-                  key={image}
-                  className={`max-h-[128px] flex-1 basis-1/3 rounded-[10px] ${
-                    activeImageIndex === i + 1
-                      ? `p-2 border-2 border-blue-500 ease-out duration-150`
-                      : 'p-2 border-2 border-transparent'
-                  }`}
-                >
-                  {data.carImages[i] ? (
-                    <img
-                      src={data.carImages[i]}
-                      alt='Car View 1 Small'
-                      aria-label='Car View 1 Small'
-                      style={{ backgroundImage: `url(${blueBackground})` }}
-                      className='w-full h-full object-cover aspect-square rounded-[10px] cursor-pointer'
-                      onClick={() => setActiveImageIndex(i + 1)}
-                    />
-                  ) : (
-                    <div
-                      style={{ backgroundImage: `url(${blueBackground})` }}
-                      className='noImageDiv'
-                    >
-                      <h2 className='flex-1 text-white p-5 text-xs'>
-                        No Image
-                      </h2>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
+            {data.carImages.length > 1 && (
+              <ul className='flex-1 basis-1/4 flex justify-between gap-1 lg:gap-6'>
+                {data.carImages.map((image, i) => (
+                  <li
+                    key={image[i]}
+                    className={`max-h-[128px] flex-1 basis-1/3 rounded-[10px] ${
+                      activeImageIndex === i + 1
+                        ? `p-2 border-2 border-blue-500 ease-out duration-150`
+                        : 'p-2 border-2 border-transparent'
+                    }`}
+                  >
+                    {data.carImages[i] ? (
+                      <img
+                        src={data.carImages[i]}
+                        alt='Car View 1 Small'
+                        aria-label='Car View 1 Small'
+                        style={{ backgroundImage: `url(${blueBackground})` }}
+                        className='w-full h-full object-cover aspect-square rounded-[10px] cursor-pointer'
+                        onClick={() => setActiveImageIndex(i + 1)}
+                      />
+                    ) : (
+                      <div
+                        style={{ backgroundImage: `url(${blueBackground})` }}
+                        className='noImageDiv'
+                      >
+                        <h2 className='flex-1 text-white p-5 text-xs'>
+                          No Image
+                        </h2>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div className='flex-2 basis-1/2 p-4 md:p-6'>
