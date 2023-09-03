@@ -27,7 +27,7 @@ const corsAllowUrl =
 app.use(
   cors({
     credentials: true,
-    origin: corsAllowUrl,
+    origin: '*',
   })
 );
 app.use(
@@ -39,7 +39,7 @@ app.use(
 );
 
 const setCorsHeaders = (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', corsAllowUrl);
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE'
