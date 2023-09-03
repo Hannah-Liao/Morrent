@@ -1,9 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {
-  useDispatch,
-  // useSelector
-} from 'react-redux';
+// import { useEffect, useState } from 'react';
+// import {useDispatch, useSelector} from 'react-redux';
 
 import {
   Canceled,
@@ -21,49 +18,54 @@ import {
   Failed,
 } from './pages';
 import { NavBar, Footer } from './components';
-import { setCurrentUser } from './slice/authSlice';
+// import { setCurrentUser } from './slice/authSlice';
 import ProtectedRoutes from './utils/ProtectedRoutes';
+// import { RootState } from './store/store';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(false);
-
-  // const { userID } = useSelector((state) => {
-  //   return state.authSlice;
+  // const dispatch = useDispatch();
+  // const { userID } = useSelector((state: RootState) => {
+  // return state.authSlice;
   // });
-  // console.log(userID);
 
-  // const logIn = () => {
-  //   setIsLoggedIn(true);
+  // const [user, setUser] = useState(userID);
+  // console.log(userID, 'UserID');
+
+  // const { isLoggedIn, userId } = useSelector(
+  //   (state: { userInfo: { isLoggedIn: boolean; userId: string } }) => {
+  //     console.log(state.userInfo, 'test');
+  //     return state.userInfo;
+  //   },
+  // );
+
+  // dispatch(
+  //   setCurrentUser({
+  //     userID: user,
+  //   }),
+  // );
+
+  // const getUser = async () => {
+  //   try {
+  //     const res = await fetch('http://localhost:8004/api/user/current-user', {
+  //       credentials: 'include',
+  //     });
+  //     const data = await res.json();
+  //     setUser(data.userID);
+  //     console.log(data);
+  //   } catch (error) {
+  //     setUser(null);
+  //   }
   // };
-  // const logOut = () => {
-  //   setIsLoggedIn(false);
-  // };
 
-  dispatch(
-    setCurrentUser({
-      userID: user,
-    }),
-  );
+  // useEffect(() => {
+  //   getUser().then((userData) => {
+  //     dispatch(setCurrentUser({ userID: userData }));
+  //   });
+  // }, [dispatch]);
 
-  const getUser = async () => {
-    try {
-      const res = await fetch('http://localhost:8004/api/user/current-user', {
-        credentials: 'include',
-      });
-      const data = await res.json();
-
-      setUser(data.userID);
-    } catch (error) {
-      // console.log(error);
-      setUser(null);
-    }
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
   return (
     <main>
@@ -74,7 +76,7 @@ const App = () => {
             <Route
               path='add-car'
               element={
-                <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                <ProtectedRoutes>
                   <AddCar />
                 </ProtectedRoutes>
               }
@@ -84,7 +86,7 @@ const App = () => {
               index
               path='/'
               element={
-                <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                <ProtectedRoutes>
                   <Home />
                 </ProtectedRoutes>
               }
@@ -92,7 +94,7 @@ const App = () => {
             <Route
               path='/checkout'
               element={
-                <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                <ProtectedRoutes>
                   <Checkout />
                 </ProtectedRoutes>
               }
@@ -101,7 +103,7 @@ const App = () => {
             <Route
               path='/edit-car/:id'
               element={
-                <ProtectedRoutes isLoggedIn={isLoggedIn}>
+                <ProtectedRoutes>
                   <EditCar />
                 </ProtectedRoutes>
               }
