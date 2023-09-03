@@ -11,8 +11,6 @@ interface ProtectedRoutesProps {
 const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => {
   const { data, isLoading, error } = useGetCurrentUserQuery();
 
-  if (error) console.log(error);
-
   if (isLoading) return <Loader />;
 
   let canAccess = false;
