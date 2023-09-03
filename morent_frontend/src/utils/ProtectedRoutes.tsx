@@ -19,7 +19,6 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => {
     canAccess = true;
   }
 
-  // Render the children only when userID is not null (authenticated)
   return <>{canAccess ? children : <Navigate to='/login' replace />}</>;
 };
 
