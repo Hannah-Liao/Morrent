@@ -77,7 +77,9 @@ export default function Search() {
         </div>
         <PickDropForm isShow={false} />
         <>
-          {cars?.cars.length > 0 && <h2 className='py-3'>Search Result</h2>}
+          {cars?.cars.length > 0 && (
+            <h2 className='py-3 text-black dark:text-white'>Search Result</h2>
+          )}
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 1xl:grid-cols-2 xl:grid-cols-3 gap-8 justify-center pt-9'>
             {carsWithFav?.map((car) => (
               <div key={car.price} className='w-full sm:max-w-xs md:max-w-full'>
