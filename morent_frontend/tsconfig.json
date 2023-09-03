@@ -19,8 +19,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "exclude": ["node_modules", "dist", "build", "./src/components/ui/**"],
   "include": ["src"],
+  "exclude": ["node_modules", "dist", "build", "src/components/ui/**"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "@/*": ["./src/*"]
 }
