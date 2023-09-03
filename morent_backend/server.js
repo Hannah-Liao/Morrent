@@ -19,7 +19,9 @@ const __dirname = dirname(__filename);
 const app = express();
 
 const corsAllowUrl =
-  process.env.NODE_ENV === 'dev' ? process.env.CLIENT_URL : '';
+  process.env.NODE_ENV === 'dev'
+    ? process.env.CLIENT_URL
+    : 'https://cohort5-code-fam-car-rent.vercel.app';
 
 // Middleware
 app.use(
@@ -51,16 +53,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(setCorsHeaders);
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'uploads')));
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from the server!' });
+});
+
 app.use('/uploads', express.static('uploads'));
 
 app.use('/api/car', carRouter);
 app.use('/api/user', userRouter);
 app.use('/', checkout);
 app.use('/webhook', webhook);
-
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello from the server!' });
-});
 
 // stripe
 app.use('/', checkout);
