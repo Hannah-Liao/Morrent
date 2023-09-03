@@ -29,7 +29,7 @@ const CarsDispalySection: FC<props> = ({
           />
         ))
       ) : (
-        <p className='text-xs'>No cars to show</p>
+        <p className='text-xs text-black dark:text-white'>No cars to show</p>
       )}
     </div>
   );

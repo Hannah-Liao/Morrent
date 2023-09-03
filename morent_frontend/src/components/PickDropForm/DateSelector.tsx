@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 type DateSelectorProps = {
   value: string | Date;
-  onChange: (...event: any[]) => void;
+  onChange: (...event: string[]) => void;
 };
 
 export default function DateSelector({ value, onChange }: DateSelectorProps) {
