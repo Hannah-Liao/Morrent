@@ -1,24 +1,3 @@
-// import React, { ReactNode } from 'react';
-// import { Navigate } from 'react-router-dom';
-
-// interface ProtectedRoutesProps {
-//   children: ReactNode;
-//   userID: string | null;
-// }
-
-// const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({
-//   userID,
-//   children,
-// }) => {
-//   if (!userID) {
-//     return <Navigate to='/login' replace />;
-//   }
-
-//   return <>{children}</>;
-// };
-
-// export default ProtectedRoutes;
-
 import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useGetCurrentUserQuery } from '../services/api';
@@ -34,9 +13,8 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => {
 
   if (isLoading) return <h1>hello World</h1>;
 
-  console.log(data, 'user fetch custom');
   let canAccess = false;
-  if (data?.userID) {
+  if (data?.userId) {
     canAccess = true;
   }
 

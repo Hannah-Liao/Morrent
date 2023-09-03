@@ -36,8 +36,6 @@ const ProfileDetail = () => {
     };
   });
 
-  console.log(cars.data);
-
   return (
     <main>
       <section>

@@ -33,6 +33,7 @@ const App = () => {
   useEffect(() => {
     async function validateCurrentUser() {
       const currentUser = await getCurrentUser({});
+      console.log(currentUser);
       if (currentUser?.data?.userId) {
         dispatch(
           updateLogin({
@@ -88,13 +89,48 @@ const App = () => {
             />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
-            <Route path='/signup' element={<SignUp />} />
-            <Route path='/search' element={<Search />} />
-            <Route path='/success' element={<Success />} />
-            <Route path='/cancel' element={<Canceled />} />
+
+            <Route
+              path='/search'
+              element={
+                <ProtectedRoutes>
+                  <Search />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path='/success'
+              element={
+                <ProtectedRoutes>
+                  <Success />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path='/cancel'
+              element={
+                <ProtectedRoutes>
+                  <Canceled />
+                </ProtectedRoutes>
+              }
+            />
             <Route path='/error' element={<Failed />} />
-            <Route path='/edit-profile' element={<EditProfile />} />
-            <Route path='/profile' element={<ProfileDetail />} />
+            <Route
+              path='/edit-profile'
+              element={
+                <ProtectedRoutes>
+                  <EditProfile />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path='/profile'
+              element={
+                <ProtectedRoutes>
+                  <ProfileDetail />
+                </ProtectedRoutes>
+              }
+            />
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </div>
