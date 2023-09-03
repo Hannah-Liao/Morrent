@@ -251,7 +251,7 @@
   }
 
   .cardSubtitle {
-    @apply md:body-bold font-medium text-[12px] text-gray-400 line-clamp-1;
+    @apply md:body-bold font-medium text-[12px] uppercase text-gray-400 line-clamp-1;
   }
 
   .isFavoritedIcon {
