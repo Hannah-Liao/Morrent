@@ -23,6 +23,7 @@ const corsAllowUrl =
     ? process.env.CLIENT_URL
     : 'https://cohort5-code-fam-car-rent.vercel.app';
 
+console.log(corsAllowUrl);
 // Middleware
 app.use(
   cors({
@@ -70,6 +71,15 @@ app.use('/', checkout);
 
 // Files upload
 app.use('/', filesUpload);
+
+// // connect db
+// connectToDatabase()
+//   .then(() => {
+//     app.listen(8004, () => console.log('Server is running on port 8004'));
+//   })
+//   .catch((error) => {
+//     console.error('Error connecting to database. Server not started.');
+//   });
 
 const port = process.env.PORT || 8004;
 app.listen(port, async () => {

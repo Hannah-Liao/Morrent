@@ -1,15 +1,15 @@
-import { useSelector } from 'react-redux';
-
+// import { useSelector } from 'react-redux';
 import { useGetUserByIdQuery } from '../services/api';
 import { EditProfileForm } from '../components';
 
 const EditProfile = () => {
   const { data, isError, isFetching } = useGetUserByIdQuery();
 
-  const { userID } = useSelector((state) => {
-    return state.authSlice;
-  });
-  console.log('here', userID);
+  // Declined commenting code while merging
+  // const { userID } = useSelector((state) => {
+  //   return state.authSlice;
+  // });
+  // console.log('here', userID);
 
   if (isFetching) return <h1>loading</h1>;
   if (isError) return <h1>error</h1>;

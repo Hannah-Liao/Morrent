@@ -95,7 +95,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                 >
                   <FormLabel
                     title={data.label}
-                    className={`text-sm lg:text-xs font-semibold inline-flex truncate  items-center gap-1 text-gray-900 dark:text-white w-full ${
+                    className={`text-sm lg:text-[16px] font-semibold inline-flex truncate items-center gap-2 text-gray-900 dark:text-white w-full ${
                       data.key === 'availabilityTimeFrom' ||
                       data.key === 'availabilityTimeTo'
                         ? 'pt-[25px]'

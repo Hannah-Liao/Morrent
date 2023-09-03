@@ -4,7 +4,7 @@ import { CarDataInfo } from '../types/carInfo';
 export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8004',
+    baseUrl: import.meta.env.VITE_SERVER_URL,
     credentials: 'include',
   }),
   tagTypes: ['Car'],

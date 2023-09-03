@@ -22,6 +22,7 @@ import { useLazyGetCurrentUserQuery } from './services/api';
 import { updateLogin } from './slice/loginSlice';
 import { RootState } from './store/store';
 import { CarDataInfo } from './types/carInfo';
+import ProtectedRoutes from './utils/ProtectedRoutes';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const App = () => {
   useEffect(() => {
     async function validateCurrentUser() {
       const currentUser = await getCurrentUser({});
+      console.log(currentUser);
       if (currentUser?.data?.userId) {
         dispatch(
           updateLogin({
@@ -50,19 +52,86 @@ const App = () => {
       <div className='w-full bg-white-200 dark:bg-gray-900'>
         <div className='w-full max-container p-[2%]'>
           <Routes>
+            <Route
+              path='add-car'
+              element={
+                <ProtectedRoutes>
+                  <AddCar />
+                </ProtectedRoutes>
+              }
+            />
+
+            <Route
+              index
+              path='/'
+              element={
+                <ProtectedRoutes>
+                  <Home />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path='/checkout'
+              element={
+                <ProtectedRoutes>
+                  <Checkout />
+                </ProtectedRoutes>
+              }
+            />
+
+            <Route
+              path='/edit-car/:id'
+              element={
+                <ProtectedRoutes>
+                  <EditCar />
+                </ProtectedRoutes>
+              }
+            />
+
+            <Route
+              path='/search'
+              element={
+                <ProtectedRoutes>
+                  <Search />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path='/success'
+              element={
+                <ProtectedRoutes>
+                  <Success />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path='/cancel'
+              element={
+                <ProtectedRoutes>
+                  <Canceled />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path='/error' element={<Failed />} />
+            <Route
+              path='/edit-profile'
+              element={
+                <ProtectedRoutes>
+                  <EditProfile />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path='/profile'
+              element={
+                <ProtectedRoutes>
+                  <ProfileDetail />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path='*' element={<NotFoundPage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
-            <Route index element={<Home />} />
-            <Route path='/checkout' element={<Checkout />} />
-            <Route path='add-car' element={<AddCar />} />
-            <Route path='/edit-car/:id' element={<EditCar />} />
-            <Route path='/search' element={<Search />} />
-            <Route path='/success' element={<Success />} />
-            <Route path='/cancel' element={<Canceled />} />
-            <Route path='/error' element={<Failed />} />
-            <Route path='/edit-profile' element={<EditProfile />} />
-            <Route path='/profile' element={<ProfileDetail />} />
-            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </div>
       </div>
