@@ -68,6 +68,7 @@ app.use('/', checkout);
 // Files upload
 app.use('/', filesUpload);
 
+// connect db
 connectToDatabase()
   .then(() => {
     app.listen(8004, () => console.log('Server is running on port 8004'));

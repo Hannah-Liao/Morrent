@@ -85,6 +85,13 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    updateUser: builder.mutation({
+      query: (user) => ({
+        url: 'api/user/update-user',
+        method: 'PUT',
+        body: user,
+      }),
+    }),
     getUserById: builder.query({
       query: () => 'api/user/profile',
     }),
@@ -137,6 +144,7 @@ export const {
   useSignupMutation,
   useLoginMutation,
   useLogoutMutation,
+  useUpdateUserMutation,
   useGetUserByIdQuery,
   useGetCarsByUserQuery,
   useGetFavCarsQuery,

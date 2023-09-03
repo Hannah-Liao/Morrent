@@ -12,6 +12,7 @@ export { default as CarForm } from './CarForm/CarForm';
 export { default as LoginForm } from './LoginForm/LoginForm';
 export { default as SignUpForm } from './SignUpForm/SignUpForm';
 export { default as ButtonWithSpinner } from './ButtonWithSpinner/ButtonWithSpinner';
+export { default as EditProfileForm } from './EditProfileForm/EditProfileForm';
 export { default as Pagination } from './Pagination/Pagination';
 export { default as Filter } from './Filter/Filter';
 export { default as SearchInput } from './SearchInput/SearchInput';

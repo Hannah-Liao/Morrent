@@ -91,22 +91,33 @@ const NavBar = () => {
             <Link
               to={isLoggedIn ? '/profile' : '/login'}
               className='mobileLoginBtn min-full min-h-[49px] px-9 p-semibold rounded'
-              onClick={() => {
-                dispatch(
-                  updateLogin({
-                    isLoggedIn: false,
-                    userId: null,
-                  }),
-                );
-              }}
+              onClick={() => setOpen(false)}
             >
-              <img
-                src={profileImg}
-                alt='user profile photo'
-                className='w-5 h-5 mr-1.5 rounded-[90px]'
-              />
+              {isLoggedIn && (
+                <img
+                  src={profileImg}
+                  alt='user profile photo'
+                  className='w-5 h-5 mr-1.5 rounded-[90px]'
+                />
+              )}
               {isLoggedIn ? 'My Profile' : 'Login'}
             </Link>
+            {isLoggedIn && (
+              <button
+                className='removeBtn min-full min-h-[49px] px-9 p-semibold rounded'
+                onClick={() => {
+                  setOpen(false);
+                  dispatch(
+                    updateLogin({
+                      isLoggedIn: false,
+                      userId: null,
+                    }),
+                  );
+                }}
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </div>
