@@ -34,6 +34,8 @@ export default function Filter({ setIsOpen, setTitle, title }: Props) {
         }/api/car?title=${title}&price=${selectedPrice}&type=${type}&capacity=${capacity}`,
       );
       const datas = await res.json();
+      console.log(datas);
+
       if (datas.cars.length < 1) {
         toast({
           variant: 'destructive',
@@ -41,10 +43,14 @@ export default function Filter({ setIsOpen, setTitle, title }: Props) {
           title: 'We can not find cars that you are looking for',
         });
       }
-      dispatch(setCarSearchResults(datas?.cars));
+      dispatch(setCarSearchResults(datas.cars));
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error.message);
+        toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: error.message,
+        });
       }
     }
   };

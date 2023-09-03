@@ -84,12 +84,23 @@ const ProfileDetail = () => {
 
       <section className='pt-10'>
         <h1 className='subtitle'>Rented Cars</h1>
-        <CarsDispalySection />
+        <CarsDispalySection carsData={data.rentedCars} />
       </section>
 
       <section className='pt-10'>
         <h1 className='subtitle'>My Cars for Rent</h1>
-        <CarsDispalySection hideButton={true} editIcon={true} />
+        <CarsDispalySection
+          hideButton={true}
+          editIcon={true}
+          carsData={cars?.data}
+        />
+      </section>
+      <section className='pt-10'>
+        <h1 className='subtitle'>Favorite Cars</h1>
+        <CarsDispalySection
+          carsData={finalCarsData?.length > 0 && finalCarsData}
+          afterFavClick={refetchUserFavCars}
+        />
       </section>
       <Link
         to='/add-car'

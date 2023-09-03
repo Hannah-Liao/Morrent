@@ -23,7 +23,6 @@ export default function Search() {
   const { cars } = useSelector(
     ({ CarSearchResults }: RootState) => CarSearchResults,
   );
-
   const {
     data: userFavCars,
     isSuccess: isFavCarsSuccess,
@@ -38,14 +37,11 @@ export default function Search() {
   if (isLoading) return <Loader />;
   if (isError) return <p>Error...</p>;
 
-  const addIsFavToCars = (
-    cars: { cars: CarDataInfo[] },
-    favCars?: CarDataInfo[],
-  ) => {
+  const addIsFavToCars = (cars?: CarDataInfo[], favCars?: CarDataInfo[]) => {
     if (!userId) return cars;
     if (!favCars && !isFavCarsSuccess) return cars;
 
-    return cars?.cars?.map((car) => {
+    return cars?.map((car) => {
       if (favCars?.map((c) => c['_id']).includes(car['_id'])) {
         return {
           ...car,
@@ -63,7 +59,7 @@ export default function Search() {
   if (isLoading) return <Loader />;
   if (isError) return <ServerError />;
 
-  const carsWithFav = addIsFavToCars(cars, userFavCars?.favCars);
+  const carsWithFav = addIsFavToCars(cars?.cars, userFavCars?.favCars);
   const dataWithFav = addIsFavToCars(data?.cars, userFavCars?.favCars);
 
   return (
@@ -80,30 +76,23 @@ export default function Search() {
           <SearchInput setIsOpen={setIsOpen} setTitle={setTitle} />
         </div>
         <PickDropForm isShow={false} />
-        {cars?.cars?.length > 1 && (
-          <>
-            <h2 className='py-3'>Search Result</h2>
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 1xl:grid-cols-2 xl:grid-cols-3 gap-8 justify-center pt-9'>
-              {/*@ts-ignore  */}
-              {carsWithFav?.map((car) => (
-                <div
-                  key={car.price}
-                  className='w-full sm:max-w-xs md:max-w-full'
-                >
-                  <CarCard
-                    data={car}
-                    key={car._id}
-                    shouldOpenModal={true}
-                    hideButton={false}
-                    afterFavClick={refetchFavCars}
-                  />
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        <>
+          {cars?.cars.length > 0 && <h2 className='py-3'>Search Result</h2>}
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 1xl:grid-cols-2 xl:grid-cols-3 gap-8 justify-center pt-9'>
+            {carsWithFav?.map((car) => (
+              <div key={car.price} className='w-full sm:max-w-xs md:max-w-full'>
+                <CarCard
+                  data={car}
+                  key={car._id}
+                  shouldOpenModal={true}
+                  hideButton={false}
+                  afterFavClick={refetchFavCars}
+                />
+              </div>
+            ))}
+          </div>
+        </>
         <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 1xl:grid-cols-2 xl:grid-cols-3 gap-8 justify-center pt-9'>
-          {/* @ts-ignore */}
           {dataWithFav?.map((car) => (
             <div key={car.price} className='w-full sm:max-w-xs md:max-w-full'>
               <CarCard

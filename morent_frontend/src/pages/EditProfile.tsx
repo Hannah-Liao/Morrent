@@ -3,13 +3,7 @@ import { useGetUserByIdQuery } from '../services/api';
 import { EditProfileForm } from '../components';
 
 const EditProfile = () => {
-  const { data, isError, isFetching } = useGetUserByIdQuery();
-
-  // Declined commenting code while merging
-  // const { userID } = useSelector((state) => {
-  //   return state.authSlice;
-  // });
-  // console.log('here', userID);
+  const { data, isError, isFetching } = useGetUserByIdQuery('');
 
   if (isFetching) return <h1>loading</h1>;
   if (isError) return <h1>error</h1>;

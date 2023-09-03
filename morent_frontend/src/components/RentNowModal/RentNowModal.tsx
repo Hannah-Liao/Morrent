@@ -101,8 +101,6 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      console.log(modalData);
-
       const SERVER_URL = import.meta.env.VITE_SERVER_URL;
       const res = await fetch(`${SERVER_URL}/checkout`, {
         method: 'POST',
@@ -304,7 +302,9 @@ const RentNowModal: React.FC<RentNowModalProps> = ({ open }) => {
               type='submit'
               className='btn rounded-[10px] w-full h-[56px] p-bold  mb-[18px]'
             >
-              Rent Now
+              {modalData && modalData?.rentedDateTo > today
+                ? 'Unavailable'
+                : 'Rent Now'}
             </Button>
           </form>
         </Form>
