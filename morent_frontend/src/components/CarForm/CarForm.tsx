@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Button } from '../ui/button';
 import {
@@ -46,7 +45,9 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const [images, setImages] = useState([]);
 
   // preview images in edit car page
-  const [existImages, setExistImages] = useState<Array<{ url: string }>>([]);
+  const [existImages, setExistImages] = useState<
+    Array<{ url: string; file: File | null }>
+  >([]);
   const fillterImages = existImages.filter((item) => item.url[0][0] !== 'b');
   const imgFormData = fillterImages.map((item) => item.url);
 
@@ -54,17 +55,10 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const [selectedImages, setSelectedImages] = useState<
     Array<{ url: string; file: File | null }>
   >([]);
-  console.log('new', images);
-  console.log(existImages);
-  console.log('data', imgFormData);
+
   const [addCar] = useAddCarMutation();
   const [updateCar] = useUpdateCarMutation();
   const [deleteCar] = useDeleteCarMutation();
-
-  const { userID } = useSelector((state) => {
-    return state.authSlice;
-  });
-  console.log('here', userID);
 
   useEffect(() => {
     const url2: Array<{ url: string; file: File | null }> = [];
@@ -135,7 +129,7 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
     } else {
       updateCar({ car: formData, carID: carID });
     }
-    navigate(`/profile/${userID}`);
+    navigate('/profile');
   };
 
   return (

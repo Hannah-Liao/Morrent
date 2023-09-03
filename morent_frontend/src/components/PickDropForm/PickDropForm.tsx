@@ -1,12 +1,16 @@
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { FormField, FormItem, FormLabel, Form, FormMessage } from '../ui/form';
 import { formData } from '../../constant';
 import SubmitButton from './SubmitButton';
 import LocationSelect from './Location';
 import DateSelector from './DateSelector';
+import { useToast } from '../ui/use-toast';
+import { setCarSearchResults } from '../../slice/filterResults';
 
 export const formSchema = z.object({
   location: z.string(),
@@ -19,11 +23,55 @@ type PickDropFormProps = {
 };
 
 export default function PickDropForm({ isShow }: PickDropFormProps) {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const dispatch = useDispatch();
+
   const searchForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const today = new Date();
+      const userDate = new Date(data.availabilityFrom);
+
+      const isGreaterThanNow = userDate.getDate() > today.getDate();
+      if (!isGreaterThanNow) {
+        return toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: 'Date can not in the past',
+        });
+      }
+      const res = await fetch(
+        `${
+          import.meta.env.VITE_SERVER_URL
+        }/api/car?page=1&pageSize=10&location=${
+          data.location
+        }&availabilityFrom=${data.availabilityFrom}&availabilityTo=${
+          data.availabilityTo
+        }`,
+      );
+      const datas = await res.json();
+      if (datas.cars.length < 1) {
+        toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: 'We can not find cars that you are looking for',
+        });
+      }
+      dispatch(setCarSearchResults(datas));
+      navigate('/search');
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          className: 'text-black dark:text-white-100',
+          title: error.message,
+        });
+      }
+    }
+  };
 
   return (
     <Form {...searchForm}>
@@ -67,6 +115,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                   </FormLabel>
 
                   {data.key === 'location' ? (
+                    // @ts-ignore
                     <LocationSelect form={searchForm} />
                   ) : (
                     <DateSelector

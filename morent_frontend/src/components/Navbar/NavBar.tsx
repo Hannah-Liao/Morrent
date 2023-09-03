@@ -44,7 +44,7 @@ const NavBar = () => {
   }, [lastScrollY]);
 
   return (
-    <header className='fixed w-full z-50 md:border-b md:border-[#C3D4E966] bg-white dark:bg-gray-900 min-h-[92px] md:min-h-[100px]'>
+    <header className=' w-full sticky z-10 top-0 md:border-b md:border-[#C3D4E966] bg-white dark:bg-gray-900 min-h-[92px] md:min-h-[100px]'>
       <div className='max-container flex justify-between items-start px-[20px] md:px-[60px] py-[32px] md:py-[28px] '>
         <Logo />
         <div className='flex-center flex-row-reverse md:flex-row gap-6'>
@@ -89,24 +89,35 @@ const NavBar = () => {
 
           <div className='flex flex-col gap-2.5 my-5'>
             <Link
-              to={isLoggedIn ? '/profile/:id' : '/login'}
+              to={isLoggedIn ? '/profile' : '/login'}
               className='mobileLoginBtn min-full min-h-[49px] px-9 p-semibold rounded'
-              onClick={() => {
-                dispatch(
-                  updateLogin({
-                    isLoggedIn: false,
-                    userId: null,
-                  }),
-                );
-              }}
+              onClick={() => setOpen(false)}
             >
-              <img
-                src={profileImg}
-                alt='user profile photo'
-                className='w-5 h-5 mr-1.5 rounded-[90px]'
-              />
+              {isLoggedIn && (
+                <img
+                  src={profileImg}
+                  alt='user profile photo'
+                  className='w-5 h-5 mr-1.5 rounded-[90px]'
+                />
+              )}
               {isLoggedIn ? 'My Profile' : 'Login'}
             </Link>
+            {isLoggedIn && (
+              <button
+                className='removeBtn min-full min-h-[49px] px-9 p-semibold rounded'
+                onClick={() => {
+                  setOpen(false);
+                  dispatch(
+                    updateLogin({
+                      isLoggedIn: false,
+                      userId: null,
+                    }),
+                  );
+                }}
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </div>

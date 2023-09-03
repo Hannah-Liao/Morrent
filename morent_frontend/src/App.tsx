@@ -21,6 +21,7 @@ import { NavBar, Footer, CarInfoModal, RentNowModal } from './components';
 import { useLazyGetCurrentUserQuery } from './services/api';
 import { updateLogin } from './slice/loginSlice';
 import { RootState } from './store/store';
+import { CarDataInfo } from './types/carInfo';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,12 +48,11 @@ const App = () => {
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2.5%] pt-[124px] md:pt-[132px]'>
+        <div className='w-full max-container p-[2%]'>
           <Routes>
-            <Route index path='/' element={<Home />} />
-            <Route path='/signup' element={<SignUp />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route index element={<Home />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='add-car' element={<AddCar />} />
             <Route path='/edit-car/:id' element={<EditCar />} />
@@ -71,7 +71,7 @@ const App = () => {
       {/* Car Info Modal */}
       <CarInfoModal
         open={modalInfo.activeModalName === 'car_info'}
-        data={modalInfo.modalData}
+        data={modalInfo.modalData as CarDataInfo}
       />
 
       {/* Rent Now Modal */}

@@ -15,7 +15,7 @@ import profileImg from '../../assets/images/profile.png';
 import { updateLogin } from '../../slice/loginSlice';
 import { useLogoutMutation } from '../../services/api';
 
-const ProfileMenu: React.FC = () => {
+const ProfileMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();

@@ -51,9 +51,8 @@ const CarCard: React.FC<CarCardProps> = ({
   };
 
   return (
-    <div className='cardContainer'>
-      {/* Card Title Section */}
-      <header className='flex justify-between items-start p-[24px] pb-0'>
+    <div className='carCard'>
+      <header className='flex justify-between items-start p-[24px] pb-3'>
         <div className='flex-1'>
           <h3 className='cardTitle capitalize'>{lowerCase(data.title)}</h3>
           <h4 className='cardSubtitle uppercase'>{data.carType}</h4>
@@ -94,27 +93,28 @@ const CarCard: React.FC<CarCardProps> = ({
         )}
       </header>
 
-      {/* Car Image and Stats Section */}
-      <div className='flex justify-between items-center lg:flex-col'>
-        {/* Car Image with Shadow*/}
-        <div className='basis-2/3 lg:w-full mx-auto py-[20px] lg:py-[40px]'>
+      <div className='flex justify-between items-center flex-col'>
+        <div className='w-full lg:w-full mx-auto relative '>
           <div
             style={{ backgroundImage: `url(${data.carImages[0]})` }}
             className='cardImage'
           >
-            <div className='mt-10 dark:opacity-0'>
-              <img
-                className='h-[64px] w-full'
-                src={carShadow}
-                alt='Shadow overlay'
-              />
-            </div>
+            <img
+              className='h-[64px] w-full opacity:90 mt-10 dark:opacity-0 absolute bottom-0 left-0 right-0'
+              src={carShadow}
+              alt='Shadow overlay'
+            />
           </div>
         </div>
-        {/* Stats Section */}
-        <ul className='cardIconContainer'>
+        {/* Stats*/}
+        <ul className='cardIconContainer flex-row w-full mb-2 mt-5 body-medium px-4 sm:px-6'>
           <li className='cardIconItem'>
-            <img src={gasStation} alt='Gas Station Icon' className='cardIcon' />
+            <img
+              src={gasStation}
+              alt='Gas Station Icon'
+              className='cardIcon'
+              aria-label='Gas Station Icon'
+            />
             <span>{data.fuelTankSize}L</span>
           </li>
           <li className='cardIconItem'>
@@ -122,13 +122,19 @@ const CarCard: React.FC<CarCardProps> = ({
               src={transmission}
               alt='Transmission Icon'
               className='cardIcon'
+              aria-label='Transmission Icon'
             />
             <span className='capitalize'>
               {lowerCase(data.transmissionType)}
             </span>
           </li>
           <li className='cardIconItem'>
-            <img src={people} alt='People Icon' className='cardIcon' />
+            <img
+              src={people}
+              alt='People Icon'
+              className='cardIcon'
+              aria-label='People Icon'
+            />
             <span>
               {data.capacity > 1
                 ? `${data.capacity} People`

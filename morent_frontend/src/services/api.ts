@@ -4,9 +4,11 @@ import { CarDataInfo } from '../types/carInfo';
 export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8004/',
+    baseUrl: 'http://localhost:8004',
     credentials: 'include',
   }),
+  tagTypes: ['Car'],
+
   endpoints: (builder) => ({
     getCarList: builder.query({
       query: (
@@ -24,13 +26,6 @@ export const api = createApi({
 
         return `/api/car?${queryString}`;
       },
-    }),
-    getCars: builder.query({
-      query: (params) => ({
-        url: 'api/car',
-        method: 'GET',
-        params,
-      }),
     }),
     getCurrentUser: builder.query({
       query: () => 'api/user/current-user',
@@ -90,6 +85,19 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+    updateUser: builder.mutation({
+      query: (user) => ({
+        url: 'api/user/update-user',
+        method: 'PUT',
+        body: user,
+      }),
+    }),
+    getUserById: builder.query({
+      query: () => 'api/user/profile',
+    }),
+    getCarsByUser: builder.query({
+      query: () => 'api/car/cars-by-user',
+    }),
     getFavCars: builder.query({
       query: (userId) => {
         return {
@@ -127,7 +135,6 @@ export const api = createApi({
 export const {
   useGetPopularCarsQuery,
   useGetCarListQuery,
-  useGetCarsQuery,
   useGetSingleCarQuery,
   useGetCurrentUserQuery,
   useLazyGetCurrentUserQuery,
@@ -137,6 +144,9 @@ export const {
   useSignupMutation,
   useLoginMutation,
   useLogoutMutation,
+  useUpdateUserMutation,
+  useGetUserByIdQuery,
+  useGetCarsByUserQuery,
   useGetFavCarsQuery,
   useAddFavCarMutation,
   useDeleteFavCarMutation,

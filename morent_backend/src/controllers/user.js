@@ -123,10 +123,19 @@ export const logout = (req, res) => {
 
 // Update user
 export const updateUser = async (req, res) => {
-  const { id } = req.params;
+  const { firstName, lastName, phoneNumber, address, profileImage } = req.body;
+
+  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+
   const userId = req.userId;
 
-  const updatedUserData = req.body;
+  const updatedUserData = {
+    name: `${firstName} ${lastName}`,
+    phoneNumber,
+    address,
+    profileImage: files ? files[0] : profileImage,
+  };
+
   try {
     const userData = await UserModel.findById(userId);
 
@@ -135,21 +144,15 @@ export const updateUser = async (req, res) => {
         message: 'User not found',
       });
     }
-    if (userData.id === id) {
-      // Find the user by ID
-      const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
-        new: true,
-      });
 
-      return res.status(200).json({
-        message: 'User updated successfully',
-        user: user,
-      });
-    } else {
-      return res.status(404).json({
-        message: 'This data not belong logged user',
-      });
-    }
+    const user = await UserModel.findByIdAndUpdate(userId, updatedUserData, {
+      new: true,
+    });
+
+    return res.status(200).json({
+      message: 'User updated successfully',
+      user: user,
+    });
   } catch (error) {
     return res.status(500).json({
       message: 'Internal server error',
@@ -201,5 +204,24 @@ export const viewUsers = async (req, res) => {
   }
 };
 
-// for one single user profile. Get one single info(like list of cars he added. etc)
-// Use clockify
+export const getUserById = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId).populate('rentedCars');
+
+    if (!user)
+      return res.json({
+        error: true,
+        message: 'We can not find that user!',
+      });
+
+    const toObj = user.toObject();
+    const { password, ...rest } = toObj;
+
+    return res.json(rest);
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: error.message,
+    });
+  }
+};
