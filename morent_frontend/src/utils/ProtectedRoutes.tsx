@@ -31,6 +31,7 @@ const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => {
   const { data, isLoading, error } = useGetCurrentUserQuery();
 
   if (error) console.log(error);
+
   if (isLoading) return <h1>hello World</h1>;
 
   console.log(data, 'user fetch custom');
