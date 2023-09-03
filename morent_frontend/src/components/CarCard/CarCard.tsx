@@ -42,6 +42,10 @@ const CarCard: React.FC<CarCardProps> = ({
 
   if (!data) return;
 
+  function lowerCase(str: string) {
+    return str.toLowerCase();
+  }
+
   const goToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -51,8 +55,8 @@ const CarCard: React.FC<CarCardProps> = ({
       {/* Card Title Section */}
       <header className='flex justify-between items-start p-[24px] pb-0'>
         <div className='flex-1'>
-          <h3 className='cardTitle'>{data.title}</h3>
-          <h4 className='cardSubtitle'>{data.carType}</h4>
+          <h3 className='cardTitle capitalize'>{lowerCase(data.title)}</h3>
+          <h4 className='cardSubtitle uppercase'>{data.carType}</h4>
         </div>
         {isLoggedIn && (
           <>
@@ -119,8 +123,8 @@ const CarCard: React.FC<CarCardProps> = ({
               alt='Transmission Icon'
               className='cardIcon'
             />
-            <span className='first-letter:capitalize'>
-              {data.transmissionType}
+            <span className='capitalize'>
+              {lowerCase(data.transmissionType)}
             </span>
           </li>
           <li className='cardIconItem'>

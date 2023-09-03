@@ -66,7 +66,7 @@ const LoginForm = () => {
                 userId: userInfo.userId,
               }),
             );
-            navigate(`/profile/${userInfo.userId}`);
+            navigate(`/profile`);
           }
         });
     } catch (err) {
