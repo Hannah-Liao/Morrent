@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
-// import { useEffect, useState } from 'react';
-// import {useDispatch, useSelector} from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Canceled,
   Checkout,
   Home,
-  NotFound,
+  NotFoundPage,
   Search,
   Success,
   ProfileDetail,
@@ -17,61 +17,39 @@ import {
   Login,
   Failed,
 } from './pages';
-import { NavBar, Footer } from './components';
-// import { setCurrentUser } from './slice/authSlice';
+import { NavBar, Footer, CarInfoModal, RentNowModal } from './components';
+import { useLazyGetCurrentUserQuery } from './services/api';
+import { updateLogin } from './slice/loginSlice';
+import { RootState } from './store/store';
+import { CarDataInfo } from './types/carInfo';
 import ProtectedRoutes from './utils/ProtectedRoutes';
-// import { RootState } from './store/store';
 
 const App = () => {
-  // const dispatch = useDispatch();
-  // const { userID } = useSelector((state: RootState) => {
-  // return state.authSlice;
-  // });
+  const dispatch = useDispatch();
+  const modalInfo = useSelector((state: RootState) => state.modalInfo);
 
-  // const [user, setUser] = useState(userID);
-  // console.log(userID, 'UserID');
+  const [getCurrentUser] = useLazyGetCurrentUserQuery({});
 
-  // const { isLoggedIn, userId } = useSelector(
-  //   (state: { userInfo: { isLoggedIn: boolean; userId: string } }) => {
-  //     console.log(state.userInfo, 'test');
-  //     return state.userInfo;
-  //   },
-  // );
-
-  // dispatch(
-  //   setCurrentUser({
-  //     userID: user,
-  //   }),
-  // );
-
-  // const getUser = async () => {
-  //   try {
-  //     const res = await fetch('http://localhost:8004/api/user/current-user', {
-  //       credentials: 'include',
-  //     });
-  //     const data = await res.json();
-  //     setUser(data.userID);
-  //     console.log(data);
-  //   } catch (error) {
-  //     setUser(null);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getUser().then((userData) => {
-  //     dispatch(setCurrentUser({ userID: userData }));
-  //   });
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
+  useEffect(() => {
+    async function validateCurrentUser() {
+      const currentUser = await getCurrentUser({});
+      if (currentUser?.data?.userId) {
+        dispatch(
+          updateLogin({
+            userId: currentUser.data.userId,
+            isLoggedIn: true,
+          }),
+        );
+      }
+    }
+    validateCurrentUser();
+  }, []);
 
   return (
     <main>
       <NavBar />
       <div className='w-full bg-white-200 dark:bg-gray-900'>
-        <div className='w-full max-container p-[2.5%] pt-[124px] md:pt-[132px]'>
+        <div className='w-full max-container p-[2%]'>
           <Routes>
             <Route
               path='add-car'
@@ -110,17 +88,27 @@ const App = () => {
             />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/signup' element={<SignUp />} />
             <Route path='/search' element={<Search />} />
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
             <Route path='/edit-profile' element={<EditProfile />} />
-            <Route path='/profile/:id' element={<ProfileDetail />} />
-            <Route path='*' element={<NotFound />} />
+            <Route path='/profile' element={<ProfileDetail />} />
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </div>
       </div>
       <Footer />
+
+      {/* Car Info Modal */}
+      <CarInfoModal
+        open={modalInfo.activeModalName === 'car_info'}
+        data={modalInfo.modalData as CarDataInfo}
+      />
+
+      {/* Rent Now Modal */}
+      <RentNowModal open={modalInfo.activeModalName === 'rent'} />
     </main>
   );
 };

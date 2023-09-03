@@ -1,13 +1,32 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { CarDataInfo } from '../types/carInfo';
 
 export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8004/',
+    baseUrl: 'http://localhost:8004',
     credentials: 'include',
   }),
+  tagTypes: ['Car'],
 
   endpoints: (builder) => ({
+    getCarList: builder.query({
+      query: (
+        page = 1,
+        location: string = '',
+        availabilityFrom: string = '',
+        availabilityTo: string = '',
+      ) => {
+        const queryString = new URLSearchParams({
+          page: page && String(page),
+          location: location && location,
+          availabilityFrom: availabilityFrom && availabilityFrom,
+          availabilityTo: availabilityTo && availabilityTo,
+        }).toString();
+
+        return `/api/car?${queryString}`;
+      },
+    }),
     getCurrentUser: builder.query({
       query: () => 'api/user/current-user',
     }),
@@ -33,6 +52,12 @@ export const api = createApi({
         url: `api/car/delete/${carID}`,
         method: 'DELETE',
       }),
+    }),
+    getPopularCars: builder.query({
+      query: () => {
+        return `/api/car/popular`;
+      },
+      transformResponse: ({ data }) => data as CarDataInfo[],
     }),
     login: builder.mutation({
       query: (userInfo) => ({
@@ -61,21 +86,58 @@ export const api = createApi({
       }),
     }),
     updateUser: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `api/user/updateuser/${id}`,
-        method: 'PATCH',
-        body: data,
-        headers: {
-          'Content-type': 'application/json',
-        },
+      query: (user) => ({
+        url: 'api/user/update-user',
+        method: 'PUT',
+        body: user,
       }),
+    }),
+    getUserById: builder.query({
+      query: () => 'api/user/profile',
+    }),
+    getCarsByUser: builder.query({
+      query: () => 'api/car/cars-by-user',
+    }),
+    getFavCars: builder.query({
+      query: (userId) => {
+        return {
+          url: userId && `api/car/fav-car/${userId}`,
+        };
+      },
+    }),
+    addFavCar: builder.mutation({
+      query: ({ userId, carId }) => {
+        return {
+          url: 'api/car/add-fav-car',
+          method: 'PUT',
+          body: {
+            carId,
+            userId,
+          },
+        };
+      },
+    }),
+    deleteFavCar: builder.mutation({
+      query: ({ userId, carId }) => {
+        return {
+          url: `api/car/delete-fav-car/${userId}`,
+          method: 'PATCH',
+          body: {
+            carId,
+            userId,
+          },
+        };
+      },
     }),
   }),
 });
 
 export const {
+  useGetPopularCarsQuery,
+  useGetCarListQuery,
   useGetSingleCarQuery,
   useGetCurrentUserQuery,
+  useLazyGetCurrentUserQuery,
   useAddCarMutation,
   useUpdateCarMutation,
   useDeleteCarMutation,
@@ -83,4 +145,9 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useUpdateUserMutation,
+  useGetUserByIdQuery,
+  useGetCarsByUserQuery,
+  useGetFavCarsQuery,
+  useAddFavCarMutation,
+  useDeleteFavCarMutation,
 } = api;

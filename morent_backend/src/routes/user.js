@@ -9,8 +9,9 @@ import {
   showCurrentUser,
   deleteUser,
   viewUsers,
-  userInfo,
+  getUserById,
 } from '../controllers/user.js';
+import fileUploadMiddleware from '../middleware/fileUploadMiddleware.js';
 
 const router = express.Router();
 
@@ -18,18 +19,9 @@ router.post('/signin', signin);
 router.post('/signup', signup);
 router.get('/current-user', authenticateUser, showCurrentUser);
 router.post('/logout', authenticateUser, logout);
-router.patch('/updateuser/:id', authenticateUser, updateUser);
+router.put('/update-user', fileUploadMiddleware, authenticateUser, updateUser);
 router.delete('/deleteuser/:id', authenticateUser, deleteUser);
 router.get('/viewusers', authenticateUser, viewUsers);
-router.get('/userinfo/:id', authenticateUser, userInfo);
-
-// router.post('/protected', protectedRoute);
-router.get('/show', authenticateUser, async (req, res) => {
-  try {
-    res.status(200).json({ user: req.userID });
-  } catch (error) {
-    res.status(500).json({ message: "Something isn't right" });
-  }
-});
+router.get('/profile', authenticateUser, getUserById);
 
 export default router;

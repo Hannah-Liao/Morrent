@@ -20,7 +20,7 @@ const userSchema = new Schema(
       required: true,
     },
     phoneNumber: {
-      type: Number,
+      type: String,
       maxLength: 12,
     },
     profileImage: {
@@ -29,7 +29,7 @@ const userSchema = new Schema(
     profileBanner: {
       type: String,
     },
-    location: {
+    address: {
       type: String,
       maxLength: 200,
     },

@@ -62,14 +62,16 @@ const LoginForm = () => {
             //store in redux
             dispatch(
               updateLogin({
-                email: userInfo.email,
                 isLoggedIn: userInfo.success,
+                userId: userInfo.userId,
               }),
             );
-            navigate(`/profile/${userInfo.userId}`);
+            navigate(`/profile`);
           }
         });
     } catch (err) {
+      console.log(err);
+
       console.error('Something went wrong!');
     }
   }

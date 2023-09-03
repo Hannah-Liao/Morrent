@@ -1,26 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-export type initialStateType = {
-  email: string;
+export type LoginInfoType = {
   isLoggedIn: boolean;
+  userId: string | null;
 };
 
-const initialState: initialStateType = {
-  email: '',
+const initialState: LoginInfoType = {
   isLoggedIn: false,
+  userId: null,
 };
 
 const loginSlice = createSlice({
   name: 'loginSlice',
   initialState,
   reducers: {
-    updateLogin: (
-      state,
-      action: PayloadAction<{ email: string; isLoggedIn: boolean }>,
-    ) => {
+    updateLogin: (state, action: PayloadAction<LoginInfoType>) => {
       state.isLoggedIn = action.payload.isLoggedIn;
-      state.email = action.payload.email;
+      state.userId = action.payload.userId;
     },
   },
 });

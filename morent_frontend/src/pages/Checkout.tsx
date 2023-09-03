@@ -58,13 +58,25 @@ export default function Checkout() {
         },
         body: JSON.stringify({
           id: 1,
-          price: 2000000,
-          carName: 'Mercedez benz',
+          price: 100,
+          carName: 'Ayla',
           ...data,
         }),
       });
-      const { url } = await res.json();
-      window.location.href = url;
+      const response = await res.json();
+      // const stripeRes = await fetch('http://localhost:8004/webhook', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-type': 'application/json',
+      //     'stripe-signature':
+      //       'whsec_c2d23644e4a7b05ea4ee2bd9b58dadf3a50365d7e2a95562b5280cf020fe2f56',
+      //   },
+      //   credentials: 'include',
+      // });
+
+      // const stripeData = await stripeRes.json();
+      // console.log({ stripeData, response });
+      window.location.href = response.url;
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);

@@ -1,8 +1,14 @@
 import bcrypt from 'bcrypt';
 
 import UserModel from '../models/user.js';
-import { Car } from '../models/Car.js';
-import { generateToken, sendCookie } from '../utils/token.utils.js';
+import {
+  deleteCookie,
+  generateToken,
+  sendCookie,
+} from '../utils/token.utils.js';
+
+const ACCESS_TOKEN_KEY = 'accesstoken';
+const REFRESH_TOKEN_KEY = 'refreshtoken';
 
 // User Signup
 export const signup = async (req, res) => {
@@ -38,8 +44,8 @@ export const signup = async (req, res) => {
       expiresIn: '10d',
     });
 
-    sendCookie({ res, name: 'accesstoken', token: accessToken });
-    sendCookie({ res, name: 'refreshtoken', token: refreshToken });
+    sendCookie({ res, name: ACCESS_TOKEN_KEY, token: accessToken });
+    sendCookie({ res, name: REFRESH_TOKEN_KEY, token: refreshToken });
 
     res.status(201).json({
       message: 'User created',
@@ -88,8 +94,8 @@ export const signin = async (req, res) => {
       expiresIn: '10d',
     });
 
-    sendCookie({ res, name: 'accesstoken', token: accessToken });
-    sendCookie({ res, name: 'refreshtoken', token: refreshToken });
+    sendCookie({ res, name: ACCESS_TOKEN_KEY, token: accessToken });
+    sendCookie({ res, name: REFRESH_TOKEN_KEY, token: refreshToken });
 
     res.status(200).json({
       message: 'Successfully logged in',
@@ -97,6 +103,7 @@ export const signin = async (req, res) => {
       userId: oldUser.id,
     });
   } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: 'Something went wrong', success: false });
   }
 };
@@ -104,8 +111,8 @@ export const signin = async (req, res) => {
 // User Logout
 export const logout = (req, res) => {
   try {
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
+    deleteCookie({ res, name: ACCESS_TOKEN_KEY });
+    deleteCookie({ res, name: REFRESH_TOKEN_KEY });
     res.status(200).json({ message: `Successfully logged out`, success: true });
   } catch (error) {
     res
@@ -116,10 +123,19 @@ export const logout = (req, res) => {
 
 // Update user
 export const updateUser = async (req, res) => {
-  const { id } = req.params;
+  const { firstName, lastName, phoneNumber, address, profileImage } = req.body;
+
+  const files = req.files.map((file) => `${process.env.BASE_URL}/${file.path}`);
+
   const userId = req.userId;
 
-  const updatedUserData = req.body;
+  const updatedUserData = {
+    name: `${firstName} ${lastName}`,
+    phoneNumber,
+    address,
+    profileImage: files ? files[0] : profileImage,
+  };
+
   try {
     const userData = await UserModel.findById(userId);
 
@@ -129,21 +145,14 @@ export const updateUser = async (req, res) => {
       });
     }
 
-    if (userData.id === id) {
-      // Find the user by ID
-      const user = await UserModel.findByIdAndUpdate(id, updatedUserData, {
-        new: true,
-      });
+    const user = await UserModel.findByIdAndUpdate(userId, updatedUserData, {
+      new: true,
+    });
 
-      return res.status(200).json({
-        message: 'User updated successfully',
-        user: user,
-      });
-    } else {
-      return res.status(404).json({
-        message: 'This data not belong logged user',
-      });
-    }
+    return res.status(200).json({
+      message: 'User updated successfully',
+      user: user,
+    });
   } catch (error) {
     return res.status(500).json({
       message: 'Internal server error',
@@ -152,7 +161,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const showCurrentUser = async (req, res) => {
-  res.status(200).json({ userID: req.userId });
+  res.status(200).json({ userId: req.userId });
 };
 
 // remove delete car also, using daleteMany where userId = id
@@ -199,30 +208,24 @@ export const viewUsers = async (req, res) => {
   }
 };
 
-// for one single user profile. Get one single info(like list of cars he added. etc)
-export const userInfo = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.userId;
+export const getUserById = async (req, res) => {
   try {
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(req.userId).populate('rentedCars');
 
-    if (!user) {
-      return res.send({ message: 'No user found' });
-    }
+    if (!user)
+      return res.json({
+        error: true,
+        message: 'We can not find that user!',
+      });
 
-    if (userId !== id) {
-      return res
-        .send(403)
-        .json({ message: 'Cars does not belong to logged in user' });
-    }
+    const toObj = user.toObject();
+    const { password, ...rest } = toObj;
 
-    const carAddedByUser = await Car.find({ user: userId });
-    return res.send({
-      message: 'Cars Which is rented or added by users',
-      carAddedByUser,
-    });
+    return res.json(rest);
   } catch (error) {
-    res.status(500).json({ Error: 'some internal error' });
+    return res.status(500).json({
+      error: true,
+      message: error.message,
+    });
   }
-  // res.send({ carRentedByUser, carAddedByUser });
 };
