@@ -4,6 +4,8 @@ import { CarsDispalySection } from '../components';
 import { useGetFavCarsQuery } from '../services/api';
 import { RootState } from '../store/store';
 import { CarDataInfo } from '../types/carInfo';
+import { Link } from 'react-router-dom';
+import { cars } from '../constant';
 
 const ProfileDetail = () => {
   const userId = useSelector((state: RootState) => state.userInfo.userId);
@@ -81,12 +83,12 @@ const ProfileDetail = () => {
         />
       </section>
 
-      <a
-        href='/add-car'
+      <Link
+        to='/add-car'
         className='btn rounded sm:rounded-[10px] min-h-[37px] sm:min-h-[56px] w-fit small-semibold sm:p-bold mx-auto my-12'
       >
         Add More Cars for Rent
-      </a>
+      </Link>
     </main>
   );
 };

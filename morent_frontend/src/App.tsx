@@ -61,7 +61,7 @@ const App = () => {
             <Route path='/cancel' element={<Canceled />} />
             <Route path='/error' element={<Failed />} />
             <Route path='/edit-profile' element={<EditProfile />} />
-            <Route path='/profile/:id' element={<ProfileDetail />} />
+            <Route path='/profile' element={<ProfileDetail />} />
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </div>

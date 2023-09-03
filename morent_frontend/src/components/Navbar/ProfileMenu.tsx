@@ -58,7 +58,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userId }) => {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className='dropDownIcons' />
-            <Link to={`/profile/${userId}`} onClick={goToTop}>
+            <Link to={`/profile`} onClick={goToTop}>
               Profile
             </Link>
           </DropdownMenuItem>
