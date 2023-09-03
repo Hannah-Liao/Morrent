@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { useSelector } from 'react-redux';
 import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +15,7 @@ import {
 import { Input } from '../ui/input';
 import { uploadIcon, close } from '../../assets/icons';
 import { useUpdateUserMutation } from '../../services/api';
+import { useToast } from '../ui/use-toast';
 
 type EditProfileProps = {
   userData: {
@@ -41,6 +41,7 @@ const formSchema = z.object({
 
 const EditProfileForm: React.FC<EditProfileProps> = ({ userData }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [updateUser] = useUpdateUserMutation();
 
   // images to send to the database
@@ -59,11 +60,6 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ userData }) => {
       phoneNumber: userData.phoneNumber,
     },
   });
-
-  const { userID } = useSelector((state) => {
-    return state.authSlice;
-  });
-  console.log('here', userID);
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -94,8 +90,24 @@ const EditProfileForm: React.FC<EditProfileProps> = ({ userData }) => {
       formData.append('profileImage', userData.profileImage);
     }
 
-    updateUser(formData);
-    navigate('/profile');
+    try {
+      updateUser(formData);
+
+      toast({
+        title: 'Your profiles has been updated successfully. 🥳',
+      });
+
+      navigate('/profile');
+    } catch (err) {
+      if (err instanceof Error) {
+        const errMessage = err.message;
+        toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: `There appears to be an issue:${errMessage}`,
+        });
+      }
+    }
   };
 
   return (

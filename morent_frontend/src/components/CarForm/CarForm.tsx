@@ -42,6 +42,7 @@ type CarFormProps = {
 const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
+
   // images to send to the database
   const [images, setImages] = useState([]);
 
