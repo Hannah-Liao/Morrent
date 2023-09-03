@@ -18,6 +18,7 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [userImg, setUserImg] = useState<string | null>(null);
 
   const goToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -33,7 +34,20 @@ const NavBar = () => {
     }
   };
 
+  const getUser = async () => {
+    const results = await fetch(
+      `${import.meta.env.VITE_SERVER_URL}/api/user/profile`,
+      {
+        credentials: 'include',
+      },
+    );
+
+    const data = await results.json();
+    setUserImg(data.profileImage);
+  };
+
   useEffect(() => {
+    getUser();
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlNavbar);
 
@@ -41,7 +55,7 @@ const NavBar = () => {
         window.removeEventListener('scroll', controlNavbar);
       };
     }
-  }, [lastScrollY]);
+  }, [lastScrollY, userImg]);
 
   return (
     <header className=' w-full sticky z-10 top-0 md:border-b md:border-[#C3D4E966] bg-white dark:bg-gray-900 min-h-[92px] md:min-h-[100px]'>
@@ -55,7 +69,7 @@ const NavBar = () => {
             onClick={() => setOpen((prev) => !prev)}
           />
 
-          {isLoggedIn && <ProfileMenu userId={userId} />}
+          {isLoggedIn && <ProfileMenu userId={userId} userImg={userImg} />}
 
           {!isLoggedIn && (
             <Link
@@ -95,7 +109,7 @@ const NavBar = () => {
             >
               {isLoggedIn && (
                 <img
-                  src={profileImg}
+                  src={userImg ? userImg : profileImg}
                   alt='user profile photo'
                   className='w-5 h-5 mr-1.5 rounded-[90px]'
                 />

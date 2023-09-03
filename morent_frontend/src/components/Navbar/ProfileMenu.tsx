@@ -15,7 +15,11 @@ import profileImg from '../../assets/images/profile.png';
 import { updateLogin } from '../../slice/loginSlice';
 import { useLogoutMutation } from '../../services/api';
 
-const ProfileMenu = () => {
+type ProfileMenuProps = {
+  userImg: string | null;
+};
+
+const ProfileMenu: React.FC<ProfileMenuProps> = ({ userImg }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
@@ -43,7 +47,7 @@ const ProfileMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <img
-          src={profileImg}
+          src={userImg ? userImg : profileImg}
           alt='user profile photo'
           className='w-7 md:w-9 h-7 md:h-9 rounded-[90px] cursor-pointer'
         />
