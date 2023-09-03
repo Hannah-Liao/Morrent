@@ -41,7 +41,7 @@ export default function Filter({ setIsOpen, setTitle, title }: Props) {
           title: 'We can not find cars that you are looking for',
         });
       }
-      dispatch(setCarSearchResults(datas));
+      dispatch(setCarSearchResults(datas?.cars));
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);

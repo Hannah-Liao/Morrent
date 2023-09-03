@@ -36,8 +36,6 @@ const ProfileDetail = () => {
     };
   });
 
-  console.log(cars.data);
-
   return (
     <main>
       <section>
@@ -96,15 +94,6 @@ const ProfileDetail = () => {
           carsData={cars.data}
         />
       </section>
-
-      <section className='pt-10'>
-        <h1 className='subtitle'>Favorite Cars</h1>
-        <CarsDispalySection
-          carsData={finalCarsData?.length > 0 && finalCarsData}
-          afterFavClick={refetchUserFavCars}
-        />
-      </section>
-
       <Link
         to='/add-car'
         className='btn rounded sm:rounded-[10px] min-h-[37px] sm:min-h-[56px] w-fit small-semibold sm:p-bold mx-auto my-12'
