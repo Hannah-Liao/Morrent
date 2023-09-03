@@ -17,7 +17,9 @@ const ProfileDetail = () => {
     data: cars,
     isError: carError,
     isLoading: carLoading,
-  } = useGetCarsByUserQuery('');
+  } = useGetCarsByUserQuery('', {
+    refetchOnFocus: true,
+  });
 
   function lowerCase(str: string) {
     return str.toLowerCase();

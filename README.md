@@ -1,6 +1,6 @@
 # Project CarRent
 
-Build a FullStack modern car renting marketplace Application.
+Build a FullStack modern car renting marketplace Application
 
 Check out the complete project requirements [here](https://docs.google.com/document/d/11BBlTR9XVYIXdxg4KbvkZhelDdmEceHi_8BRX1HhBWY/edit?usp=sharing)
 
