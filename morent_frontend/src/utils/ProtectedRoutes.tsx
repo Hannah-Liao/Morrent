@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { useGetCurrentUserQuery } from '../services/api';
+import { Loader } from '../components';
 
 interface ProtectedRoutesProps {
   children: ReactNode;
@@ -10,9 +11,7 @@ interface ProtectedRoutesProps {
 const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => {
   const { data, isLoading, error } = useGetCurrentUserQuery();
 
-  if (error) console.log(error);
-
-  if (isLoading) return <h1>hello World</h1>;
+  if (isLoading) return <Loader />;
 
   let canAccess = false;
   if (data?.userId) {
