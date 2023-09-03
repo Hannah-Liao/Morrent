@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
+
 import { useGetCurrentUserQuery } from '../services/api';
 
 interface ProtectedRoutesProps {
