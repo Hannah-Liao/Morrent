@@ -35,7 +35,7 @@ export const signup = async (req, res) => {
     const accessToken = generateToken({
       payload: { email: newUser.email, id: newUser._id },
       tokenSecret: process.env.ACCESS_TOKEN_SECRET,
-      expiresIn: '15m',
+      expiresIn: '10h',
     });
 
     const refreshToken = generateToken({
@@ -82,7 +82,7 @@ export const signin = async (req, res) => {
         id: oldUser._id,
       },
       tokenSecret: process.env.ACCESS_TOKEN_SECRET,
-      expiresIn: '15m',
+      expiresIn: '10h',
     });
 
     const refreshToken = generateToken({

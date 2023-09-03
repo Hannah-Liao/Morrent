@@ -20,7 +20,7 @@ import {
   useUpdateCarMutation,
   useDeleteCarMutation,
 } from '../../services/api';
-import ImageDisplay from './ImageDisplay';
+import ImageDisplay from './imageDisplay';
 
 type CarFormProps = {
   isEditCarPage: boolean;

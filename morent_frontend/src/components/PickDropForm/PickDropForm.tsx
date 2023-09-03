@@ -33,6 +33,17 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
+      const today = new Date();
+      const userDate = new Date(data.availabilityFrom);
+
+      const isGreaterThanNow = userDate.getDate() > today.getDate();
+      if (!isGreaterThanNow) {
+        return toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: 'Date can not in the past',
+        });
+      }
       const res = await fetch(
         `${
           import.meta.env.VITE_SERVER_URL
@@ -84,7 +95,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                 >
                   <FormLabel
                     title={data.label}
-                    className={`text-sm lg:text-xs font-semibold inline-flex truncate  items-center gap-1 text-gray-900 dark:text-white w-full ${
+                    className={`text-sm lg:text-[16px] font-semibold inline-flex truncate items-center gap-2 text-gray-900 dark:text-white w-full ${
                       data.key === 'availabilityTimeFrom' ||
                       data.key === 'availabilityTimeTo'
                         ? 'pt-[25px]'
@@ -104,6 +115,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
                   </FormLabel>
 
                   {data.key === 'location' ? (
+                    // @ts-ignore
                     <LocationSelect form={searchForm} />
                   ) : (
                     <DateSelector

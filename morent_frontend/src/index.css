@@ -180,7 +180,8 @@
 }
 
 @layer components {
-  /* buttons */
+  /* Buttons */
+
   .btn {
     @apply flex-center bg-blue-500 hover:opacity-90 text-white px-5 !important;
   }
@@ -193,7 +194,8 @@
     @apply leading-[150%] tracking-[-0.28px] flex-center w-full min-h-[49px] border border-blue-50 dark:border-none bg-white dark:bg-gray-700 text-blue-500 dark:text-blue-300 body-semibold px-9 !important;
   }
 
-  /* icons */
+  /* Icons */
+
   .dropDownIcons {
     @apply mr-2 h-4 w-4;
   }
@@ -224,7 +226,7 @@
   }
 
   .homePopularCarsGrid {
-    @apply flex gap-5 mb-[32px] overflow-x-auto mt-5 relative;
+    @apply grid grid-flow-col sm:grid-flow-row gap-[10px] sm:gap-x-8 gap-y-8 mt-[20px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:px-0 overflow-x-auto mb-[32px];
   }
 
   .homeRecommendedGrid {
@@ -232,14 +234,15 @@
   }
 
   /* Card */
+
   .cardButton {
     @apply inline-flex items-center justify-center px-6 py-3 font-semibold text-[12px] lg:font-semibold lg:text-[14px] leading-5 text-white transition-all duration-200 bg-blue-500 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-500 hover:opacity-90;
   }
 
-  .popular-card {
-    @apply flex flex-col justify-between gap-0 overflow-hidden transition-all duration-200 transform bg-white dark:bg-gray-850 shadow rounded-[10px] hover:shadow-lg hover:-translate-y-1 min-w-[300px] max-w-[300px];
+  .popularCard {
+    @apply flex flex-col justify-between gap-2 overflow-hidden transition-all duration-200 transform bg-white dark:bg-gray-850 shadow rounded-[10px] hover:shadow-lg hover:-translate-y-1 min-w-[280px];
   }
-  .car-card {
+  .carCard {
     @apply flex flex-col justify-between gap-0 overflow-hidden transition-all duration-200 transform bg-white dark:bg-gray-850 shadow rounded-[10px] hover:shadow-lg hover:-translate-y-1 min-w-[280px];
   }
 
@@ -256,10 +259,10 @@
   }
 
   .cardImage {
-    @apply bg-no-repeat bg-center bg-cover border-2 aspect-square max-h-56 h-full w-full border-white dark:border-gray-850;
+    @apply bg-no-repeat bg-center bg-cover aspect-square max-h-56 h-full w-full;
   }
   .cardIconContainer {
-    @apply flex flex-col lg:flex-row w-full px-3 justify-between small-regular text-gray-400 leading-6  gap-[10px];
+    @apply flex flex-col lg:flex-row w-full px-3 justify-between small-regular text-gray-400 leading-6 gap-[10px];
   }
 
   .cardIconItem {
@@ -278,7 +281,8 @@
     @apply small-regular md:body-bold text-gray-400 line-clamp-1 line-through;
   }
 
-  /* rent now modal */
+  /* Rent Now Modal */
+
   .gridCol2 {
     @apply grid grid-cols-2 gap-2.5;
   }

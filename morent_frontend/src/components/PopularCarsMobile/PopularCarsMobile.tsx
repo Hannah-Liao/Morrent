@@ -38,7 +38,7 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
   if (!data) return;
 
   return (
-    <div className={`popular-card  ${isHidden ? 'blur-xs' : ''}`}>
+    <div className={`popularCard  ${isHidden ? 'blur-xs' : ''}`}>
       <header className='flex justify-between p-[16px] sm:p-[24px]'>
         <div className='flex-3 w-[90%] overflow-hidden'>
           <h3 className='cardTitle'>{data?.title}</h3>
