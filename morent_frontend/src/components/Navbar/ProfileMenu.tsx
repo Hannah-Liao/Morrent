@@ -15,10 +15,6 @@ import profileImg from '../../assets/images/profile.png';
 import { updateLogin } from '../../slice/loginSlice';
 import { useLogoutMutation } from '../../services/api';
 
-// interface ProfileMenuProps {
-//   userId: string | null;
-// }
-
 const ProfileMenu: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
