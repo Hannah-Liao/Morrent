@@ -38,6 +38,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ userImg }) => {
         }),
       );
       navigate('/');
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

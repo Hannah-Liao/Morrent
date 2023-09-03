@@ -9,7 +9,10 @@ interface ProtectedRoutesProps {
 }
 
 const ProtectedRoutes: React.FC<ProtectedRoutesProps> = ({ children }) => {
-  const { data, isLoading, error } = useGetCurrentUserQuery();
+  const { data, isLoading, error } = useGetCurrentUserQuery({});
+  console.log(data, 'Pro Route');
+
+  if (error) console.log(error);
 
   if (isLoading) return <Loader />;
 

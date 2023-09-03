@@ -67,6 +67,7 @@ const LoginForm = () => {
               }),
             );
             navigate(`/profile`);
+            window.location.reload();
           }
         });
     } catch (err) {
