@@ -1,12 +1,12 @@
 // import { useSelector } from 'react-redux';
 import { useGetUserByIdQuery } from '../services/api';
-import { EditProfileForm } from '../components';
+import { EditProfileForm, Loader, ServerError } from '../components';
 
 const EditProfile = () => {
   const { data, isError, isFetching } = useGetUserByIdQuery('');
 
-  if (isFetching) return <h1>loading</h1>;
-  if (isError) return <h1>error</h1>;
+  if (isFetching) return <Loader />;
+  if (isError) return <ServerError />;
 
   const userData = {
     address: data?.address,

@@ -45,16 +45,16 @@ const formSchema = z
   })
   .refine(
     (data) => {
+      const currentDate = new Date();
       const currentTime = Date.now();
       const currentHours = new Date(currentTime).getHours();
       const currentMinutes = new Date(currentTime).getMinutes();
       const [inputHours, inputMinutes] = data.pickUpTime.split(':').map(Number);
 
-      const isGreaterThanNow = inputHours > currentHours;
-      return (
-        isGreaterThanNow ||
-        (inputHours === currentHours && inputMinutes > currentMinutes)
-      );
+      const isGreaterThanNow =
+        inputHours > currentHours ||
+        (inputHours === currentHours && inputMinutes > currentMinutes);
+      return data.pickUpDate > currentDate ? true : isGreaterThanNow;
     },
     {
       message: 'Pick up time must not be in the past.',
