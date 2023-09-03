@@ -39,7 +39,7 @@ app.use(
 );
 
 const setCorsHeaders = (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
+  res.setHeader('Access-Control-Allow-Origin', corsAllowUrl);
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE'
@@ -71,11 +71,17 @@ app.use('/', checkout);
 // Files upload
 app.use('/', filesUpload);
 
-// connect db
-connectToDatabase()
-  .then(() => {
-    app.listen(8004, () => console.log('Server is running on port 8004'));
-  })
-  .catch((error) => {
-    console.error('Error connecting to database. Server not started.');
-  });
+// // connect db
+// connectToDatabase()
+//   .then(() => {
+//     app.listen(8004, () => console.log('Server is running on port 8004'));
+//   })
+//   .catch((error) => {
+//     console.error('Error connecting to database. Server not started.');
+//   });
+
+const port = process.env.PORT || 8004;
+app.listen(port, async () => {
+  console.log(`Server is running on port ${port}`);
+  await connectToDatabase();
+});
