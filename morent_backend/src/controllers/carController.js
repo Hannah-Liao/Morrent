@@ -50,11 +50,12 @@ export const getCars = async (req, res) => {
     const price = parseInt(req.query.price);
     const currentDate = new Date();
     const regex = new RegExp(title, 'i');
+    const types = new RegExp(type, 'i');
 
     let query = {
       ...(title && { title: regex }),
       ...(location && { carLocation: location }),
-      ...(type && { carType: { $in: type } }),
+      ...(type && { carType: { $in: types } }),
       ...(price && { price: { $lte: price } }),
       ...(capacity && { capacity: { $in: capacity } }),
     };

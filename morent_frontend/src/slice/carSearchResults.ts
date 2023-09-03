@@ -3,11 +3,15 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { CarDataInfo } from '../types/carInfo';
 
 type resultsSlice = {
-  cars: CarDataInfo[];
+  cars: {
+    cars: CarDataInfo[];
+  };
 };
 
 const initialState: resultsSlice = {
-  cars: [],
+  cars: {
+    cars: [],
+  },
 };
 
 const carSearchResults = createSlice({
@@ -15,7 +19,7 @@ const carSearchResults = createSlice({
   initialState,
   reducers: {
     setCarSearchResults: (state, action: PayloadAction<CarDataInfo[]>) => {
-      state.cars = action.payload;
+      state.cars.cars = action.payload;
     },
   },
 });

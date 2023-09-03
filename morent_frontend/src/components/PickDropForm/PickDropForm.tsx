@@ -37,6 +37,7 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
       const userDate = new Date(data.availabilityFrom);
 
       const isGreaterThanNow = userDate.getDate() > today.getDate();
+
       if (!isGreaterThanNow) {
         return toast({
           variant: 'destructive',
@@ -45,23 +46,23 @@ export default function PickDropForm({ isShow }: PickDropFormProps) {
         });
       }
       const res = await fetch(
-        `${
-          import.meta.env.VITE_SERVER_URL
-        }/api/car?page=1&pageSize=10&location=${
+        `${import.meta.env.VITE_SERVER_URL}/api/car?location=${
           data.location
         }&availabilityFrom=${data.availabilityFrom}&availabilityTo=${
           data.availabilityTo
         }`,
       );
       const datas = await res.json();
-      if (datas.cars.length < 1) {
+
+      if (datas.cars && datas?.cars.length < 1) {
         toast({
           variant: 'destructive',
           className: 'text-white',
           title: 'We can not find cars that you are looking for',
         });
       }
-      dispatch(setCarSearchResults(datas));
+
+      dispatch(setCarSearchResults(datas?.cars));
       navigate('/search');
     } catch (error) {
       if (error instanceof Error) {

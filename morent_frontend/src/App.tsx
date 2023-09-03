@@ -33,7 +33,6 @@ const App = () => {
   useEffect(() => {
     async function validateCurrentUser() {
       const currentUser = await getCurrentUser({});
-      console.log(currentUser);
       if (currentUser?.data?.userId) {
         dispatch(
           updateLogin({

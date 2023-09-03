@@ -41,7 +41,7 @@ export const signup = async (req, res) => {
     const refreshToken = generateToken({
       payload: { email: newUser.email, id: newUser._id },
       tokenSecret: process.env.REFRESH_TOKEN_SECRET,
-      expiresIn: '10d',
+      expiresIn: '10h',
     });
 
     sendCookie({ res, name: ACCESS_TOKEN_KEY, token: accessToken });
@@ -91,7 +91,7 @@ export const signin = async (req, res) => {
         id: oldUser._id,
       },
       tokenSecret: process.env.REFRESH_TOKEN_SECRET,
-      expiresIn: '10d',
+      expiresIn: '10h',
     });
 
     sendCookie({ res, name: ACCESS_TOKEN_KEY, token: accessToken });

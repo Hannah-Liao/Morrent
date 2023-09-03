@@ -3,7 +3,7 @@ import { useGetUserByIdQuery } from '../services/api';
 import { EditProfileForm, Loader, ServerError } from '../components';
 
 const EditProfile = () => {
-  const { data, isError, isFetching } = useGetUserByIdQuery();
+  const { data, isError, isFetching } = useGetUserByIdQuery('');
 
   if (isFetching) return <Loader />;
   if (isError) return <ServerError />;
