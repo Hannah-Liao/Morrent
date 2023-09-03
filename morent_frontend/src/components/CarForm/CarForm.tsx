@@ -21,6 +21,7 @@ import {
   useDeleteCarMutation,
 } from '../../services/api';
 import ImageDisplay from './imageDisplay';
+import { useToast } from '../ui/use-toast';
 
 type CarFormProps = {
   isEditCarPage: boolean;
@@ -40,7 +41,7 @@ type CarFormProps = {
 
 const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
   const navigate = useNavigate();
-
+  const { toast } = useToast();
   // images to send to the database
   const [images, setImages] = useState([]);
 
@@ -124,12 +125,29 @@ const CarForm: React.FC<CarFormProps> = ({ isEditCarPage, carID, carData }) => {
       formData.append('carImages', imgFormData);
     }
 
-    if (!isEditCarPage) {
-      addCar(formData);
-    } else {
-      updateCar({ car: formData, carID: carID });
+    try {
+      if (!isEditCarPage) {
+        addCar(formData);
+        toast({
+          title: 'A new car has been added successfully. 🥳',
+        });
+      } else {
+        updateCar({ car: formData, carID: carID });
+        toast({
+          title: 'The car has been updated successfully. 🥳',
+        });
+      }
+      navigate('/profile');
+    } catch (err) {
+      if (err instanceof Error) {
+        const errMessage = err.message;
+        toast({
+          variant: 'destructive',
+          className: 'text-white',
+          title: `There appears to be an issue:${errMessage}`,
+        });
+      }
     }
-    navigate('/profile');
   };
 
   return (
