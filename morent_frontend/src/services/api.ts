@@ -4,7 +4,7 @@ import { CarDataInfo } from '../types/carInfo';
 export const api = createApi({
   reducerPath: 'CarApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://codefam-carrent-78d54f297a31.herokuapp.com',
+    baseUrl: import.meta.env.VITE_SERVER_URL,
     credentials: 'include',
   }),
   tagTypes: ['Car'],
