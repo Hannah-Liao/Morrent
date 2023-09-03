@@ -37,6 +37,10 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
 
   if (!data) return;
 
+  function lowerCase(str: string) {
+    return str.toLowerCase();
+  }
+
   return (
     <div
       className={`popularCard  ${
@@ -45,7 +49,7 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
     >
       <header className='flex justify-between p-[16px] sm:p-[24px]'>
         <div className='flex-3 w-[90%] overflow-hidden'>
-          <h3 className='cardTitle'>{data?.title}</h3>
+          <h3 className='cardTitle capitalize'>{lowerCase(data?.title)}</h3>
           <h4 className='cardSubtitle'>{data?.carType}</h4>
         </div>
 
@@ -104,8 +108,8 @@ const PopularCarsMobile: React.FC<CarCardProps> = ({
               className='cardIcon'
               aria-label='Transmission Icon'
             />
-            <span className='first-letter:capitalize'>
-              {data.transmissionType}
+            <span className='capitalize'>
+              {lowerCase(data.transmissionType)}
             </span>
           </li>
           <li className='cardIconItem'>
