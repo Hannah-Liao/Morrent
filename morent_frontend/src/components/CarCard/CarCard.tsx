@@ -51,7 +51,7 @@ const CarCard: React.FC<CarCardProps> = ({
   };
 
   return (
-    <div className='carCard'>
+    <div className='carCard card fadeIn'>
       <header className='flex justify-between items-start p-[24px] pb-3'>
         <div className='flex-1'>
           <h3 className='cardTitle capitalize'>{lowerCase(data.title)}</h3>

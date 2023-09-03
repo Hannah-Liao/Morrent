@@ -447,3 +447,20 @@ html.dark #modaldropOffTime .react-time-picker__inputGroup {
   background-color: #424b5c;
   color: #f6f7f9;
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.card {
+  animation: fadeIn 3s ease-in-out;
+}
+
+.popularCarCard {
+  animation: fadeIn 2s ease-in-out;
+}
