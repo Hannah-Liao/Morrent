@@ -60,7 +60,7 @@ const CarCard: React.FC<CarCardProps> = ({
         {isLoggedIn && (
           <>
             {editIcon ? (
-              <NavLink to={`/edit-car/${userId}`}>
+              <NavLink to={`/edit-car/${data._id}`}>
                 <img
                   src={edit}
                   className='isFavoritedIcon'
