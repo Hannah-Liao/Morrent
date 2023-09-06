@@ -1,119 +1,113 @@
-# Project CarRent
+# Morent
 
-Build a FullStack modern car renting marketplace Application
+[![homepage.png](https://i.postimg.cc/MZtr8Dwb/homepage.png)](https://postimg.cc/dDk92GLL)
 
-Check out the complete project requirements [here](https://docs.google.com/document/d/11BBlTR9XVYIXdxg4KbvkZhelDdmEceHi_8BRX1HhBWY/edit?usp=sharing)
+![contributions](https://img.shields.io/badge/all_contributors-8-orange.svg)
+[![website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](website)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-# Contributing
+## 🌐 Demo
 
-When contributing to this repository, please first discuss the change you wish to make via issue.
-Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
+Here is a working live demo: https://cohort5-code-fam-car-rent.vercel.app/
 
-## System Requirements
+## 📝 Description
 
-To get started with development, you need to install few tools
+Morent, a cutting-edge car rental application that was developed using the MERN stack. The app boasts a dynamic homepage that showcases featured vehicles, along with convenient pickup & drop-off location options & a comprehensive list of available cars.
 
-1. git
+My team and I also developed the car listing page which offers a search bar and various filtering options for users to find the perfect vehicle.
 
-   `git` version 2.13.1 or higher. Download [git](https://git-scm.com/downloads) if you don't have it already.
+Car owners are also able to list their cars for rent through our Add Car page, while users can easily track their rented and rented-out cars through their profile page.
 
-   To check your version of git, run:
+## 📖 Table of Contents
 
-   ```shell
-    git --version
-   ```
+- [Installation](#🚀-install-project)
+- [How to contribute](#⚒️-how-to-contribute)
+- [Find our team](#📜-our-team---codefam🪴)
 
-2. node
+## 🛠️ Setup Project
 
-   `node` version 16.15.1 or higher. Download [node](https://nodejs.org/en/download/) if you don't have it already.
+To get this project up and running in your development environment, follow these step-by-step instructions.
 
-   To check your version of node, run:
+### 🍴 Prerequisites
 
-   ```shell
-    node --version
-   ```
+We need to install or make sure that these tools are pre-installed on your machine:
 
-3. npm
+- [NodeJS](https://nodejs.org/en/download/): It is a JavaScript runtime build.
+- [Git](https://git-scm.com/downloads): It is an open source version control system.
 
-   `npm` version 5.6.1 or higher. You will have it after you install node
+<!-- ## ✨ Features
 
-   To check your version of npm, run:
+If your project has a lot of features, list them here. -->
 
-   ```shell
-    npm --version
-   ```
+### 🚀 Install Project
 
-## Setup
+1. Clone the Repository
 
-To set up a development environment, please follow these steps:
+```bash
+git clone <repo url>
+```
 
-1. Clone the repo
+2. Install packages in the `/morent_backend` and `/morent_frontend` directory
 
-   ```shell
-    git clone https://github.com/JavaScript-Mastery-PRO/Cohort5_CodeFam_CarRent.git
-   ```
+```
+npm install
+```
 
-2. Change directory to the project directory
+3. In both the `/morent_backend` adn `/morent_frontend` create a `.env` file add the necessary variables.
 
-   ```shell
-   cd Cohort5_CodeFam_CarRent
-   ```
+   (follow the .env.example in both folders)
 
-You have successfully cloned the repo. Go ahead and start developing the project with your chosen framework (React.js or Next.js)!
+4. Run the app.
 
-## Issues
+For server from `/morent_backend`:
 
-You've found a bug in the source code, a mistake in the documentation or maybe you'd like a new feature? You can help us by [submitting an issue on GitHub](https://github.com/orgs/JavaScript-Mastery-PRO/projects/8). Before you create an issue, make sure to search the issue archive -- your issue may have already been addressed!
+```bash
+npm run dev
+```
 
-Please try to create bug reports that are:
+For client from `/morent_frontend`
 
-- _Reproducible._ Include steps to reproduce the problem.
-- _Specific._ Include as much detail as possible: which version, what environment, etc.
-- _Unique._ Do not duplicate existing opened issues.
-- _Scoped to a Single Bug._ One bug per report.
+```bash
+npm run dev
+```
 
-## Pull Request
+### ⚒️ How to Contribute
 
-There are 2 main work flows when dealing with pull requests:
+Want to contribute? Great!
 
-- Pull Request from a [forked repository](https://help.github.com/articles/fork-a-repo)
-- Pull Request from a branch within a repository
+To fix a bug or enhance an existing module, follow these steps:
 
-Here we are going to focus on 2. Creating a Topical Branch:
+- Fork the repo
+- Create a new branch (`git checkout -b improve-feature`)
+- Make the appropriate changes in the files
+- Add changes to reflect the changes made
+- Commit your changes (`git commit -am 'Improve feature'`)
+- Push to the branch (`git push origin improve-feature`)
+- Create a Pull Request
 
-1. First, we will need to create a branch from the latest commit on master. Make sure your repository is up to date first using
+## 📜 Our Team - CodeFam🪴
 
-   ```bash
-    git pull origin main
-   ```
+I'd like to acknowledge my collaborators, who contributed to the success of this project.
 
-   _Note:_ `git pull` does a `git fetch` followed by a `git merge` to update the local repo with the remote repo. For a more detailed explanation, see [this stackoverflow post](http://stackoverflow.com/questions/292357/whats-the-difference-between-git-pull-and-git-fetch).
+👩 Haiying Liao <br>
+Email: haiying.liao@outlook.com <br>
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](http://haiying-liao.com/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/haiying-liao/)
+[![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Hannah-Liao)
 
-2. To create a branch, use `git checkout -b <new-branch-name> [<base-branch-name>]`, where `base-branch-name` is optional and defaults to `main`.
+👩 Hayley Wood <br>
+Email: hayleyiscoding@gmail.com <br>
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://www.hayleyiscoding.com/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hayleyiscoding/)
+[![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/hayleyiscoding)
 
-   Use a standard convention for branch names. For example, `<your-name>-dev`. It will be easier to track your pull requests if you use this convention.
+👦 Wira Yuda <br>
+Email: wirayuda233@gmail.com <br>
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/wira-yuda29/)
+[![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/wirayuda299/wirayuda299)
 
-   I'm going to create a new branch called `jsm-dev` from the `main` branch and push it to github.
-
-   ```bash
-    git checkout -b jsm-dev main
-    git push origin jsm-dev
-   ```
-
-3. To create a pull request, you must have changes committed to your new branch.
-
-4. Go to [Pull Requests](https://github.com/JavaScript-Mastery-PRO/project1_team4_repository/pulls) and click on the `New Pull Request` button.
-
-5. Select the `main` branch as the `base` branch and the `jsm-dev` branch as the `compare` branch.
-
-6. Follow the template and fill in the proper information for the pull request.
-
-7. Click on the `Submit` button.
-
-8. You have successfully created a pull request. Add at least one of the mentors as a code reviewer.
-
-9. Now wait for mentor approval. Once approved, you can merge the pull request.
-
-#
-
-###
+👦 Suraj Arya <br>
+Email: surajarya130@gmail.com <br>
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://surajarya.netlify.app/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/surajrec/)
+[![github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Surajarya130)
